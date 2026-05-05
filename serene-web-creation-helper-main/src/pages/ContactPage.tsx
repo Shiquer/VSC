@@ -143,7 +143,7 @@ const ContactPage = () => {
                   <CardContent className="space-y-4">
                     <p className="text-foreground font-medium">
                       15 rue Adrien Damalix<br />
-                      94410 Saint-Maurice
+                      93100 Montreuil
                     </p>
                     <p className="text-soft-gray text-sm">
                       Cabinet facilement accessible en transport en commun, 

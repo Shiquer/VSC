@@ -272,7 +272,7 @@ const GroupClasses = () => {
                   </div>
                   <h3 className="font-semibold text-foreground">Cadre bienveillant</h3>
                   <p className="text-soft-gray">
-                    Environnement calme et sécurisant dans notre cabinet à Saint-Maurice.
+                    Environnement calme et sécurisant dans notre cabinet à Montreuil.
                   </p>
                 </div>
               </div>
