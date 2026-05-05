@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#FDF8F4"/>
+  <rect x="0" y="0" width="14" height="630" fill="#C8714A"/>
+  <rect x="0" y="600" width="1200" height="30" fill="#C8714A"/>
+  <circle cx="1050" cy="150" r="220" fill="#F2E8DF" opacity="0.6"/>
+  <circle cx="180" cy="530" r="150" fill="#F2E8DF" opacity="0.5"/>
+  <rect x="70" y="70" width="90" height="90" rx="45" fill="#C8714A"/>
+  <text x="115" y="126" text-anchor="middle" font-family="Georgia, serif" font-size="38" font-weight="700" fill="#FFFFFF">CQ</text>
+  <text x="180" y="108" font-family="Georgia, serif" font-size="26" font-weight="500" fill="#C8714A">Christopher Quershi</text>
+  <text x="180" y="142" font-family="Georgia, serif" font-size="20" fill="#9A7B6A">Sophrologue &amp; Hypnothérapeute</text>
+  <line x1="70" y1="190" x2="1130" y2="190" stroke="#E8D5C4" stroke-width="2"/>
+  <text x="70" y="290" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#2D2420">Sophrologue</text>
+  <text x="70" y="375" font-family="Georgia, serif" font-size="72" font-weight="700" fill="#C8714A">&amp; Hypnothérapeute</text>
+  <text x="70" y="440" font-family="Georgia, serif" font-size="28" fill="#6B4F3A">Accompagnement personnalisé · Particuliers &amp; Entreprises</text>
+  <text x="70" y="490" font-family="Georgia, serif" font-size="22" fill="#9A7B6A">94410 Saint-Maurice · Val-de-Marne</text>
+  <rect x="70" y="530" width="380" height="50" rx="25" fill="#C8714A"/>
+  <text x="260" y="562" text-anchor="middle" font-family="Georgia, serif" font-size="20" font-weight="600" fill="#FFFFFF">Prendre rendez-vous en ligne</text>
+  <circle cx="1000" cy="390" r="160" fill="none" stroke="#E8D5C4" stroke-width="2"/>
+  <circle cx="1000" cy="390" r="115" fill="none" stroke="#E8D5C4" stroke-width="1"/>
+  <circle cx="1000" cy="390" r="70" fill="#C8714A" opacity="0.12"/>
+</svg>
