@@ -2,105 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design system inspired by sophrologue website - warm, professional, modern */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
 
 @layer base {
   :root {
-    --background: 30 15% 97%;
-    --foreground: 25 25% 25%;
+    --background: 40 33% 99%;
+    --foreground: 20 35% 16%;
 
-    --card: 30 30% 98%;
-    --card-foreground: 25 25% 25%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 35% 16%;
 
-    --popover: 30 30% 98%;
-    --popover-foreground: 25 25% 25%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 35% 16%;
 
-    --primary: 15 70% 55%;
-    --primary-foreground: 30 30% 98%;
+    --primary: 20 35% 16%;
+    --primary-foreground: 35 55% 90%;
 
-    --secondary: 25 45% 85%;
-    --secondary-foreground: 25 25% 25%;
+    --secondary: 30 25% 93%;
+    --secondary-foreground: 20 35% 16%;
 
     --muted: 30 20% 92%;
-    --muted-foreground: 25 15% 50%;
+    --muted-foreground: 20 20% 45%;
 
-    --accent: 20 65% 75%;
-    --accent-foreground: 25 25% 25%;
+    --accent: 90 30% 38%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 30 30% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 25 25% 88%;
-    --input: 25 25% 88%;
-    --ring: 15 70% 55%;
+    --border: 0 0% 87%;
+    --input: 0 0% 87%;
+    --ring: 20 35% 16%;
 
-    /* Sophrologue-specific design tokens */
-    --hero-bg: 30 25% 95%;
-    --warm-accent: 15 75% 50%;
+    --hero-bg: 40 33% 99%;
+    --warm-accent: 20 35% 16%;
     --cream-bg: 35 35% 96%;
-    --soft-gray: 25 8% 45%;
-    
-    /* Gradients */
-    --gradient-warm: linear-gradient(135deg, hsl(var(--warm-accent)), hsl(20 60% 60%));
-    --gradient-soft: linear-gradient(180deg, hsl(var(--cream-bg)), hsl(var(--background)));
-    
-    /* Shadows */
-    --shadow-warm: 0 10px 30px -10px hsl(var(--warm-accent) / 0.2);
-    --shadow-soft: 0 4px 20px -5px hsl(25 15% 60% / 0.15);
+    --soft-gray: 20 20% 45%;
 
-    --radius: 0.5rem;
+    --gradient-warm: linear-gradient(135deg, hsl(20 35% 16%), hsl(20 28% 28%));
+    --gradient-soft: linear-gradient(180deg, hsl(var(--cream-bg)), hsl(var(--background)));
+
+    --shadow-warm: 0 10px 30px -10px hsl(20 35% 16% / 0.15);
+    --shadow-soft: 0 4px 20px -5px hsl(20 15% 40% / 0.10);
+
+    --radius: 1.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   .dark {
-    --background: 25 15% 8%;
-    --foreground: 30 30% 95%;
+    --background: 20 20% 8%;
+    --foreground: 35 55% 90%;
 
-    --card: 25 15% 10%;
-    --card-foreground: 30 30% 95%;
+    --card: 20 20% 10%;
+    --card-foreground: 35 55% 90%;
 
-    --popover: 25 15% 10%;
-    --popover-foreground: 30 30% 95%;
+    --popover: 20 20% 10%;
+    --popover-foreground: 35 55% 90%;
 
-    --primary: 15 70% 60%;
-    --primary-foreground: 25 15% 8%;
+    --primary: 35 55% 90%;
+    --primary-foreground: 20 35% 16%;
 
-    --secondary: 25 15% 15%;
-    --secondary-foreground: 30 30% 95%;
+    --secondary: 20 20% 15%;
+    --secondary-foreground: 35 55% 90%;
 
-    --muted: 25 15% 15%;
-    --muted-foreground: 25 15% 65%;
+    --muted: 20 15% 15%;
+    --muted-foreground: 30 15% 65%;
 
-    --accent: 20 50% 60%;
-    --accent-foreground: 25 15% 8%;
+    --accent: 90 25% 50%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 30 30% 95%;
+    --destructive-foreground: 35 55% 90%;
 
-    --border: 25 15% 20%;
-    --input: 25 15% 20%;
-    --ring: 15 70% 60%;
+    --border: 20 15% 22%;
+    --input: 20 15% 22%;
+    --ring: 35 55% 90%;
 
-    /* Dark mode warm tokens */
-    --hero-bg: 25 15% 12%;
-    --warm-accent: 15 70% 65%;
-    --cream-bg: 25 15% 14%;
-    --soft-gray: 25 15% 70%;
+    --hero-bg: 20 20% 10%;
+    --warm-accent: 35 55% 80%;
+    --cream-bg: 20 15% 12%;
+    --soft-gray: 30 15% 65%;
+
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -119,5 +109,79 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+}
+
+@layer components {
+  .arise-btn-primary {
+    @apply bg-foreground text-background rounded-full px-8 font-bold;
+    height: 60px;
+    border: 3px solid hsl(var(--foreground));
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .arise-btn-primary:hover {
+    opacity: 0.9;
+  }
+
+  .arise-btn-outline {
+    background: transparent;
+    @apply text-foreground rounded-full px-8 font-bold;
+    height: 60px;
+    border: 3px solid hsl(var(--foreground));
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .arise-btn-outline:hover {
+    @apply bg-foreground text-background;
+  }
+
+  .arise-input {
+    @apply bg-background text-foreground w-full;
+    border: 3px solid hsl(var(--foreground));
+    border-radius: 99px;
+    height: 60px;
+    padding: 0 24px;
+    font-size: 16px;
+    font-family: 'Helvetica Neue', Helvetica, sans-serif;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.08);
+  }
+
+  .arise-card {
+    @apply bg-card text-card-foreground;
+    border-radius: 25px;
+    border: 1px solid hsl(var(--border));
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .arise-badge {
+    background: hsl(var(--foreground));
+    color: hsl(var(--primary-foreground));
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 25px;
+    display: inline-block;
+    font-family: 'Helvetica Neue', sans-serif;
+  }
+
+  .arise-serif {
+    font-family: 'Playfair Display', Georgia, serif;
   }
 }

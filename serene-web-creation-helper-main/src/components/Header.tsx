@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Phone, Mail, Calendar, LogOut, User, ChevronDown } from "lucide-react";
+import { Phone, Calendar, LogOut, User, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
@@ -17,106 +17,249 @@ const Header = () => {
   const { getContent } = useSiteContent("header");
 
   return (
-    <header className="bg-card/80 backdrop-blur-md border-b border-border/50 sticky top-0 z-50">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between py-4">
+    <header className="bg-background border-b border-border sticky top-0 z-50">
+      <div className="container mx-auto px-8">
+        <div className="flex items-center justify-between" style={{ height: "72px" }}>
+
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
-            <div className="w-12 h-12 bg-gradient-warm rounded-full flex items-center justify-center">
-              <span className="text-white font-bold text-xl">CQ</span>
+            <div
+              className="flex items-center justify-center rounded-full"
+              style={{
+                width: "44px",
+                height: "44px",
+                background: "hsl(var(--foreground))",
+              }}
+            >
+              <span
+                className="font-bold"
+                style={{
+                  color: "hsl(var(--primary-foreground))",
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontSize: "16px",
+                }}
+              >
+                CQ
+              </span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground">
+              <p
+                className="font-bold text-foreground"
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontSize: "16px",
+                  lineHeight: "1.2",
+                }}
+              >
                 {getContent("header_title", "Christopher Quershi")}
-              </h1>
-              <p className="text-sm text-soft-gray">
+              </p>
+              <p
+                style={{
+                  fontSize: "12px",
+                  color: "hsl(var(--accent))",
+                  lineHeight: "1.2",
+                }}
+              >
                 {getContent("header_subtitle", "Sophrologue & Hypnothérapeute")}
               </p>
             </div>
           </Link>
 
           {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-foreground hover:text-primary transition-colors">
+          <nav className="hidden md:flex items-center">
+            <Link
+              to="/"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+              style={{
+                fontFamily: "'Playfair Display', Georgia, serif",
+                fontSize: "16px",
+                padding: "0 15px",
+                lineHeight: "69px",
+              }}
+            >
               Accueil
             </Link>
+
             <DropdownMenu>
-              <DropdownMenuTrigger className="flex items-center text-foreground hover:text-primary transition-colors">
+              <DropdownMenuTrigger
+                className="flex items-center text-foreground hover:text-muted-foreground transition-colors outline-none"
+                style={{
+                  fontFamily: "'Playfair Display', Georgia, serif",
+                  fontSize: "16px",
+                  padding: "0 15px",
+                  lineHeight: "69px",
+                }}
+              >
                 Services
                 <ChevronDown className="w-4 h-4 ml-1" />
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              <DropdownMenuContent className="rounded-2xl border border-border shadow-soft">
                 <DropdownMenuItem asChild>
-                  <Link to="/sophrologie" className="w-full">
+                  <Link to="/sophrologie" className="w-full" style={{ fontFamily: "'Playfair Display', serif" }}>
                     Sophrologie
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/hypnose" className="w-full">
+                  <Link to="/hypnose" className="w-full" style={{ fontFamily: "'Playfair Display', serif" }}>
                     Hypnose
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/cours-collectifs" className="w-full">
+                  <Link to="/cours-collectifs" className="w-full" style={{ fontFamily: "'Playfair Display', serif" }}>
                     Cours collectifs
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Link to="/entreprise" className="text-foreground hover:text-primary transition-colors">
+
+            <Link
+              to="/entreprise"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}
+            >
               Entreprise
             </Link>
-            <Link to="/mediatheque" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/mediatheque"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}
+            >
               Médiathèque
             </Link>
-            <Link to="/reservation" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/reservation"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}
+            >
               Réservation
             </Link>
-            <Link to="/contact" className="text-foreground hover:text-primary transition-colors">
+            <Link
+              to="/contact"
+              className="text-foreground hover:text-muted-foreground transition-colors"
+              style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}
+            >
               Contact
             </Link>
           </nav>
 
           {/* CTA Buttons */}
           <div className="flex items-center space-x-3">
-            <a href={`tel:${getContent("header_phone", "+33123456789")}`}>
-              <Button variant="outline" size="sm" className="hidden sm:flex">
-                <Phone className="w-4 h-4 mr-2" />
+            <a href={`tel:${getContent("header_phone", "+33123456789")}`} className="hidden sm:flex">
+              <button
+                style={{
+                  background: "transparent",
+                  color: "hsl(var(--foreground))",
+                  border: "3px solid hsl(var(--foreground))",
+                  borderRadius: "30px",
+                  height: "48px",
+                  padding: "0 20px",
+                  fontSize: "13px",
+                  fontWeight: "700",
+                  fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                }}
+              >
+                <Phone className="w-4 h-4" />
                 Appeler
-              </Button>
+              </button>
             </a>
+
             {user ? (
               <>
                 {isAdmin && (
                   <Link to="/admin">
-                    <Button variant="outline" size="sm" className="hidden sm:flex">
-                      <User className="w-4 h-4 mr-2" />
+                    <button
+                      style={{
+                        background: "transparent",
+                        color: "hsl(var(--foreground))",
+                        border: "3px solid hsl(var(--foreground))",
+                        borderRadius: "30px",
+                        height: "48px",
+                        padding: "0 20px",
+                        fontSize: "13px",
+                        fontWeight: "700",
+                        fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "8px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <User className="w-4 h-4" />
                       Admin
-                    </Button>
+                    </button>
                   </Link>
                 )}
-                <Button 
-                  variant="outline" 
-                  size="sm" 
+                <button
                   onClick={signOut}
-                  className="hidden sm:flex"
+                  style={{
+                    background: "transparent",
+                    color: "hsl(var(--foreground))",
+                    border: "3px solid hsl(var(--foreground))",
+                    borderRadius: "30px",
+                    height: "48px",
+                    padding: "0 20px",
+                    fontSize: "13px",
+                    fontWeight: "700",
+                    fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    cursor: "pointer",
+                  }}
                 >
-                  <LogOut className="w-4 h-4 mr-2" />
+                  <LogOut className="w-4 h-4" />
                   Déconnexion
-                </Button>
+                </button>
                 <Link to="/reservation">
-                  <Button size="sm" className="bg-gradient-warm border-0 text-white hover:opacity-90">
-                    <Calendar className="w-4 h-4 mr-2" />
+                  <button
+                    style={{
+                      background: "hsl(var(--foreground))",
+                      color: "hsl(var(--primary-foreground))",
+                      border: "3px solid hsl(var(--foreground))",
+                      borderRadius: "30px",
+                      height: "48px",
+                      padding: "0 20px",
+                      fontSize: "13px",
+                      fontWeight: "700",
+                      fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Calendar className="w-4 h-4" />
                     Rendez-vous
-                  </Button>
+                  </button>
                 </Link>
               </>
             ) : (
               <Link to="/auth">
-                <Button size="sm" className="bg-gradient-warm border-0 text-white hover:opacity-90">
-                  <User className="w-4 h-4 mr-2" />
+                <button
+                  style={{
+                    background: "hsl(var(--foreground))",
+                    color: "hsl(var(--primary-foreground))",
+                    border: "3px solid hsl(var(--foreground))",
+                    borderRadius: "30px",
+                    height: "48px",
+                    padding: "0 20px",
+                    fontSize: "13px",
+                    fontWeight: "700",
+                    fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    cursor: "pointer",
+                  }}
+                >
+                  <User className="w-4 h-4" />
                   Connexion
-                </Button>
+                </button>
               </Link>
             )}
           </div>

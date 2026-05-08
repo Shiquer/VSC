@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Phone, Mail, MapPin, Linkedin, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSiteContent } from "@/hooks/useSiteContent";
@@ -7,112 +6,116 @@ const Footer = () => {
   const { getContent } = useSiteContent("footer");
   const { getContent: getHeaderContent } = useSiteContent("header");
   const { getContent: getHeroContent } = useSiteContent("hero");
+
   return (
-    <footer className="bg-foreground text-background py-16">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+    <footer style={{ background: "hsl(var(--foreground))", padding: "64px 0 0" }}>
+      <div className="container mx-auto px-8">
+
+        {/* Main Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10" style={{ marginBottom: "48px" }}>
+
           {/* Brand */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-warm rounded-full flex items-center justify-center">
-                <span className="text-white font-bold">CQ</span>
+          <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+              <div style={{ width: "44px", height: "44px", background: "hsl(var(--primary-foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <span style={{ color: "hsl(var(--foreground))", fontFamily: "'Playfair Display', serif", fontWeight: "700", fontSize: "16px" }}>CQ</span>
               </div>
               <div>
-                <h3 className="font-bold text-lg">
+                <p style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: "700", fontSize: "16px", color: "hsl(var(--primary-foreground))", lineHeight: "1.2" }}>
                   {getHeaderContent("header_title", "Christopher Quershi")}
-                </h3>
-                <p className="text-sm opacity-80">
+                </p>
+                <p style={{ fontSize: "12px", color: "hsl(var(--primary-foreground))", opacity: 0.6, lineHeight: "1.2" }}>
                   {getHeaderContent("header_subtitle", "Sophrologue & Hypnothérapeute")}
                 </p>
               </div>
             </div>
-            <p className="text-sm opacity-80 leading-relaxed">
-              {getContent("footer_description", "Accompagnement personnalisé en sophrologie et hypnose pour particuliers et entreprises dans le Val-de-Marne.")}
+            <p style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--primary-foreground))", opacity: 0.7 }}>
+              {getContent("footer_description", "Accompagnement personnalisé en sophrologie et hypnose pour particuliers et entreprises.")}
             </p>
           </div>
 
           {/* Services */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-lg">
+          <div>
+            <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.5, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
               {getContent("footer_services_title", "Services")}
-            </h4>
-            <ul className="space-y-2 text-sm opacity-80">
-              <li><Link to="/sophrologie" className="hover:opacity-100 transition-opacity">Sophrologie</Link></li>
-              <li><Link to="/hypnose" className="hover:opacity-100 transition-opacity">Hypnose</Link></li>
-              <li><Link to="/entreprise" className="hover:opacity-100 transition-opacity">Formation entreprise</Link></li>
-              <li><Link to="/cours-collectifs" className="hover:opacity-100 transition-opacity">Cours collectifs</Link></li>
+            </p>
+            <ul style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {[
+                { to: "/sophrologie", label: "Sophrologie" },
+                { to: "/hypnose", label: "Hypnose" },
+                { to: "/entreprise", label: "Formation entreprise" },
+                { to: "/cours-collectifs", label: "Cours collectifs" },
+              ].map(item => (
+                <li key={item.to}>
+                  <Link to={item.to} style={{ fontSize: "14px", color: "hsl(var(--primary-foreground))", opacity: 0.8, textDecoration: "none", fontFamily: "'Playfair Display', serif", transition: "opacity 0.2s" }}
+                    onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.opacity = "1"}
+                    onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.opacity = "0.8"}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* Contact Info */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-lg">
+          {/* Contact */}
+          <div>
+            <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.5, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
               {getContent("footer_contact_title", "Contact")}
-            </h4>
-            <div className="space-y-3 text-sm">
-              <div className="flex items-start space-x-2 opacity-80">
-                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" />
-                <span
-                  dangerouslySetInnerHTML={{
-                    __html: getHeroContent("hero_address", "15 rue Adrien Damalix<br />94410 Saint-Maurice")
-                  }}
-                />
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
+                <MapPin style={{ width: "16px", height: "16px", flexShrink: 0, marginTop: "2px" }} />
+                <span style={{ fontSize: "14px", lineHeight: "1.5" }} dangerouslySetInnerHTML={{ __html: getHeroContent("hero_address", "93100 Montreuil") }} />
               </div>
-              <div className="flex items-center space-x-2 opacity-80">
-                <Phone className="w-4 h-4" />
-                <span>Téléphone sur demande</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
+                <Phone style={{ width: "16px", height: "16px" }} />
+                <span style={{ fontSize: "14px" }}>Téléphone sur demande</span>
               </div>
-              <div className="flex items-center space-x-2 opacity-80">
-                <Mail className="w-4 h-4" />
-                <span>{getHeaderContent("header_email", "contact@christopherquershi.fr")}</span>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
+                <Mail style={{ width: "16px", height: "16px" }} />
+                <span style={{ fontSize: "14px" }}>{getHeaderContent("header_email", "contact@christopherquershi.fr")}</span>
               </div>
             </div>
           </div>
 
           {/* Horaires & CTA */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-lg">
+          <div>
+            <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.5, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
               {getContent("footer_hours_title", "Horaires")}
-            </h4>
+            </p>
             <div
-              className="text-sm opacity-80 space-y-1"
-              dangerouslySetInnerHTML={{
-                __html: getContent("footer_hours", "Mardi: 8h - 21h<br />Vendredi: 8h - 21h<br />Samedi: 8h - 13h")
-              }}
+              style={{ fontSize: "14px", lineHeight: "1.8", color: "hsl(var(--primary-foreground))", opacity: 0.8, marginBottom: "24px" }}
+              dangerouslySetInnerHTML={{ __html: getContent("footer_hours", "Mardi: 8h - 21h<br />Vendredi: 8h - 21h<br />Samedi: 8h - 13h") }}
             />
             <Link to="/reservation">
-              <Button
-                size="sm"
-                className="bg-gradient-warm border-0 text-white hover:opacity-90"
-              >
-                <Calendar className="w-4 h-4 mr-2" />
+              <button style={{ background: "hsl(var(--primary-foreground))", color: "hsl(var(--foreground))", border: "none", borderRadius: "30px", height: "48px", padding: "0 20px", fontSize: "13px", fontWeight: "700", fontFamily: "'Helvetica Neue', Helvetica, sans-serif", display: "inline-flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
+                <Calendar style={{ width: "16px", height: "16px" }} />
                 Prendre RDV
-              </Button>
+              </button>
             </Link>
           </div>
         </div>
 
-        {/* Bottom */}
-        <div className="border-t border-background/20 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-sm opacity-80">
+        {/* Bottom bar */}
+        <div style={{ borderTop: "1px solid rgba(235,208,193,0.15)", padding: "24px 0" }}>
+          <div className="flex flex-col md:flex-row justify-between items-center" style={{ gap: "16px" }}>
+            <p style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.5 }}>
               {getContent("footer_copyright", "© 2025 Christopher Quershi. Tous droits réservés.")}
-            </div>
-
-            <div className="flex items-center space-x-6">
-              <a
-                href={getContent("footer_linkedin", "#")}
-                className="opacity-80 hover:opacity-100 transition-opacity"
-                aria-label="LinkedIn"
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
+              <a href={getContent("footer_linkedin", "#")} aria-label="LinkedIn" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, transition: "opacity 0.2s" }}
+                onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.opacity = "1"}
+                onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.opacity = "0.6"}
               >
-                <Linkedin className="w-5 h-5" />
+                <Linkedin style={{ width: "20px", height: "20px" }} />
               </a>
-              <div className="text-sm opacity-60 space-x-4">
-                <Link to="/contact" className="hover:opacity-100 transition-opacity">Contact</Link>
-                <span>•</span>
-                <a href="#" className="hover:opacity-100 transition-opacity">Mentions légales</a>
-                <span>•</span>
-                <a href="#" className="hover:opacity-100 transition-opacity">Politique de confidentialité</a>
+              <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "13px" }}>
+                <Link to="/contact" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none" }}>Contact</Link>
+                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>•</span>
+                <a href="#" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none" }}>Mentions légales</a>
+                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>•</span>
+                <a href="#" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none" }}>Confidentialité</a>
               </div>
             </div>
           </div>

@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Calendar, MapPin, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useSiteContent } from "@/hooks/useSiteContent";
@@ -7,99 +6,177 @@ import defaultPortrait from "@/assets/christopher-portrait.jpg";
 const Hero = () => {
   const { getContent, getImage } = useSiteContent("hero");
   const portraitImage = getImage("hero_portrait") || defaultPortrait;
+
   return (
-    <section id="accueil" className="min-h-screen bg-gradient-soft relative overflow-hidden">
-      {/* Decorative Elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 right-20 w-64 h-64 bg-primary rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-20 w-48 h-48 bg-accent rounded-full blur-3xl"></div>
-      </div>
-      
-      <div className="container mx-auto px-4 py-20 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+    <section id="accueil" style={{ background: "hsl(var(--background))", padding: "80px 0" }}>
+      <div className="container mx-auto px-8">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+
           {/* Content */}
           <div className="space-y-8 animate-fade-in">
-            <div className="space-y-4">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight">
-                {getContent("hero_title", "Christopher Shiquer")},{" "}
-                <span className="text-primary">
-                  {getContent("hero_subtitle", "Sophrologue")}
-                </span>
-                <br />
-                et <span className="text-primary">Hypnothérapeute</span>
+
+            {/* Badge */}
+            <span className="arise-badge">Sophrologue certifié</span>
+
+            {/* Title */}
+            <div style={{ marginTop: "20px" }}>
+              <h1
+                className="arise-serif"
+                style={{
+                  fontSize: "clamp(32px, 4vw, 48px)",
+                  fontWeight: "400",
+                  lineHeight: "1.2",
+                  color: "hsl(var(--foreground))",
+                  margin: "0 0 8px",
+                }}
+              >
+                {getContent("hero_title", "Christopher Quershi")},
               </h1>
-              <p className="text-lg text-soft-gray">
-                {getContent("hero_location", "")}
-              </p>
+              <h1
+                className="arise-serif"
+                style={{
+                  fontSize: "clamp(32px, 4vw, 48px)",
+                  fontWeight: "400",
+                  lineHeight: "1.2",
+                  color: "hsl(var(--foreground))",
+                  margin: "0 0 8px",
+                }}
+              >
+                {getContent("hero_subtitle", "Sophrologue")}
+              </h1>
+              <h1
+                className="arise-serif"
+                style={{
+                  fontSize: "clamp(32px, 4vw, 48px)",
+                  fontWeight: "400",
+                  lineHeight: "1.2",
+                  color: "hsl(var(--accent))",
+                  margin: "0",
+                }}
+              >
+                & Hypnothérapeute
+              </h1>
             </div>
 
-            <div className="space-y-6">
-              <p className="text-xl text-foreground font-medium">
-                Sophrologie et hypnose
-              </p>
-              
-              <div className="flex items-center space-x-3 text-foreground">
-                <MapPin className="w-5 h-5 text-primary" />
-                <span>{getContent("hero_address", "15 rue XXXXX, 93100 Montreuil")}</span>
-              </div>
-
-              <p className="text-lg text-soft-gray leading-relaxed">
-                {getContent("hero_intro", "Et si vous décidiez d'agir en vous faisant aider par un spécialiste ? Que vous soyez un particulier ou une entreprise, je vous propose un accompagnement personnalisé en sophrologie ou en hypnose.")}
-              </p>
+            {/* Location */}
+            <div className="flex items-center space-x-2" style={{ color: "hsl(var(--muted-foreground))" }}>
+              <MapPin className="w-4 h-4" style={{ color: "hsl(var(--foreground))" }} />
+              <span style={{ fontSize: "15px" }}>
+                {getContent("hero_address", "93100 Montreuil")}
+              </span>
             </div>
 
+            {/* Intro text */}
+            <p
+              style={{
+                fontSize: "16px",
+                lineHeight: "1.7",
+                color: "hsl(var(--foreground))",
+                opacity: 0.75,
+                maxWidth: "480px",
+              }}
+            >
+              {getContent("hero_intro", "Et si vous décidiez d'agir en vous faisant aider par un spécialiste ? Accompagnement personnalisé en sophrologie ou en hypnose.")}
+            </p>
+
+            {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/reservation">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-warm border-0 text-white hover:opacity-90 shadow-warm"
-                >
-                  <Calendar className="w-5 h-5 mr-2" />
+                <button className="arise-btn-primary">
+                  <Calendar className="w-5 h-5" />
                   Prendre rendez-vous
-                </Button>
+                </button>
               </Link>
               <Link to="/sophrologie">
-               <Button variant="outline" size="lg">
-                En savoir plus
-                </Button>
+                <button className="arise-btn-outline">
+                  En savoir plus
+                </button>
               </Link>
             </div>
 
-            {/* Contact Info */}
-            <div className="border-l-4 border-primary pl-6 py-4 bg-card/50 rounded-r-lg">
+            {/* Horaires */}
+            <div
+              style={{
+                borderLeft: "3px solid hsl(var(--foreground))",
+                paddingLeft: "20px",
+                paddingTop: "16px",
+                paddingBottom: "16px",
+              }}
+            >
               <div className="flex items-center space-x-2 mb-2">
-                <Clock className="w-4 h-4 text-primary" />
-                <span className="font-medium text-foreground">
+                <Clock className="w-4 h-4" style={{ color: "hsl(var(--foreground))" }} />
+                <span
+                  style={{
+                    fontWeight: "700",
+                    fontSize: "13px",
+                    color: "hsl(var(--foreground))",
+                    fontFamily: "'Helvetica Neue', sans-serif",
+                  }}
+                >
                   {getContent("hero_hours_title", "Horaires")}
                 </span>
               </div>
-              <div 
-                className="text-soft-gray"
-                dangerouslySetInnerHTML={{ 
-                  __html: getContent("hero_hours", "Mardi et vendredi de 8h à 21h<br />et samedi de 8h à 13h")
+              <div
+                style={{
+                  fontSize: "14px",
+                  lineHeight: "1.7",
+                  color: "hsl(var(--foreground))",
+                  opacity: 0.7,
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: getContent("hero_hours", "Mardi et vendredi de 8h à 21h<br />et samedi de 8h à 13h"),
                 }}
               />
             </div>
           </div>
 
           {/* Portrait */}
-          <div className="relative animate-scale-in">
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-warm rounded-full blur-2xl opacity-20 scale-110"></div>
-              <div className="relative bg-card rounded-full p-8 shadow-soft">
+          <div className="relative animate-scale-in flex justify-center">
+            <div className="relative" style={{ maxWidth: "420px", width: "100%" }}>
+              <div
+                style={{
+                  background: "hsl(var(--secondary))",
+                  borderRadius: "25px",
+                  padding: "16px",
+                  border: "1px solid hsl(var(--border))",
+                }}
+              >
                 <img
                   src={portraitImage}
                   alt="Christopher Quershi, Sophrologue et Hypnothérapeute"
-                  className="w-full h-auto rounded-full"
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    borderRadius: "16px",
+                    display: "block",
+                  }}
                 />
               </div>
-            </div>
-            
-            {/* LinkedIn Badge */}
-            <div className="absolute bottom-8 left-8 bg-primary p-3 rounded-lg shadow-warm">
-              <span className="text-white font-bold text-sm">in</span>
+
+              {/* LinkedIn Badge */}
+              <div
+                style={{
+                  position: "absolute",
+                  bottom: "24px",
+                  left: "24px",
+                  background: "hsl(var(--foreground))",
+                  padding: "10px 14px",
+                  borderRadius: "12px",
+                }}
+              >
+                <span
+                  style={{
+                    color: "hsl(var(--primary-foreground))",
+                    fontWeight: "700",
+                    fontSize: "14px",
+                  }}
+                >
+                  in
+                </span>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>
