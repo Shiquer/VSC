@@ -1,456 +1,258 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Play, Pause, Download, Clock, Star, Headphones, Video, Music, Book, BookOpen } from "lucide-react";
+import { Play, Pause, Download, Clock, Headphones, Video, Music, Book, BookOpen } from "lucide-react";
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
 
 interface MediaContent {
-  id: string;
-  title: string;
-  description: string | null;
-  content_type: string;
-  file_url: string;
-  thumbnail_url: string | null;
-  duration: string | null;
-  category: string;
-  difficulty: string;
-  status: string;
-  views: number | null;
-  downloads: number | null;
+  id: string; title: string; description: string | null; content_type: string;
+  file_url: string; thumbnail_url: string | null; duration: string | null;
+  category: string; difficulty: string; status: string; views: number | null; downloads: number | null;
 }
 
 interface Article {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string | null;
-  content: string;
-  featured_image_url: string | null;
-  category: string | null;
-  tags: string[] | null;
-  status: string;
-  created_at: string;
+  id: string; title: string; slug: string; excerpt: string | null; content: string;
+  featured_image_url: string | null; category: string | null; tags: string[] | null;
+  status: string; created_at: string;
 }
 
-const MediaLibrary = () => {
+const cardStyle = {
+  background: "#fff", borderRadius: "25px", border: "1px solid hsl(var(--border))",
+  overflow: "hidden", transition: "all 0.3s", boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+};
+
+const badgeStyle = (color?: string) => ({
+  background: color || "hsl(var(--foreground))", color: color ? "hsl(var(--foreground))" : "hsl(var(--primary-foreground))",
+  fontSize: "11px", fontWeight: "700", padding: "3px 10px", borderRadius: "25px",
+  fontFamily: "'Helvetica Neue', sans-serif", display: "inline-block",
+  border: color ? "1px solid hsl(var(--border))" : "none",
+});
+
+const PublicMediaLibrary = () => {
   const [currentPlaying, setCurrentPlaying] = useState<string | null>(null);
   const [mediaContents, setMediaContents] = useState<MediaContent[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchMediaContents();
-    fetchArticles();
-  }, []);
+  useEffect(() => { fetchMediaContents(); fetchArticles(); }, []);
 
   const fetchMediaContents = async () => {
     try {
-      const { data, error } = await supabase
-        .from("media_content")
-        .select("*")
-        .eq("status", "published")
-        .order("created_at", { ascending: false });
-
+      const { data, error } = await supabase.from("media_content").select("*").eq("status", "published").order("created_at", { ascending: false });
       if (error) throw error;
       setMediaContents(data || []);
-    } catch (error) {
-      console.error("Erreur lors du chargement des contenus:", error);
-    } finally {
-      setLoading(false);
-    }
+    } catch (e) { console.error(e); } finally { setLoading(false); }
   };
 
   const fetchArticles = async () => {
     try {
-      const { data, error } = await supabase
-        .from("articles")
-        .select("*")
-        .eq("status", "published")
-        .order("created_at", { ascending: false });
-
+      const { data, error } = await supabase.from("articles").select("*").eq("status", "published").order("created_at", { ascending: false });
       if (error) throw error;
       setArticles(data || []);
-    } catch (error) {
-      console.error("Erreur lors du chargement des articles:", error);
-    }
+    } catch (e) { console.error(e); }
   };
 
   const audioContent = mediaContents.filter(m => m.content_type === "audio");
   const videoContent = mediaContents.filter(m => m.content_type === "video");
 
+  const handlePlayPause = (id: string) => setCurrentPlaying(currentPlaying === id ? null : id);
 
-  const handlePlayPause = (id: string) => {
-    if (currentPlaying === id) {
-      setCurrentPlaying(null);
-    } else {
-      setCurrentPlaying(id);
-    }
-  };
+  const EmptyState = ({ text }: { text: string }) => (
+    <div style={{ textAlign: "center", padding: "64px 0" }}>
+      <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.5 }}>{text}</p>
+    </div>
+  );
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case "Débutant": return "default";
-      case "Intermédiaire": return "secondary";
-      case "Avancé": return "destructive";
-      default: return "outline";
-    }
-  };
+  const LoadingSkeleton = ({ count = 3, cols = 2 }: { count?: number; cols?: number }) => (
+    <div className={`grid md:grid-cols-${cols} gap-6`}>
+      {Array.from({ length: count }).map((_, i) => (
+        <div key={i} style={{ ...cardStyle, padding: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+          <div style={{ height: "20px", background: "hsl(var(--secondary))", borderRadius: "99px", width: "70%" }} />
+          <div style={{ height: "16px", background: "hsl(var(--secondary))", borderRadius: "99px", width: "50%" }} />
+          <div style={{ height: "80px", background: "hsl(var(--secondary))", borderRadius: "16px" }} />
+        </div>
+      ))}
+    </div>
+  );
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={{ background: "hsl(var(--background))" }}>
       <Header />
-      
-      <main className="pt-20">
-        {/* Hero Section */}
-        <section className="py-20 bg-gradient-subtle">
-          <div className="container mx-auto px-4 text-center">
-            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Médiathèque
-            </h1>
-            <p className="text-xl text-soft-gray max-w-3xl mx-auto leading-relaxed mb-8">
-              Accédez à notre collection de contenus audio et vidéo pour pratiquer 
-              la sophrologie à votre rythme, quand vous le souhaitez.
+      <main>
+
+        {/* Hero */}
+        <section style={{ padding: "80px 0", background: "hsl(var(--secondary))" }}>
+          <div className="container mx-auto px-8" style={{ textAlign: "center" }}>
+            <span className="arise-badge" style={{ marginBottom: "24px", display: "inline-block" }}>Ressources gratuites</span>
+            <h1 className="arise-serif" style={{ fontSize: "clamp(36px, 5vw, 56px)", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "20px", marginTop: "16px" }}>Médiathèque</h1>
+            <p style={{ fontSize: "18px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7, maxWidth: "560px", margin: "0 auto 36px" }}>
+              Accédez à notre collection de contenus audio, vidéo et articles pour pratiquer la sophrologie à votre rythme.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="bg-gradient-warm">
-                <Headphones className="w-5 h-5 mr-2" />
-                Explorer les audios
-              </Button>
-              <Button variant="outline" size="lg">
-                <Video className="w-5 h-5 mr-2" />
-                Voir les vidéos
-              </Button>
+            <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
+              <button className="arise-btn-primary"><Headphones style={{ width: "18px", height: "18px" }} />Explorer les audios</button>
+              <button className="arise-btn-outline"><Video style={{ width: "18px", height: "18px" }} />Voir les vidéos</button>
             </div>
           </div>
         </section>
 
-        {/* Content Section */}
-        <section className="py-20">
-          <div className="container mx-auto px-4">
+        {/* Content */}
+        <section style={{ padding: "80px 0" }}>
+          <div className="container mx-auto px-8">
             <Tabs defaultValue="audio" className="w-full">
-              <div className="flex justify-center mb-12">
-                <TabsList className="grid w-full max-w-3xl grid-cols-3">
-                  <TabsTrigger value="audio" className="flex items-center">
-                    <Headphones className="w-4 h-4 mr-2" />
-                    Contenus Audio
-                  </TabsTrigger>
-                  <TabsTrigger value="video" className="flex items-center">
-                    <Video className="w-4 h-4 mr-2" />
-                    Contenus Vidéo
-                  </TabsTrigger>
-                  <TabsTrigger value="articles" className="flex items-center">
-                    <BookOpen className="w-4 h-4 mr-2" />
-                    Articles
-                  </TabsTrigger>
-                </TabsList>
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: "48px" }}>
+                <div style={{ display: "inline-flex", background: "hsl(var(--secondary))", borderRadius: "99px", padding: "6px", gap: "4px" }}>
+                  {[
+                    { value: "audio", icon: Headphones, label: "Audio" },
+                    { value: "video", icon: Video, label: "Vidéo" },
+                    { value: "articles", icon: BookOpen, label: "Articles" },
+                  ].map(({ value, icon: Icon, label }) => (
+                    <TabsList key={value} style={{ background: "transparent", padding: 0 }}>
+                      <TabsTrigger value={value} style={{ borderRadius: "99px", padding: "10px 20px", fontSize: "14px", fontWeight: "700", fontFamily: "'Helvetica Neue', sans-serif" }}>
+                        <Icon style={{ width: "16px", height: "16px", marginRight: "8px" }} />{label}
+                      </TabsTrigger>
+                    </TabsList>
+                  ))}
+                </div>
               </div>
 
-              {/* Audio Content */}
+              {/* Audio */}
               <TabsContent value="audio">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-foreground mb-4">
-                    Séances Audio Guidées
-                  </h2>
-                  <p className="text-lg text-soft-gray max-w-2xl mx-auto">
-                    Des séances de sophrologie en audio pour une pratique flexible et autonome
-                  </p>
+                <div style={{ textAlign: "center", marginBottom: "40px" }}>
+                  <h2 className="arise-serif" style={{ fontSize: "32px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "12px" }}>Séances Audio Guidées</h2>
+                  <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Des séances de sophrologie pour une pratique flexible et autonome</p>
                 </div>
-
-                {loading ? (
-                  <div className="grid md:grid-cols-2 gap-8">
-                    {[1, 2, 3, 4].map((i) => (
-                      <Card key={i}>
-                        <CardHeader>
-                          <Skeleton className="h-6 w-3/4 mb-2" />
-                          <Skeleton className="h-4 w-1/2" />
-                        </CardHeader>
-                        <CardContent>
-                          <Skeleton className="h-20 w-full" />
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                ) : audioContent.length === 0 ? (
-                  <div className="text-center py-12">
-                    <p className="text-soft-gray text-lg">Aucun contenu audio disponible pour le moment.</p>
-                  </div>
-                ) : (
-                  <div className="grid md:grid-cols-2 gap-8">
-                    {audioContent.map((audio) => (
-                      <Card key={audio.id} className="group hover:shadow-warm transition-all duration-300">
-                        <CardHeader>
-                          <div className="flex justify-between items-start mb-4">
-                            <div className="flex-1">
-                              <CardTitle className="text-lg text-foreground mb-2">
-                                {audio.title}
-                              </CardTitle>
-                              <div className="flex items-center gap-2 mb-3">
-                                <Badge variant={getDifficultyColor(audio.difficulty)}>
-                                  {audio.difficulty}
-                                </Badge>
-                                <Badge variant="outline">
-                                  {audio.category}
-                                </Badge>
+                {loading ? <LoadingSkeleton count={4} cols={2} /> : audioContent.length === 0 ? <EmptyState text="Aucun contenu audio disponible pour le moment." /> : (
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {audioContent.map(audio => (
+                      <div key={audio.id} style={cardStyle}
+                        onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"}
+                        onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
+                      >
+                        <div style={{ padding: "28px" }}>
+                          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "12px" }}>
+                            <div style={{ flex: 1 }}>
+                              <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "8px" }}>{audio.title}</h3>
+                              <div style={{ display: "flex", gap: "6px", marginBottom: "8px" }}>
+                                <span style={badgeStyle()}>{audio.difficulty}</span>
+                                <span style={{ ...badgeStyle("hsl(var(--secondary))") }}>{audio.category}</span>
                               </div>
                             </div>
-                            <Button
-                              variant="outline"
-                              size="icon"
-                              onClick={() => handlePlayPause(audio.id)}
-                              className="ml-4"
-                            >
-                              {currentPlaying === audio.id ? (
-                                <Pause className="w-4 h-4" />
-                              ) : (
-                                <Play className="w-4 h-4" />
-                              )}
-                            </Button>
+                            <button onClick={() => handlePlayPause(audio.id)} style={{ width: "44px", height: "44px", borderRadius: "50%", background: "hsl(var(--foreground))", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, marginLeft: "12px" }}>
+                              {currentPlaying === audio.id ? <Pause style={{ width: "18px", height: "18px", color: "hsl(var(--primary-foreground))" }} /> : <Play style={{ width: "18px", height: "18px", color: "hsl(var(--primary-foreground))" }} />}
+                            </button>
                           </div>
-                          
-                          <p className="text-soft-gray leading-relaxed mb-4">
-                            {audio.description || "Aucune description disponible"}
-                          </p>
-                        </CardHeader>
-                        
-                        <CardContent>
-                          <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center space-x-4 text-sm text-soft-gray">
-                              {audio.duration && (
-                                <div className="flex items-center">
-                                  <Clock className="w-4 h-4 mr-1" />
-                                  {audio.duration}
-                                </div>
-                              )}
-                              {audio.downloads !== null && (
-                                <div className="flex items-center">
-                                  <Download className="w-4 h-4 mr-1" />
-                                  {audio.downloads}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Progress bar simulation for currently playing */}
+                          <p style={{ fontSize: "14px", lineHeight: "1.6", color: "hsl(var(--foreground))", opacity: 0.7, marginBottom: "16px" }}>{audio.description || "Aucune description disponible"}</p>
                           {currentPlaying === audio.id && (
-                            <div className="mb-4">
-                              <div className="w-full bg-background rounded-full h-2">
-                                <div className="bg-gradient-warm h-2 rounded-full w-1/3 transition-all duration-1000"></div>
+                            <div style={{ marginBottom: "16px" }}>
+                              <div style={{ height: "4px", background: "hsl(var(--secondary))", borderRadius: "99px" }}>
+                                <div style={{ height: "4px", width: "33%", background: "hsl(var(--foreground))", borderRadius: "99px" }} />
                               </div>
                             </div>
                           )}
-
-                          <div className="flex gap-2">
-                            <Button 
-                              variant="outline" 
-                              className="flex-1"
-                              onClick={() => handlePlayPause(audio.id)}
-                            >
-                              {currentPlaying === audio.id ? (
-                                <>
-                                  <Pause className="w-4 h-4 mr-2" />
-                                  Pause
-                                </>
-                              ) : (
-                                <>
-                                  <Play className="w-4 h-4 mr-2" />
-                                  Écouter
-                                </>
-                              )}
-                            </Button>
-                            <Button variant="outline" size="icon" asChild>
+                          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                            <div style={{ display: "flex", gap: "16px", fontSize: "13px", color: "hsl(var(--foreground))", opacity: 0.5 }}>
+                              {audio.duration && <span style={{ display: "flex", alignItems: "center", gap: "4px" }}><Clock style={{ width: "12px", height: "12px" }} />{audio.duration}</span>}
+                              {audio.downloads !== null && <span style={{ display: "flex", alignItems: "center", gap: "4px" }}><Download style={{ width: "12px", height: "12px" }} />{audio.downloads}</span>}
+                            </div>
+                            <div style={{ display: "flex", gap: "8px" }}>
+                              <button onClick={() => handlePlayPause(audio.id)} className="arise-btn-outline" style={{ height: "40px", padding: "0 16px", fontSize: "13px" }}>
+                                {currentPlaying === audio.id ? <><Pause style={{ width: "14px", height: "14px" }} />Pause</> : <><Play style={{ width: "14px", height: "14px" }} />Écouter</>}
+                              </button>
                               <a href={audio.file_url} download>
-                                <Download className="w-4 h-4" />
+                                <button style={{ width: "40px", height: "40px", borderRadius: "99px", background: "transparent", border: "3px solid hsl(var(--foreground))", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
+                                  <Download style={{ width: "14px", height: "14px" }} />
+                                </button>
                               </a>
-                            </Button>
+                            </div>
                           </div>
-                        </CardContent>
-                      </Card>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}
               </TabsContent>
 
-              {/* Video Content */}
+              {/* Video */}
               <TabsContent value="video">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-foreground mb-4">
-                    Contenus Vidéo
-                  </h2>
-                  <p className="text-lg text-soft-gray max-w-2xl mx-auto">
-                    Apprenez les techniques visuellement avec nos tutoriels et séances vidéo
-                  </p>
+                <div style={{ textAlign: "center", marginBottom: "40px" }}>
+                  <h2 className="arise-serif" style={{ fontSize: "32px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "12px" }}>Contenus Vidéo</h2>
+                  <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Apprenez les techniques visuellement avec nos tutoriels et séances vidéo</p>
                 </div>
-
-                {loading ? (
-                  <div className="grid lg:grid-cols-3 gap-8">
-                    {[1, 2, 3].map((i) => (
-                      <Card key={i}>
-                        <Skeleton className="h-48 w-full rounded-t-lg" />
-                        <CardHeader>
-                          <Skeleton className="h-6 w-3/4 mb-2" />
-                          <Skeleton className="h-4 w-full" />
-                        </CardHeader>
-                      </Card>
-                    ))}
-                  </div>
-                ) : videoContent.length === 0 ? (
-                  <div className="text-center py-12">
-                    <p className="text-soft-gray text-lg">Aucun contenu vidéo disponible pour le moment.</p>
-                  </div>
-                ) : (
-                  <div className="grid lg:grid-cols-3 gap-8">
-                    {videoContent.map((video) => (
-                      <Card key={video.id} className="group hover:shadow-warm transition-all duration-300">
-                        <div className="relative overflow-hidden rounded-t-lg">
+                {loading ? <LoadingSkeleton count={3} cols={3} /> : videoContent.length === 0 ? <EmptyState text="Aucun contenu vidéo disponible pour le moment." /> : (
+                  <div className="grid lg:grid-cols-3 gap-6">
+                    {videoContent.map(video => (
+                      <div key={video.id} style={cardStyle}
+                        onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"}
+                        onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
+                      >
+                        <div style={{ position: "relative", overflow: "hidden" }}>
                           {video.thumbnail_url ? (
-                            <img 
-                              src={video.thumbnail_url} 
-                              alt={video.title}
-                              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
+                            <img src={video.thumbnail_url} alt={video.title} style={{ width: "100%", height: "200px", objectFit: "cover", display: "block" }} />
                           ) : (
-                            <div className="w-full h-48 bg-cream-bg flex items-center justify-center">
-                              <Video className="w-12 h-12 text-soft-gray" />
+                            <div style={{ width: "100%", height: "200px", background: "hsl(var(--secondary))", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                              <Video style={{ width: "48px", height: "48px", color: "hsl(var(--foreground))", opacity: 0.3 }} />
                             </div>
                           )}
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <Button 
-                              size="lg" 
-                              className="bg-white/20 backdrop-blur-sm border-white/30 text-white hover:bg-white/30"
-                              asChild
-                            >
-                              <a href={video.file_url} target="_blank" rel="noopener noreferrer">
-                                <Play className="w-6 h-6 mr-2" />
-                                Regarder
-                              </a>
-                            </Button>
-                          </div>
-                          {video.duration && (
-                            <Badge className="absolute top-3 right-3 bg-black/60 text-white">
-                              {video.duration}
-                            </Badge>
-                          )}
+                          {video.duration && <span style={{ position: "absolute", top: "12px", right: "12px", background: "rgba(0,0,0,0.6)", color: "#fff", fontSize: "11px", fontWeight: "700", padding: "3px 8px", borderRadius: "99px" }}>{video.duration}</span>}
                         </div>
-                        
-                        <CardHeader>
-                          <div className="flex items-center gap-2 mb-3">
-                            <Badge variant={getDifficultyColor(video.difficulty)}>
-                              {video.difficulty}
-                            </Badge>
-                            <Badge variant="outline">
-                              {video.category}
-                            </Badge>
+                        <div style={{ padding: "24px" }}>
+                          <div style={{ display: "flex", gap: "6px", marginBottom: "12px" }}>
+                            <span style={badgeStyle()}>{video.difficulty}</span>
+                            <span style={{ ...badgeStyle("hsl(var(--secondary))") }}>{video.category}</span>
                           </div>
-                          <CardTitle className="text-lg text-foreground">
-                            {video.title}
-                          </CardTitle>
-                          <p className="text-soft-gray leading-relaxed">
-                            {video.description || "Aucune description disponible"}
-                          </p>
-                        </CardHeader>
-                        
-                        <CardContent>
-                          {video.views !== null && (
-                            <div className="flex items-center justify-between mb-4 text-sm text-soft-gray">
-                              <div>
-                                {video.views} vues
-                              </div>
-                            </div>
-                          )}
-                          
-                          <Button className="w-full bg-gradient-warm" asChild>
-                            <a href={video.file_url} target="_blank" rel="noopener noreferrer">
-                              <Play className="w-4 h-4 mr-2" />
-                              Regarder
-                            </a>
-                          </Button>
-                        </CardContent>
-                      </Card>
+                          <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "8px" }}>{video.title}</h3>
+                          <p style={{ fontSize: "13px", lineHeight: "1.6", color: "hsl(var(--foreground))", opacity: 0.7, marginBottom: "16px" }}>{video.description || "Aucune description disponible"}</p>
+                          {video.views !== null && <p style={{ fontSize: "12px", color: "hsl(var(--foreground))", opacity: 0.4, marginBottom: "16px" }}>{video.views} vues</p>}
+                          <a href={video.file_url} target="_blank" rel="noopener noreferrer">
+                            <button className="arise-btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+                              <Play style={{ width: "16px", height: "16px" }} />Regarder
+                            </button>
+                          </a>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}
               </TabsContent>
 
-              {/* Articles Content */}
+              {/* Articles */}
               <TabsContent value="articles">
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl font-bold text-foreground mb-4">
-                    Articles de Blog
-                  </h2>
-                  <p className="text-lg text-soft-gray max-w-2xl mx-auto">
-                    Découvrez nos articles sur la sophrologie, le bien-être et la santé mentale
-                  </p>
+                <div style={{ textAlign: "center", marginBottom: "40px" }}>
+                  <h2 className="arise-serif" style={{ fontSize: "32px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "12px" }}>Articles de Blog</h2>
+                  <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Découvrez nos articles sur la sophrologie, le bien-être et la santé mentale</p>
                 </div>
-
-                {loading ? (
-                  <div className="grid lg:grid-cols-3 gap-8">
-                    {[1, 2, 3].map((i) => (
-                      <Card key={i}>
-                        <Skeleton className="h-48 w-full rounded-t-lg" />
-                        <CardHeader>
-                          <Skeleton className="h-6 w-3/4 mb-2" />
-                          <Skeleton className="h-4 w-full" />
-                        </CardHeader>
-                      </Card>
-                    ))}
-                  </div>
-                ) : articles.length === 0 ? (
-                  <div className="text-center py-12">
-                    <p className="text-soft-gray text-lg">Aucun article disponible pour le moment.</p>
-                  </div>
-                ) : (
-                  <div className="grid lg:grid-cols-3 gap-8">
-                    {articles.map((article) => (
-                      <Card key={article.id} className="group hover:shadow-warm transition-all duration-300 overflow-hidden">
-                        <div className="relative overflow-hidden">
+                {loading ? <LoadingSkeleton count={3} cols={3} /> : articles.length === 0 ? <EmptyState text="Aucun article disponible pour le moment." /> : (
+                  <div className="grid lg:grid-cols-3 gap-6">
+                    {articles.map(article => (
+                      <div key={article.id} style={cardStyle}
+                        onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"}
+                        onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
+                      >
+                        <div style={{ overflow: "hidden" }}>
                           {article.featured_image_url ? (
-                            <img 
-                              src={article.featured_image_url} 
-                              alt={article.title}
-                              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                            />
+                            <img src={article.featured_image_url} alt={article.title} style={{ width: "100%", height: "200px", objectFit: "cover", display: "block" }} />
                           ) : (
-                            <div className="w-full h-48 bg-cream-bg flex items-center justify-center">
-                              <BookOpen className="w-12 h-12 text-soft-gray" />
+                            <div style={{ width: "100%", height: "200px", background: "hsl(var(--secondary))", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                              <BookOpen style={{ width: "48px", height: "48px", color: "hsl(var(--foreground))", opacity: 0.3 }} />
                             </div>
                           )}
                         </div>
-                        
-                        <CardHeader>
-                          {article.category && (
-                            <Badge variant="outline" className="mb-3 w-fit">
-                              {article.category}
-                            </Badge>
-                          )}
-                          <CardTitle className="text-lg text-foreground mb-2">
-                            {article.title}
-                          </CardTitle>
-                          <p className="text-soft-gray text-sm leading-relaxed line-clamp-3">
+                        <div style={{ padding: "24px" }}>
+                          {article.category && <span style={{ ...badgeStyle("hsl(var(--secondary))"), marginBottom: "12px", display: "inline-block" }}>{article.category}</span>}
+                          <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "8px", marginTop: "8px" }}>{article.title}</h3>
+                          <p style={{ fontSize: "13px", lineHeight: "1.6", color: "hsl(var(--foreground))", opacity: 0.7, marginBottom: "12px" }}>
                             {article.excerpt || article.content.substring(0, 150) + "..."}
                           </p>
-                          <div className="text-xs text-soft-gray mt-3">
-                            {new Date(article.created_at).toLocaleDateString("fr-FR", {
-                              day: "numeric",
-                              month: "long",
-                              year: "numeric"
-                            })}
-                          </div>
-                        </CardHeader>
-                        
-                        <CardContent>
-                          <Button className="w-full bg-gradient-warm" asChild>
-                            <Link to={`/article/${article.slug}`}>
-                              Lire l'article
-                            </Link>
-                          </Button>
-                        </CardContent>
-                      </Card>
+                          <p style={{ fontSize: "12px", color: "hsl(var(--foreground))", opacity: 0.4, marginBottom: "16px" }}>
+                            {new Date(article.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" })}
+                          </p>
+                          <Link to={`/article/${article.slug}`}>
+                            <button className="arise-btn-primary" style={{ width: "100%", justifyContent: "center" }}>Lire l'article</button>
+                          </Link>
+                        </div>
+                      </div>
                     ))}
                   </div>
                 )}
@@ -459,53 +261,31 @@ const MediaLibrary = () => {
           </div>
         </section>
 
-        {/* Features Section */}
-        <section className="py-20 bg-cream-bg">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-12">
-                Votre pratique, où que vous soyez
-              </h2>
-              
-              <div className="grid md:grid-cols-3 gap-8">
-                <div className="space-y-4">
-                  <div className="w-16 h-16 bg-gradient-warm rounded-full flex items-center justify-center mx-auto">
-                    <Music className="w-8 h-8 text-white" />
+        {/* Features */}
+        <section style={{ padding: "80px 0", background: "hsl(var(--secondary))" }}>
+          <div className="container mx-auto px-8">
+            <h2 className="arise-serif" style={{ fontSize: "clamp(26px, 3vw, 36px)", fontWeight: "400", color: "hsl(var(--foreground))", textAlign: "center", marginBottom: "48px" }}>Votre pratique, où que vous soyez</h2>
+            <div className="grid md:grid-cols-3 gap-8" style={{ maxWidth: "800px", margin: "0 auto", textAlign: "center" }}>
+              {[
+                { icon: Music, title: "Qualité Audio HD", desc: "Enregistrements haute définition pour une expérience d'écoute optimale." },
+                { icon: Download, title: "Téléchargement", desc: "Téléchargez vos contenus favoris pour une écoute hors ligne." },
+                { icon: Book, title: "Contenu Exclusif", desc: "Accès à des séances exclusives créées spécialement pour nos clients." },
+              ].map(({ icon: Icon, title, desc }, i) => (
+                <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+                  <div style={{ width: "64px", height: "64px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Icon style={{ width: "28px", height: "28px", color: "hsl(var(--primary-foreground))" }} />
                   </div>
-                  <h3 className="font-semibold text-foreground">Qualité Audio HD</h3>
-                  <p className="text-soft-gray">
-                    Enregistrements haute définition pour une expérience d'écoute optimale.
-                  </p>
+                  <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>{title}</h3>
+                  <p style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7 }}>{desc}</p>
                 </div>
-                
-                <div className="space-y-4">
-                  <div className="w-16 h-16 bg-gradient-warm rounded-full flex items-center justify-center mx-auto">
-                    <Download className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="font-semibold text-foreground">Téléchargement</h3>
-                  <p className="text-soft-gray">
-                    Téléchargez vos contenus favoris pour une écoute hors ligne.
-                  </p>
-                </div>
-                
-                <div className="space-y-4">
-                  <div className="w-16 h-16 bg-gradient-warm rounded-full flex items-center justify-center mx-auto">
-                    <Book className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="font-semibold text-foreground">Contenu Exclusif</h3>
-                  <p className="text-soft-gray">
-                    Accès à des séances exclusives créées spécialement pour nos clients.
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
       </main>
-      
       <Footer />
     </div>
   );
 };
 
-export default MediaLibrary;
+export default PublicMediaLibrary;
