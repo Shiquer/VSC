@@ -1,122 +1,86 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { MapPin, Phone, Mail, Calendar, Clock, Award, Users, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import christopherPortrait from "@/assets/christopher-portrait.jpg";
 
 const ContactPage = () => {
-  const certifications = [
-    "Sophrologue certifié RNCP",
-    "Hypnothérapeute",
-    "Formation en entreprise",
-    "Accompagnement personnalisé"
-  ];
-
+  const certifications = ["Sophrologue certifié RNCP", "Hypnothérapeute", "Formation en entreprise", "Accompagnement personnalisé"];
   const specialties = [
     { icon: Heart, title: "Gestion du stress", description: "Techniques de relaxation et d'apaisement" },
     { icon: Users, title: "Accompagnement professionnel", description: "Formations et coaching en entreprise" },
     { icon: Clock, title: "Troubles du sommeil", description: "Amélioration de la qualité du sommeil" },
-    { icon: Award, title: "Développement personnel", description: "Confiance en soi et estime de soi" }
+    { icon: Award, title: "Développement personnel", description: "Confiance en soi et estime de soi" },
   ];
 
+  const sectionStyle = { padding: "80px 0" };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={{ background: "hsl(var(--background))" }}>
       <Header />
-      
-      <main className="pt-20">
-        {/* Hero Section */}
-        <section className="py-20 bg-gradient-subtle">
-          <div className="container mx-auto px-4">
+      <main>
+
+        {/* Hero */}
+        <section style={{ ...sectionStyle, background: "hsl(var(--secondary))" }}>
+          <div className="container mx-auto px-8">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-                  Christopher Quershi
-                </h1>
-                <p className="text-xl text-soft-gray mb-4">
-                  Sophrologue & Hypnothérapeute certifié
+                <span className="arise-badge" style={{ marginBottom: "20px", display: "inline-block" }}>Sophrologue certifié</span>
+                <h1 className="arise-serif" style={{ fontSize: "clamp(32px, 4vw, 48px)", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "12px", marginTop: "16px" }}>Christopher Quershi</h1>
+                <p style={{ fontSize: "18px", color: "hsl(var(--accent))", marginBottom: "20px", fontFamily: "'Playfair Display', serif" }}>Sophrologue & Hypnothérapeute certifié</p>
+                <p style={{ fontSize: "16px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.75, marginBottom: "32px" }}>
+                  Passionné par l'accompagnement humain, je vous propose un suivi personnalisé en sophrologie et hypnose. Mon approche bienveillante vous permettra de retrouver équilibre, sérénité et confiance en vous.
                 </p>
-                <p className="text-lg text-soft-gray leading-relaxed mb-8">
-                  Passionné par l'accompagnement humain, je vous propose un suivi personnalisé 
-                  en sophrologie et hypnose. Mon approche bienveillante et professionnelle 
-                  vous permettra de retrouver équilibre, sérénité et confiance en vous.
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <Link to="/reservation">
-                    <Button size="lg" className="bg-gradient-warm">
-                      <Calendar className="w-5 h-5 mr-2" />
-                      Prendre rendez-vous
-                    </Button>
-                  </Link>
-                  <Button variant="outline" size="lg">
-                    <Phone className="w-5 h-5 mr-2" />
-                    Me contacter
-                  </Button>
+                <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+                  <Link to="/reservation"><button className="arise-btn-primary"><Calendar style={{ width: "18px", height: "18px" }} />Prendre rendez-vous</button></Link>
+                  <Link to="/contact"><button className="arise-btn-outline"><Phone style={{ width: "18px", height: "18px" }} />Me contacter</button></Link>
                 </div>
               </div>
-              
-              <div className="relative">
-                <img 
-                  src={christopherPortrait} 
-                  alt="Christopher Quershi, Sophrologue et Hypnothérapeute"
-                  className="rounded-2xl shadow-warm w-full max-w-md mx-auto"
-                />
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <img src={christopherPortrait} alt="Christopher Quershi" style={{ borderRadius: "25px", maxWidth: "420px", width: "100%", border: "1px solid hsl(var(--border))" }} />
               </div>
             </div>
           </div>
         </section>
 
-        {/* About Section */}
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">
-                Mon parcours & mon approche
-              </h2>
-              
-              <Card className="mb-12">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Award className="w-6 h-6 mr-3 text-primary" />
-                    Formation & Certifications
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-soft-gray leading-relaxed mb-6">
-                    Diplômé en sophrologie et formé aux techniques d'hypnose thérapeutique, 
-                    je me suis spécialisé dans l'accompagnement des particuliers et des entreprises. 
-                    Ma formation continue me permet de proposer des approches innovantes et adaptées 
-                    aux besoins de chacun.
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {certifications.map((cert, index) => (
-                      <Badge key={index} variant="secondary" className="bg-primary/10 text-primary">
-                        {cert}
-                      </Badge>
-                    ))}
+        {/* Parcours */}
+        <section style={sectionStyle}>
+          <div className="container mx-auto px-8">
+            <h2 className="arise-serif" style={{ fontSize: "clamp(26px, 3vw, 36px)", fontWeight: "400", color: "hsl(var(--foreground))", textAlign: "center", marginBottom: "48px" }}>Mon parcours & mon approche</h2>
+            <div style={{ maxWidth: "800px", margin: "0 auto" }}>
+              <div className="arise-card" style={{ marginBottom: "32px", padding: "36px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+                  <div style={{ width: "44px", height: "44px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Award style={{ width: "20px", height: "20px", color: "hsl(var(--primary-foreground))" }} />
                   </div>
-                </CardContent>
-              </Card>
+                  <h3 className="arise-serif" style={{ fontSize: "22px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Formation & Certifications</h3>
+                </div>
+                <p style={{ fontSize: "15px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.75, marginBottom: "20px" }}>
+                  Diplômé en sophrologie et formé aux techniques d'hypnose thérapeutique, je me suis spécialisé dans l'accompagnement des particuliers et des entreprises.
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                  {certifications.map((cert, i) => (
+                    <span key={i} className="arise-badge">{cert}</span>
+                  ))}
+                </div>
+              </div>
 
-              <div className="grid md:grid-cols-2 gap-8">
-                {specialties.map((specialty, index) => {
-                  const IconComponent = specialty.icon;
+              <div className="grid md:grid-cols-2 gap-6">
+                {specialties.map((s, i) => {
+                  const Icon = s.icon;
                   return (
-                    <Card key={index} className="hover:shadow-warm transition-all duration-300">
-                      <CardHeader>
-                        <CardTitle className="flex items-center text-lg">
-                          <div className="w-10 h-10 bg-gradient-warm rounded-full flex items-center justify-center mr-3">
-                            <IconComponent className="w-5 h-5 text-white" />
-                          </div>
-                          {specialty.title}
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <p className="text-soft-gray">{specialty.description}</p>
-                      </CardContent>
-                    </Card>
+                    <div key={i} className="arise-card" style={{ transition: "all 0.3s" }}
+                      onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"}
+                      onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
+                    >
+                      <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
+                        <div style={{ width: "40px", height: "40px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          <Icon style={{ width: "18px", height: "18px", color: "hsl(var(--primary-foreground))" }} />
+                        </div>
+                        <h4 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>{s.title}</h4>
+                      </div>
+                      <p style={{ fontSize: "14px", color: "hsl(var(--foreground))", opacity: 0.7 }}>{s.description}</p>
+                    </div>
                   );
                 })}
               </div>
@@ -124,100 +88,66 @@ const ContactPage = () => {
           </div>
         </section>
 
-        {/* Contact Info Section */}
-        <section className="py-20 bg-cream-bg">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-4xl font-bold text-center text-foreground mb-12">
-                Informations pratiques
-              </h2>
-              
-              <div className="grid md:grid-cols-2 gap-8">
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <MapPin className="w-6 h-6 mr-3 text-primary" />
-                      Adresse du cabinet
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-foreground font-medium">
-                      15 rue Adrien Damalix<br />
-                      93100 Montreuil
-                    </p>
-                    <p className="text-soft-gray text-sm">
-                      Cabinet facilement accessible en transport en commun, 
-                      parking disponible à proximité.
-                    </p>
-                  </CardContent>
-                </Card>
+        {/* Infos pratiques */}
+        <section style={{ ...sectionStyle, background: "hsl(var(--secondary))" }}>
+          <div className="container mx-auto px-8">
+            <h2 className="arise-serif" style={{ fontSize: "clamp(26px, 3vw, 36px)", fontWeight: "400", color: "hsl(var(--foreground))", textAlign: "center", marginBottom: "48px" }}>Informations pratiques</h2>
+            <div style={{ maxWidth: "800px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "20px" }}>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="arise-card">
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
+                    <div style={{ width: "40px", height: "40px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <MapPin style={{ width: "18px", height: "18px", color: "hsl(var(--primary-foreground))" }} />
+                    </div>
+                    <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Adresse du cabinet</h3>
+                  </div>
+                  <p style={{ fontSize: "15px", color: "hsl(var(--foreground))", lineHeight: "1.6", marginBottom: "8px" }}>93, Montreuil rue test<br />93100 Montreuil</p>
+                  <p style={{ fontSize: "13px", color: "hsl(var(--foreground))", opacity: 0.6 }}>Accessible en transport en commun, parking à proximité.</p>
+                </div>
 
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="flex items-center">
-                      <Clock className="w-6 h-6 mr-3 text-primary" />
-                      Horaires d'ouverture
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="space-y-3">
-                    <div className="flex justify-between">
-                      <span className="font-medium">Mardi</span>
-                      <span className="text-soft-gray">8h - 21h</span>
+                <div className="arise-card">
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
+                    <div style={{ width: "40px", height: "40px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <Clock style={{ width: "18px", height: "18px", color: "hsl(var(--primary-foreground))" }} />
                     </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Vendredi</span>
-                      <span className="text-soft-gray">8h - 21h</span>
+                    <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Horaires d'ouverture</h3>
+                  </div>
+                  {[["Mardi", "8h - 21h"], ["Vendredi", "8h - 21h"], ["Samedi", "8h - 13h"]].map(([day, hours]) => (
+                    <div key={day} style={{ display: "flex", justifyContent: "space-between", fontSize: "14px", color: "hsl(var(--foreground))", marginBottom: "8px" }}>
+                      <span style={{ fontWeight: "600" }}>{day}</span>
+                      <span style={{ opacity: 0.7 }}>{hours}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Samedi</span>
-                      <span className="text-soft-gray">8h - 13h</span>
-                    </div>
-                    <p className="text-sm text-soft-gray mt-4">
-                      Consultations sur rendez-vous uniquement
-                    </p>
-                  </CardContent>
-                </Card>
+                  ))}
+                  <p style={{ fontSize: "12px", color: "hsl(var(--foreground))", opacity: 0.5, marginTop: "12px" }}>Consultations sur rendez-vous uniquement</p>
+                </div>
               </div>
 
-              <Card className="mt-8">
-                <CardHeader>
-                  <CardTitle className="flex items-center">
-                    <Phone className="w-6 h-6 mr-3 text-primary" />
-                    Contact direct
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-3">
-                      <div className="flex items-center space-x-3">
-                        <Mail className="w-5 h-5 text-primary" />
-                        <span className="text-foreground">contact@christopherquershi.fr</span>
-                      </div>
-                      <div className="flex items-center space-x-3">
-                        <Phone className="w-5 h-5 text-primary" />
-                        <span className="text-foreground">Téléphone communiqué sur demande</span>
-                      </div>
+              <div className="arise-card" style={{ padding: "32px" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+                  <div style={{ width: "40px", height: "40px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Phone style={{ width: "18px", height: "18px", color: "hsl(var(--primary-foreground))" }} />
+                  </div>
+                  <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Contact direct</h3>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px", color: "hsl(var(--foreground))" }}>
+                      <Mail style={{ width: "16px", height: "16px" }} />contact@christopherquershi.fr
                     </div>
-                    <div className="space-y-3">
-                      <Link to="/reservation">
-                        <Button className="w-full bg-gradient-warm">
-                          <Calendar className="w-4 h-4 mr-2" />
-                          Prendre rendez-vous en ligne
-                        </Button>
-                      </Link>
-                      <Button variant="outline" className="w-full">
-                        <Mail className="w-4 h-4 mr-2" />
-                        Envoyer un message
-                      </Button>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", fontSize: "14px", color: "hsl(var(--foreground))" }}>
+                      <Phone style={{ width: "16px", height: "16px" }} />Téléphone communiqué sur demande
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <Link to="/reservation"><button className="arise-btn-primary" style={{ width: "100%", justifyContent: "center" }}><Calendar style={{ width: "16px", height: "16px" }} />Prendre rendez-vous</button></Link>
+                    <Link to="/contact#contact"><button className="arise-btn-outline" style={{ width: "100%", justifyContent: "center" }}><Mail style={{ width: "16px", height: "16px" }} />Envoyer un message</button></Link>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
       </main>
-      
       <Footer />
     </div>
   );

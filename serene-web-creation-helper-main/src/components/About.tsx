@@ -1,216 +1,161 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Quote, Award, Calendar, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import officeImage from "@/assets/therapy-office.jpg";
 
 const About = () => {
   const { getContent } = useSiteContent("about");
-  return (
-    <section id="a-propos" className="py-20 bg-gradient-soft relative overflow-hidden">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-10 right-10 w-32 h-32 bg-primary rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 left-10 w-24 h-24 bg-accent rounded-full blur-3xl"></div>
-      </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* Section Header */}
-        <div className="text-center mb-16 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
+  return (
+    <section id="a-propos" style={{ padding: "80px 0", background: "hsl(var(--secondary))" }}>
+      <div className="container mx-auto px-8">
+
+        {/* Header */}
+        <div className="text-center animate-fade-in" style={{ marginBottom: "56px" }}>
+          <h2 className="arise-serif" style={{ fontSize: "clamp(28px, 3vw, 40px)", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "16px" }}>
             {getContent("about_title", "À propos de Christopher Quershi")}
           </h2>
-          <p className="text-lg text-soft-gray max-w-3xl mx-auto">
+          <p style={{ fontSize: "16px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7, maxWidth: "480px", margin: "0 auto" }}>
             {getContent("about_intro", "Découvrez mon parcours et ma philosophie d'accompagnement.")}
           </p>
         </div>
 
-        {/* Main Content Grid */}
         <div className="grid lg:grid-cols-12 gap-8 items-start">
-          {/* Left Column - Image and info blocks */}
-          <div className="lg:col-span-8 space-y-6">
-            {/* Main office image */}
-            <div className="relative group">
-              <div className="relative rounded-3xl overflow-hidden shadow-soft">
-                <img
-                  src={officeImage}
-                  alt="Cabinet de sophrologie - Espace de détente et de bien-être"
-                  className="w-full h-[500px] object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                {/* Gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-                
-                {/* CTA Button overlay */}
-                <div className="absolute bottom-8 left-8">
-                  <Button 
-                    size="lg"
-                    className="bg-white/90 text-foreground hover:bg-white border-0 shadow-lg backdrop-blur-sm"
-                  >
-                    <Calendar className="w-5 h-5 mr-2" />
+
+          {/* Left - Image + cards */}
+          <div className="lg:col-span-8" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+
+            {/* Image */}
+            <div style={{ position: "relative", borderRadius: "25px", overflow: "hidden" }}>
+              <img
+                src={officeImage}
+                alt="Cabinet de sophrologie"
+                style={{ width: "100%", height: "420px", objectFit: "cover", display: "block" }}
+              />
+              <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.4), transparent)" }} />
+              <div style={{ position: "absolute", bottom: "24px", left: "24px" }}>
+                <Link to="/reservation">
+                  <button style={{ background: "hsl(var(--background))", color: "hsl(var(--foreground))", border: "none", borderRadius: "30px", height: "52px", padding: "0 24px", fontSize: "14px", fontWeight: "700", fontFamily: "'Helvetica Neue', Helvetica, sans-serif", display: "inline-flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
+                    <Calendar style={{ width: "18px", height: "18px" }} />
                     Prendre rendez-vous
-                  </Button>
+                  </button>
+                </Link>
+              </div>
+            </div>
+
+            {/* Horaires */}
+            <div className="arise-card">
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <div style={{ width: "40px", height: "40px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Calendar style={{ width: "18px", height: "18px", color: "hsl(var(--primary-foreground))" }} />
+                </div>
+                <div>
+                  <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: "16px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "4px" }}>Horaires d'ouverture</h4>
+                  <p style={{ fontSize: "14px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Mardi et vendredi 8h–21h · Samedi 8h–13h</p>
                 </div>
               </div>
             </div>
 
-            {/* Info blocks under the image */}
-            <div className="space-y-6">
-              {/* First row - Hours */}
-              <Card className="bg-white/95 backdrop-blur-md border-0 shadow-warm">
-                <CardContent className="p-6">
-                  <div className="flex items-start space-x-3">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <Calendar className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground mb-2">Horaires d'ouverture</h4>
-                      <div className="space-y-1 text-sm text-soft-gray">
-                        <p>Mardi et vendredi de 8h à 21h</p>
-                        <p>et samedi de 8h à 13h</p>
-                      </div>
-                    </div>
+            {/* 3 Cards */}
+            <div className="grid md:grid-cols-3 gap-6">
+
+              {/* Certifications */}
+              <div className="arise-card">
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+                  <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Award style={{ width: "16px", height: "16px", color: "hsl(var(--primary-foreground))" }} />
                   </div>
-                </CardContent>
-              </Card>
+                  <h4 className="arise-serif" style={{ fontSize: "15px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Formations</h4>
+                </div>
+                <ul style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                  {["Sophrologue certifié RNCP", "Hypnothérapeute diplômé", "Thérapies brèves", "Accompagnement entreprise"].map((cert, i) => (
+                    <li key={i} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "hsl(var(--foreground))", opacity: 0.75 }}>
+                      <div style={{ width: "5px", height: "5px", background: "hsl(var(--foreground))", borderRadius: "50%", flexShrink: 0 }} />
+                      {cert}
+                    </li>
+                  ))}
+                </ul>
+              </div>
 
-              {/* Three aligned blocks */}
-              <div className="grid md:grid-cols-3 gap-6">
-                {/* Certifications */}
-                <Card className="bg-card/80 backdrop-blur-sm border-border/50">
-                  <CardContent className="p-6">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="p-2 bg-primary/10 rounded-lg">
-                        <Award className="w-5 h-5 text-primary" />
-                      </div>
-                      <h4 className="font-semibold text-foreground">Formations & Certifications</h4>
-                    </div>
-                    <div className="space-y-3">
-                      {[
-                        "Sophrologue certifié RNCP",
-                        "Hypnothérapeute diplômé", 
-                        "Formation continue en thérapies brèves",
-                        "Spécialisation accompagnement entreprise"
-                      ].map((cert, index) => (
-                        <div key={index} className="flex items-center space-x-3">
-                          <div className="w-2 h-2 bg-primary rounded-full"></div>
-                          <p className="text-sm text-soft-gray">{cert}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
+              {/* Témoignages */}
+              <div style={{ background: "hsl(var(--foreground))", borderRadius: "25px", padding: "28px", border: "1px solid hsl(var(--border))" }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+                  <Quote style={{ width: "20px", height: "20px", color: "hsl(var(--primary-foreground))", opacity: 0.6 }} />
+                  <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: "15px", fontWeight: "400", color: "hsl(var(--primary-foreground))" }}>Témoignages</h4>
+                </div>
+                {[
+                  { text: "Accompagnement exceptionnel, j'ai retrouvé confiance en moi.", author: "Marie L." },
+                  { text: "Des séances qui ont transformé ma gestion du stress.", author: "Thomas R." }
+                ].map((t, i) => (
+                  <div key={i} style={{ marginBottom: i === 0 ? "16px" : 0 }}>
+                    <p style={{ fontSize: "12px", fontStyle: "italic", color: "hsl(var(--primary-foreground))", opacity: 0.85, lineHeight: "1.6", marginBottom: "4px" }}>"{t.text}"</p>
+                    <p style={{ fontSize: "11px", color: "hsl(var(--primary-foreground))", opacity: 0.5 }}>— {t.author}</p>
+                  </div>
+                ))}
+              </div>
 
-                {/* Testimonials */}
-                <Card className="bg-gradient-warm text-white border-0 shadow-warm">
-                  <CardContent className="p-6">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="p-2 bg-white/20 rounded-lg">
-                        <Quote className="w-5 h-5 text-white" />
-                      </div>
-                      <h4 className="font-semibold text-white">Témoignages</h4>
+              {/* Stats */}
+              <div className="arise-card">
+                <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+                  <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Award style={{ width: "16px", height: "16px", color: "hsl(var(--primary-foreground))" }} />
+                  </div>
+                  <h4 className="arise-serif" style={{ fontSize: "15px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Résultats</h4>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  {[
+                    { val: "5+", label: "Années" },
+                    { val: "200+", label: "Patients" },
+                    { val: "95%", label: "Satisfaction" },
+                    { val: "85%", label: "Amélioration" },
+                  ].map(({ val, label }) => (
+                    <div key={label} style={{ textAlign: "center" }}>
+                      <div className="arise-serif" style={{ fontSize: "22px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "2px" }}>{val}</div>
+                      <div style={{ fontSize: "11px", color: "hsl(var(--foreground))", opacity: 0.6 }}>{label}</div>
                     </div>
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-1 mb-1">
-                          {[...Array(5)].map((_, i) => (
-                            <div key={i} className="w-3 h-3 text-yellow-300">★</div>
-                          ))}
-                        </div>
-                        <p className="text-sm text-white/90 italic">
-                          "Accompagnement exceptionnel, j'ai retrouvé confiance en moi."
-                        </p>
-                        <p className="text-xs text-white/70">— Marie L.</p>
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-1 mb-1">
-                          {[...Array(5)].map((_, i) => (
-                            <div key={i} className="w-3 h-3 text-yellow-300">★</div>
-                          ))}
-                        </div>
-                        <p className="text-sm text-white/90 italic">
-                          "Des séances qui ont transformé ma gestion du stress."
-                        </p>
-                        <p className="text-xs text-white/70">— Thomas R.</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Statistics & Experience */}
-                <Card className="bg-card/80 backdrop-blur-sm border-border/50">
-                  <CardContent className="p-6">
-                    <div className="flex items-center space-x-3 mb-4">
-                      <div className="p-2 bg-primary/10 rounded-lg">
-                        <Award className="w-5 h-5 text-primary" />
-                      </div>
-                      <h4 className="font-semibold text-foreground">Expérience & Résultats</h4>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-primary mb-1">5+</div>
-                        <div className="text-xs text-soft-gray">Années d'expérience</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-primary mb-1">200+</div>
-                        <div className="text-xs text-soft-gray">Patients accompagnés</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-primary mb-1">95%</div>
-                        <div className="text-xs text-soft-gray">Taux de satisfaction</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-primary mb-1">85%</div>
-                        <div className="text-xs text-soft-gray">Amélioration ressentie</div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right Column - Content */}
-          <div className="lg:col-span-4 space-y-6">
-            {/* CTA Buttons - remontés en haut */}
-            <div className="flex flex-col gap-3">
-              <Button 
-                size="lg"
-                className="bg-gradient-warm border-0 text-white hover:opacity-90 shadow-warm w-full"
-              >
-                <Calendar className="w-5 h-5 mr-2" />
-                Prendre rendez-vous
-              </Button>
-              <Button variant="outline" size="lg" className="w-full">
+          {/* Right Column */}
+          <div className="lg:col-span-4" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+
+            {/* CTA Buttons */}
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              <Link to="/reservation">
+                <button className="arise-btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+                  <Calendar style={{ width: "18px", height: "18px" }} />
+                  Prendre rendez-vous
+                </button>
+              </Link>
+              <button className="arise-btn-outline" style={{ width: "100%", justifyContent: "center" }}>
                 Voir tous les avis
-              </Button>
+              </button>
             </div>
 
             {/* Address */}
-            <Card className="bg-card/80 backdrop-blur-sm border-border/50">
-              <CardContent className="p-6">
-                <div className="flex items-start space-x-4">
-                  <div className="p-2 bg-primary/10 rounded-lg">
-                    <MapPin className="w-5 h-5 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground mb-1">Cabinet</h4>
-                    <p className="text-soft-gray">15 rue Adrien Damalix</p>
-                    <p className="text-soft-gray">94410 Saint-Maurice</p>
-                  </div>
+            <div className="arise-card">
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "12px" }}>
+                <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <MapPin style={{ width: "16px", height: "16px", color: "hsl(var(--primary-foreground))" }} />
                 </div>
-              </CardContent>
-            </Card>
+                <div>
+                  <h4 className="arise-serif" style={{ fontSize: "16px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "6px" }}>Cabinet</h4>
+                  <p style={{ fontSize: "14px", color: "hsl(var(--foreground))", opacity: 0.7, lineHeight: "1.6" }}>93, Montreuil rue test<br />93100 Montreuil</p>
+                </div>
+              </div>
+            </div>
 
             {/* Quote */}
-            <Card className="bg-gradient-warm text-white border-0 shadow-warm">
-              <CardContent className="p-8 relative">
-                <Quote className="w-10 h-10 opacity-20 absolute top-4 right-4" />
-                <blockquote className="text-lg font-medium mb-4 leading-relaxed">
-                  "On ne change pas en luttant contre ce qui existe déjà. Pour changer quelque chose, construisez un modèle nouveau qui rend l'ancien obsolète."
-                </blockquote>
-                <cite className="text-white/80 text-sm">— Buckminster Fuller</cite>
-              </CardContent>
-            </Card>
+            <div style={{ background: "hsl(var(--foreground))", borderRadius: "25px", padding: "32px", position: "relative", overflow: "hidden" }}>
+              <Quote style={{ width: "40px", height: "40px", color: "hsl(var(--primary-foreground))", opacity: 0.15, position: "absolute", top: "16px", right: "16px" }} />
+              <blockquote className="arise-serif" style={{ fontSize: "16px", fontWeight: "400", color: "hsl(var(--primary-foreground))", lineHeight: "1.7", marginBottom: "16px", fontStyle: "italic" }}>
+                {getContent("about_quote", "\"On ne change pas en luttant contre ce qui existe déjà. Pour changer quelque chose, construisez un modèle nouveau.\"")}
+              </blockquote>
+              <cite style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.6 }}>— Buckminster Fuller</cite>
+            </div>
           </div>
         </div>
       </div>
