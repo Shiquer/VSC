@@ -159,7 +159,7 @@ const ContactPage = () => {
                                                                                                                 e.preventDefault();
                                                                                                                 const form = e.target as HTMLFormElement;
                                                                                                                 const data = new FormData(form);
-                                                                                                                fetch("https://formspree.io/f/xwpkgojg", {
+                                                                                                                fetch("https://formspree.io/f/mykobvjq", {
                                                                                                                                         method: "POST",
                                                                                                                                         body: data,
                                                                                                                                         headers: { Accept: "application/json" },
