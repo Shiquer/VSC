@@ -147,6 +147,59 @@ const ContactPage = () => {
             </div>
           </div>
         </section>
+
+        {/* Formulaire de contact */}
+                <section id="contact" style={{ ...sectionStyle, background: "hsl(var(--background))" }}>
+                            <div className="container mx-auto px-8">
+                                        <h2 className="arise-serif" style={{ fontSize: "clamp(26px, 3vw, 36px)", fontWeight: "400", color: "hsl(var(--foreground))", textAlign: "center", marginBottom: "48px" }}>Envoyez-moi un message</h2>h2>
+                                        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+                                                      <div className="arise-card" style={{ padding: "40px" }}>
+                                                                      <form
+                                                                                          onSubmit={(e) => {
+                                                                                                                e.preventDefault();
+                                                                                                                const form = e.target as HTMLFormElement;
+                                                                                                                const data = new FormData(form);
+                                                                                                                fetch("https://formspree.io/f/xwpkgojg", {
+                                                                                                                                        method: "POST",
+                                                                                                                                        body: data,
+                                                                                                                                        headers: { Accept: "application/json" },
+                                                                                                                  }).then((res) => {
+                                                                                                                                        if (res.ok) {
+                                                                                                                                                                  alert("Votre message a bien été envoyé !");
+                                                                                                                                                                  form.reset();
+                                                                                                                                          } else {
+                                                                                                                                                                  alert("Une erreur est survenue. Veuillez réessayer.");
+                                                                                                                                          }
+                                                                                                                  });
+                                                                                            }}
+                                                                                          style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+                                                                                        >
+                                                                                        <div className="grid md:grid-cols-2 gap-4">
+                                                                                                            <div>
+                                                                                                                                  <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "14px", color: "hsl(var(--foreground))" }}>Nom complet *</label>label>
+                                                                                                                                  <input type="text" name="name" placeholder="Votre nom" required style={{ width: "100%", padding: "12px 16px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", background: "hsl(var(--background))", color: "hsl(var(--foreground))", outline: "none", boxSizing: "border-box" }} />
+                                                                                                              </div>div>
+                                                                                                            <div>
+                                                                                                                                  <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "14px", color: "hsl(var(--foreground))" }}>Email *</label>label>
+                                                                                                                                  <input type="email" name="email" placeholder="votre@email.com" required style={{ width: "100%", padding: "12px 16px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", background: "hsl(var(--background))", color: "hsl(var(--foreground))", outline: "none", boxSizing: "border-box" }} />
+                                                                                                              </div>div>
+                                                                                          </div>div>
+                                                                                        <div>
+                                                                                                            <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "14px", color: "hsl(var(--foreground))" }}>Sujet</label>label>
+                                                                                                            <input type="text" name="subject" placeholder="Sujet de votre message" style={{ width: "100%", padding: "12px 16px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", background: "hsl(var(--background))", color: "hsl(var(--foreground))", outline: "none", boxSizing: "border-box" }} />
+                                                                                          </div>div>
+                                                                                        <div>
+                                                                                                            <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "14px", color: "hsl(var(--foreground))" }}>Message *</label>label>
+                                                                                                            <textarea name="message" placeholder="Décrivez votre demande..." required rows={5} style={{ width: "100%", padding: "12px 16px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", background: "hsl(var(--background))", color: "hsl(var(--foreground))", outline: "none", resize: "vertical", boxSizing: "border-box" }} />
+                                                                                          </div>div>
+                                                                                        <button type="submit" className="arise-btn-primary" style={{ justifyContent: "center" }}>
+                                                                                                            <Mail style={{ width: "18px", height: "18px" }} />Envoyer le message
+                                                                                          </button>button>
+                                                                      </form>form>
+                                                      </div>div>
+                                        </div>div>
+                            </div>div>
+                </section>section></div>
       </main>
       <Footer />
     </div>
