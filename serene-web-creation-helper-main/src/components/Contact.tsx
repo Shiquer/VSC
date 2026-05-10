@@ -4,214 +4,219 @@ import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 const inputStyle = {
-    background: "hsl(var(--background))",
-    border: "3px solid hsl(var(--foreground))",
-    borderRadius: "99px",
-    height: "60px",
-    padding: "0 24px",
-    fontSize: "16px",
-    fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
-    color: "hsl(var(--foreground))",
-    width: "100%",
-    boxSizing: "border-box" as const,
-    boxShadow: "inset 0 1px 2px rgba(0,0,0,0.08)",
-    outline: "none",
+  background: "hsl(var(--background))",
+  border: "3px solid hsl(var(--foreground))",
+  borderRadius: "99px",
+  height: "60px",
+  padding: "0 24px",
+  fontSize: "16px",
+  fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+  color: "hsl(var(--foreground))",
+  width: "100%",
+  boxSizing: "border-box" as const,
+  boxShadow: "inset 0 1px 2px rgba(0,0,0,0.08)",
+  outline: "none",
 };
 
 const labelStyle = {
-    display: "block",
-    fontSize: "13px",
-    fontWeight: "700" as const,
-    color: "hsl(var(--foreground))",
-    marginBottom: "8px",
-    fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
+  display: "block",
+  fontSize: "13px",
+  fontWeight: "700" as const,
+  color: "hsl(var(--foreground))",
+  marginBottom: "8px",
+  fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
 };
 
 const Contact = () => {
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
-    const [formData, setFormData] = useState({
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          subject: "",
-          message: ""
-    });
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: ""
+  });
 
-    const handleInputChange = (field: string, value: string) => {
-          setFormData(prev => ({ ...prev, [field]: value }));
-    };
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-          e.preventDefault();
-          setIsSubmitting(true);
-          try {
-                  const data = new FormData();
-                  data.append("name", `${formData.firstName} ${formData.lastName}`);
-                  data.append("email", formData.email);
-                  data.append("phone", formData.phone);
-                  data.append("subject", formData.subject);
-                  data.append("message", formData.message);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    try {
+      const fd = new FormData();
+      fd.append("name", formData.firstName + " " + formData.lastName);
+      fd.append("email", formData.email);
+      fd.append("phone", formData.phone);
+      fd.append("subject", formData.subject);
+      fd.append("message", formData.message);
+      const res = await fetch("https://formspree.io/f/mykobvjq", {
+        method: "POST",
+        body: fd,
+        headers: { Accept: "application/json" },
+      });
+      if (!res.ok) throw new Error("err");
+      toast({ title: "Message envoyé !", description: "Vous recevrez une réponse rapidement." });
+      setFormData({ firstName: "", lastName: "", email: "", phone: "", subject: "", message: "" });
+    } catch (error) {
+      toast({ title: "Erreur", description: "Une erreur est survenue.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
-            const res = await fetch("https://formspree.io/f/mykobvjq", {
-                      method: "POST",
-                      body: data,
-                      headers: { Accept: "application/json" },
-            });
+  return (
+    <section id="contact" style={{ padding: "80px 0", background: "hsl(var(--background))" }}>
+      <div className="container mx-auto px-8">
 
-            if (!res.ok) throw new Error("Formspree error");
+        {/* Header */}
+        <div className="text-center animate-fade-in" style={{ marginBottom: "56px" }}>
+          <h2 className="arise-serif" style={{ fontSize: "clamp(28px, 3vw, 40px)", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "16px" }}>
+            Prendre contact
+          </h2>
+          <p style={{ fontSize: "16px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7, maxWidth: "480px", margin: "0 auto" }}>
+            N'hésitez pas à me contacter pour tout renseignement ou question, auxquels je répondrai avec plaisir.
+          </p>
+        </div>
 
-            toast({ title: "Message envoyé !", description: "Vous recevrez une réponse rapidement." });
-                  setFormData({ firstName: "", lastName: "", email: "", phone: "", subject: "", message: "" });
-          } catch (error) {
-                  toast({ title: "Erreur", description: "Une erreur est survenue. Veuillez réessayer.", variant: "destructive" });
-          } finally {
-                  setIsSubmitting(false);
-          }
-    };
+        <div className="grid lg:grid-cols-3 gap-8">
 
-    return (
-          <section id="contact" style={{ padding: "80px 0", background: "hsl(var(--background))" }}>
-                  <div className="container mx-auto px-8">
-                  
-                    {/* Header */}
-                          <div className="text-center animate-fade-in" style={{ marginBottom: "56px" }}>
-                                    <h2 className="arise-serif" style={{ fontSize: "clamp(28px, 3vw, 40px)", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "16px" }}>
-                                                Prendre contact
-                                    </h2>h2>
-                                    <p style={{ fontSize: "16px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7, maxWidth: "480px", margin: "0 auto" }}>
-                                                N'hésitez pas à me contacter pour tout renseignement ou question, auxquels je répondrai avec plaisir.
-                                    </p>p>
-                          </div>div>
-                  
-                          <div className="grid lg:grid-cols-3 gap-8">
-                          
-                            {/* Info Cards */}
-                                    <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                                    
-                                      {/* Adresse */}
-                                                <div className="arise-card">
-                                                              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
-                                                                              <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                                                                                <MapPin style={{ width: "16px", height: "16px", color: "hsl(var(--primary-foreground))" }} />
-                                                                              </div>div>
-                                                                              <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Adresse</h3>h3>
-                                                              </div>div>
-                                                              <p style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7 }}>
-                                                                              93, Montreuil rue test<br />93100 Montreuil
-                                                              </p>p>
-                                                </div>div>
-                                    
-                                      {/* Horaires */}
-                                                <div className="arise-card">
-                                                              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
-                                                                              <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                                                                                <Clock style={{ width: "16px", height: "16px", color: "hsl(var(--primary-foreground))" }} />
-                                                                              </div>div>
-                                                                              <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Horaires</h3>h3>
-                                                              </div>div>
-                                                              <div style={{ fontSize: "14px", lineHeight: "1.8", color: "hsl(var(--foreground))", opacity: 0.7 }}>
-                                                                              <p>Mardi: 8h - 21h</p>p>
-                                                                              <p>Vendredi: 8h - 21h</p>p>
-                                                                              <p>Samedi: 8h - 13h</p>p>
-                                                              </div>div>
-                                                </div>div>
-                                    
-                                      {/* Contact direct */}
-                                                <div className="arise-card">
-                                                              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
-                                                                              <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                                                                                                <Phone style={{ width: "16px", height: "16px", color: "hsl(var(--primary-foreground))" }} />
-                                                                              </div>div>
-                                                                              <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Contact direct</h3>h3>
-                                                              </div>div>
-                                                              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                                                                {[
-            { href: "tel:+33123456789", icon: Phone, label: "Appeler" },
-            { href: "mailto:contact@christopherquershi.fr", icon: Mail, label: "Email" },
-            { href: "#", icon: Linkedin, label: "LinkedIn" },
-                            ].map(({ href, icon: Icon, label }) => (
-                                                <a key={label} href={href} target={label === "LinkedIn" ? "_blank" : undefined} rel="noopener noreferrer">
-                                                                    <button className="arise-btn-outline" style={{ width: "100%", justifyContent: "flex-start", height: "48px", padding: "0 16px", fontSize: "14px" }}>
-                                                                                          <Icon style={{ width: "16px", height: "16px" }} />
-                                                                      {label}
-                                                                    </button>button>
-                                                </a>a>
-                                              ))}
-                                                              </div>div>
-                                                </div>div>
-                                    </div>div>
-                          
-                            {/* Form */}
-                                    <div className="lg:col-span-2">
-                                                <div className="arise-card" style={{ padding: "40px" }}>
-                                                              <h3 className="arise-serif" style={{ fontSize: "24px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "32px" }}>
-                                                                              Envoyez-moi un message
-                                                              </h3>h3>
-                                                
-                                                              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                                                                              <div className="grid md:grid-cols-2 gap-4">
-                                                                                                <div>
-                                                                                                                    <label htmlFor="firstName" style={labelStyle}>Prénom *</label>label>
-                                                                                                                    <input id="firstName" style={inputStyle} placeholder="Votre prénom" value={formData.firstName} onChange={e => handleInputChange("firstName", e.target.value)} required />
-                                                                                                  </div>div>
-                                                                                                <div>
-                                                                                                                    <label htmlFor="lastName" style={labelStyle}>Nom *</label>label>
-                                                                                                                    <input id="lastName" style={inputStyle} placeholder="Votre nom" value={formData.lastName} onChange={e => handleInputChange("lastName", e.target.value)} required />
-                                                                                                  </div>div>
-                                                                              </div>div>
-                                                              
-                                                                              <div>
-                                                                                                <label htmlFor="email" style={labelStyle}>Email *</label>label>
-                                                                                                <input id="email" type="email" style={inputStyle} placeholder="votre.email@example.com" value={formData.email} onChange={e => handleInputChange("email", e.target.value)} required />
-                                                                              </div>div>
-                                                              
-                                                                              <div>
-                                                                                                <label htmlFor="phone" style={labelStyle}>Téléphone</label>label>
-                                                                                                <input id="phone" type="tel" style={inputStyle} placeholder="Votre numéro de téléphone" value={formData.phone} onChange={e => handleInputChange("phone", e.target.value)} />
-                                                                              </div>div>
-                                                              
-                                                                              <div>
-                                                                                                <label htmlFor="subject" style={labelStyle}>Sujet *</label>label>
-                                                                                                <input id="subject" style={inputStyle} placeholder="Objet de votre demande" value={formData.subject} onChange={e => handleInputChange("subject", e.target.value)} required />
-                                                                              </div>div>
-                                                              
-                                                                              <div>
-                                                                                                <label htmlFor="message" style={labelStyle}>Message *</label>label>
-                                                                                                <textarea
-                                                                                                                      id="message"
-                                                                                                                      placeholder="Décrivez votre demande ou vos questions..."
-                                                                                                                      rows={6}
-                                                                                                                      value={formData.message}
-                                                                                                                      onChange={e => handleInputChange("message", e.target.value)}
-                                                                                                                      required
-                                                                                                                      style={{
-                                                                                                                                              ...inputStyle,
-                                                                                                                                              height: "auto",
-                                                                                                                                              borderRadius: "20px",
-                                                                                                                                              padding: "16px 24px",
-                                                                                                                        }}
-                                                                                                                    />
-                                                                              </div>div>
-                                                              
-                                                                              <button
-                                                                                                  type="submit"
-                                                                                                  disabled={isSubmitting}
-                                                                                                  className="arise-btn-primary"
-                                                                                                  style={{ justifyContent: "center", opacity: isSubmitting ? 0.7 : 1 }}
-                                                                                                >
-                                                                                                <Mail style={{ width: "18px", height: "18px" }} />
-                                                                                {isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
-                                                                              </button>button>
-                                                              </form>form>
-                                                </div>div>
-                                    </div>div>
-                          </div>div>
-                  </div>div>
-          </section>section>
-        );
+          {/* Info Cards */}
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+
+            {/* Adresse */}
+            <div className="arise-card">
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+                <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <MapPin style={{ width: "16px", height: "16px", color: "hsl(var(--primary-foreground))" }} />
+                </div>
+                <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Adresse</h3>
+              </div>
+              <p style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7 }}>
+                93, Montreuil rue test<br />93100 Montreuil
+              </p>
+            </div>
+
+            {/* Horaires */}
+            <div className="arise-card">
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+                <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Clock style={{ width: "16px", height: "16px", color: "hsl(var(--primary-foreground))" }} />
+                </div>
+                <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Horaires</h3>
+              </div>
+              <div style={{ fontSize: "14px", lineHeight: "1.8", color: "hsl(var(--foreground))", opacity: 0.7 }}>
+                <p>Mardi: 8h - 21h</p>
+                <p>Vendredi: 8h - 21h</p>
+                <p>Samedi: 8h - 13h</p>
+              </div>
+            </div>
+
+            {/* Contact direct */}
+            <div className="arise-card">
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
+                <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Phone style={{ width: "16px", height: "16px", color: "hsl(var(--primary-foreground))" }} />
+                </div>
+                <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Contact direct</h3>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                {[
+                  { href: "tel:+33123456789", icon: Phone, label: "Appeler" },
+                  { href: "mailto:contact@christopherquershi.fr", icon: Mail, label: "Email" },
+                  { href: "#", icon: Linkedin, label: "LinkedIn" },
+                ].map(({ href, icon: Icon, label }) => (
+                  <a key={label} href={href} target={label === "LinkedIn" ? "_blank" : undefined} rel="noopener noreferrer">
+                    <button className="arise-btn-outline" style={{ width: "100%", justifyContent: "flex-start", height: "48px", padding: "0 16px", fontSize: "14px" }}>
+                      <Icon style={{ width: "16px", height: "16px" }} />
+                      {label}
+                    </button>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Form */}
+          <div className="lg:col-span-2">
+            <div className="arise-card" style={{ padding: "40px" }}>
+              <h3 className="arise-serif" style={{ fontSize: "24px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "32px" }}>
+                Envoyez-moi un message
+              </h3>
+
+              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="firstName" style={labelStyle}>Prénom *</label>
+                    <input id="firstName" style={inputStyle} placeholder="Votre prénom" value={formData.firstName} onChange={e => handleInputChange("firstName", e.target.value)} required />
+                  </div>
+                  <div>
+                    <label htmlFor="lastName" style={labelStyle}>Nom *</label>
+                    <input id="lastName" style={inputStyle} placeholder="Votre nom" value={formData.lastName} onChange={e => handleInputChange("lastName", e.target.value)} required />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="email" style={labelStyle}>Email *</label>
+                  <input id="email" type="email" style={inputStyle} placeholder="votre.email@example.com" value={formData.email} onChange={e => handleInputChange("email", e.target.value)} required />
+                </div>
+
+                <div>
+                  <label htmlFor="phone" style={labelStyle}>Téléphone</label>
+                  <input id="phone" type="tel" style={inputStyle} placeholder="Votre numéro de téléphone" value={formData.phone} onChange={e => handleInputChange("phone", e.target.value)} />
+                </div>
+
+                <div>
+                  <label htmlFor="subject" style={labelStyle}>Sujet *</label>
+                  <input id="subject" style={inputStyle} placeholder="Objet de votre demande" value={formData.subject} onChange={e => handleInputChange("subject", e.target.value)} required />
+                </div>
+
+                <div>
+                  <label htmlFor="message" style={labelStyle}>Message *</label>
+                  <textarea
+                    id="message"
+                    placeholder="Décrivez votre demande ou vos questions..."
+                    rows={6}
+                    value={formData.message}
+                    onChange={e => handleInputChange("message", e.target.value)}
+                    required
+                    style={{
+                      ...inputStyle,
+                      height: "auto",
+                      borderRadius: "25px",
+                      padding: "16px 24px",
+                      resize: "vertical",
+                    }}
+                  />
+                </div>
+
+                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }} className="sm:flex-row">
+                  <button
+                    type="submit"
+                    className="arise-btn-primary"
+                    disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message}
+                    style={{ opacity: isSubmitting ? 0.7 : 1 }}
+                  >
+                    {isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
+                  </button>
+                  <Link to="/reservation">
+                    <button type="button" className="arise-btn-outline">
+                      <Calendar style={{ width: "18px", height: "18px" }} />
+                      Prendre rendez-vous
+                    </button>
+                  </Link>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
-export default Contact;</div>
+export default Contact;
