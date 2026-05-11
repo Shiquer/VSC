@@ -116,22 +116,22 @@ const BookingForm = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label style={labelStyle}><User style={{ width: "14px", height: "14px" }} />Nom complet *</label>
-            <input style={inputStyle} placeholder="Votre nom complet" value={formData.name} onChange={e => handleInputChange("name", e.target.value)} required />
+            <label htmlFor="booking-name" style={labelStyle}><User style={{ width: "14px", height: "14px" }} />Nom complet *</label>
+            <input id="booking-name" style={inputStyle} placeholder="Votre nom complet" value={formData.name} onChange={e => handleInputChange("name", e.target.value)} required />
           </div>
           <div>
-            <label style={labelStyle}><Mail style={{ width: "14px", height: "14px" }} />Email *</label>
-            <input type="email" style={inputStyle} placeholder="votre@email.com" value={formData.email} onChange={e => handleInputChange("email", e.target.value)} required />
+            <label htmlFor="booking-email" style={labelStyle}><Mail style={{ width: "14px", height: "14px" }} />Email *</label>
+            <input id="booking-email" type="email" style={inputStyle} placeholder="votre@email.com" value={formData.email} onChange={e => handleInputChange("email", e.target.value)} required />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label style={labelStyle}><Phone style={{ width: "14px", height: "14px" }} />Téléphone *</label>
-            <input type="tel" style={inputStyle} placeholder="06 12 34 56 78" value={formData.phone} onChange={e => handleInputChange("phone", e.target.value)} required />
+            <label htmlFor="booking-phone" style={labelStyle}><Phone style={{ width: "14px", height: "14px" }} />Téléphone *</label>
+            <input id="booking-phone" type="tel" style={inputStyle} placeholder="06 12 34 56 78" value={formData.phone} onChange={e => handleInputChange("phone", e.target.value)} required />
           </div>
           <div>
-            <label style={labelStyle}>Service souhaité *</label>
+            <p style={labelStyle}>Service souhaité *</p>
             <Select value={formData.service} onValueChange={value => handleInputChange("service", value)}>
               <SelectTrigger style={{ ...inputStyle, display: "flex", alignItems: "center" }}>
                 <SelectValue placeholder="Choisir un service" />
@@ -145,7 +145,7 @@ const BookingForm = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label style={labelStyle}><CalendarIcon style={{ width: "14px", height: "14px" }} />Date souhaitée *</label>
+            <p style={labelStyle}><CalendarIcon style={{ width: "14px", height: "14px" }} />Date souhaitée *</p>
             <Popover>
               <PopoverTrigger asChild>
                 <button type="button" style={{ ...inputStyle, display: "flex", alignItems: "center", gap: "8px", cursor: "pointer", background: "hsl(var(--background))" }}>
@@ -168,7 +168,7 @@ const BookingForm = () => {
             </Popover>
           </div>
           <div>
-            <label style={labelStyle}><Clock style={{ width: "14px", height: "14px" }} />Heure souhaitée *</label>
+            <p style={labelStyle}><Clock style={{ width: "14px", height: "14px" }} />Heure souhaitée *</p>
             <Select value={formData.time} onValueChange={value => handleInputChange("time", value)} disabled={!selectedDate}>
               <SelectTrigger style={{ ...inputStyle, display: "flex", alignItems: "center", opacity: !selectedDate ? 0.5 : 1 }}>
                 <SelectValue placeholder={selectedDate ? "Choisir un créneau" : "Sélectionner d'abord une date"} />
@@ -181,8 +181,9 @@ const BookingForm = () => {
         </div>
 
         <div>
-          <label style={labelStyle}><MessageCircle style={{ width: "14px", height: "14px" }} />Message (optionnel)</label>
+          <label htmlFor="booking-message" style={labelStyle}><MessageCircle style={{ width: "14px", height: "14px" }} />Message (optionnel)</label>
           <textarea
+            id="booking-message"
             placeholder="Précisez vos besoins ou questions..."
             rows={4}
             value={formData.message}

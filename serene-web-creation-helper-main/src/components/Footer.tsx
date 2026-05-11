@@ -66,7 +66,7 @@ const Footer = () => {
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
                 <MapPin style={{ width: "16px", height: "16px", flexShrink: 0, marginTop: "2px" }} />
-                <span style={{ fontSize: "14px", lineHeight: "1.5" }} dangerouslySetInnerHTML={{ __html: getHeroContent("hero_address", "93100 Montreuil") }} />
+                <span style={{ fontSize: "14px", lineHeight: "1.5" }}>{getHeroContent("hero_address", "93100 Montreuil")}</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
                 <Phone style={{ width: "16px", height: "16px" }} />
@@ -84,10 +84,11 @@ const Footer = () => {
             <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.5, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
               {getContent("footer_hours_title", "Horaires")}
             </p>
-            <div
-              style={{ fontSize: "14px", lineHeight: "1.8", color: "hsl(var(--primary-foreground))", opacity: 0.8, marginBottom: "24px" }}
-              dangerouslySetInnerHTML={{ __html: getContent("footer_hours", "Mardi: 8h - 21h<br />Vendredi: 8h - 21h<br />Samedi: 8h - 13h") }}
-            />
+            <div style={{ fontSize: "14px", lineHeight: "1.8", color: "hsl(var(--primary-foreground))", opacity: 0.8, marginBottom: "24px" }}>
+              {getContent("footer_hours", "Mardi: 8h - 21h\nVendredi: 8h - 21h\nSamedi: 8h - 13h").split(/\n|<br\s*\/?>/i).map((line, i) => (
+                <span key={i} style={{ display: "block" }}>{line}</span>
+              ))}
+            </div>
             <Link to="/reservation">
               <button style={{ background: "hsl(var(--primary-foreground))", color: "hsl(var(--foreground))", border: "none", borderRadius: "30px", height: "48px", padding: "0 20px", fontSize: "13px", fontWeight: "700", fontFamily: "'Helvetica Neue', Helvetica, sans-serif", display: "inline-flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
                 <Calendar style={{ width: "16px", height: "16px" }} />
@@ -113,9 +114,9 @@ const Footer = () => {
               <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "13px" }}>
                 <Link to="/contact" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none" }}>Contact</Link>
                 <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>•</span>
-                <a href="#" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none" }}>Mentions légales</a>
+                <button style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none", background: "none", border: "none", cursor: "pointer", fontSize: "13px", padding: 0 }}>Mentions légales</button>
                 <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>•</span>
-                <a href="#" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none" }}>Confidentialité</a>
+                <button style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none", background: "none", border: "none", cursor: "pointer", fontSize: "13px", padding: 0 }}>Confidentialité</button>
               </div>
             </div>
           </div>
