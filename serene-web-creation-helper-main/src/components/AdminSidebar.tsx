@@ -31,7 +31,7 @@ const adminItems = [
   { title: "Réservations", url: "/admin/bookings", icon: Calendar },
   { title: "Médiathèque", url: "/admin/media", icon: Image },
   { title: "Articles", url: "/admin/articles", icon: BookOpen },
-  { title: "Statistiques", url: "/admin/stats", icon: BarChart3 },
+  { title: "Statistiques", url: "/admin/statistics", icon: BarChart3 },
 ];
 
 export function AdminSidebar() {
