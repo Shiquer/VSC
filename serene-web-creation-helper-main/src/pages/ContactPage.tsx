@@ -1,10 +1,13 @@
+import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { MapPin, Phone, Mail, Calendar, Clock, Award, Users, Heart } from "lucide-react";
+import { MapPin, Phone, Mail, Calendar, Clock, Award, Users, Heart, CheckCircle, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import christopherPortrait from "@/assets/christopher-portrait.jpg";
 
 const ContactPage = () => {
+  const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
   const certifications = ["Sophrologue certifié RNCP", "Hypnothérapeute", "Formation en entreprise", "Accompagnement personnalisé"];
   const specialties = [
     { icon: Heart, title: "Gestion du stress", description: "Techniques de relaxation et d'apaisement" },
@@ -14,6 +17,24 @@ const ContactPage = () => {
   ];
 
   const sectionStyle = { padding: "80px 0" };
+  const inputStyle = { width: "100%", padding: "12px 16px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", background: "hsl(var(--background))", color: "hsl(var(--foreground))", boxSizing: "border-box" as const };
+  const labelStyle = { display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "14px", color: "hsl(var(--foreground))" };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    setFormStatus("sending");
+    fetch("https://formspree.io/f/mykobvjq", {
+      method: "POST",
+      body: new FormData(form),
+      headers: { Accept: "application/json" },
+    })
+      .then((res) => {
+        if (res.ok) { setFormStatus("success"); form.reset(); }
+        else setFormStatus("error");
+      })
+      .catch(() => setFormStatus("error"));
+  };
 
   return (
     <div className="min-h-screen" style={{ background: "hsl(var(--background))" }}>
@@ -149,57 +170,56 @@ const ContactPage = () => {
         </section>
 
         {/* Formulaire de contact */}
-                <section id="contact" style={{ ...sectionStyle, background: "hsl(var(--background))" }}>
-                            <div className="container mx-auto px-8">
-                                        <h2 className="arise-serif" style={{ fontSize: "clamp(26px, 3vw, 36px)", fontWeight: "400", color: "hsl(var(--foreground))", textAlign: "center", marginBottom: "48px" }}>Envoyez-moi un message</h2>
-                                        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-                                                      <div className="arise-card" style={{ padding: "40px" }}>
-                                                                      <form
-                                                                                          onSubmit={(e) => {
-                                                                                                                e.preventDefault();
-                                                                                                                const form = e.target as HTMLFormElement;
-                                                                                                                const data = new FormData(form);
-                                                                                                                fetch("https://formspree.io/f/mykobvjq", {
-                                                                                                                                        method: "POST",
-                                                                                                                                        body: data,
-                                                                                                                                        headers: { Accept: "application/json" },
-                                                                                                                  }).then((res) => {
-                                                                                                                                        if (res.ok) {
-                                                                                                                                                                  alert("Votre message a bien été envoyé !");
-                                                                                                                                                                  form.reset();
-                                                                                                                                          } else {
-                                                                                                                                                                  alert("Une erreur est survenue. Veuillez réessayer.");
-                                                                                                                                          }
-                                                                                                                  });
-                                                                                            }}
-                                                                                          style={{ display: "flex", flexDirection: "column", gap: "20px" }}
-                                                                                        >
-                                                                                        <div className="grid md:grid-cols-2 gap-4">
-                                                                                                            <div>
-                                                                                                                                  <label htmlFor="contact-name" style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "14px", color: "hsl(var(--foreground))" }}>Nom complet *</label>
-                                                                                                                                  <input id="contact-name" type="text" name="name" placeholder="Votre nom" required style={{ width: "100%", padding: "12px 16px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", background: "hsl(var(--background))", color: "hsl(var(--foreground))", boxSizing: "border-box" }} />
-                                                                                                              </div>
-                                                                                                            <div>
-                                                                                                                                  <label htmlFor="contact-email" style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "14px", color: "hsl(var(--foreground))" }}>Email *</label>
-                                                                                                                                  <input id="contact-email" type="email" name="email" placeholder="votre@email.com" required style={{ width: "100%", padding: "12px 16px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", background: "hsl(var(--background))", color: "hsl(var(--foreground))", boxSizing: "border-box" }} />
-                                                                                                              </div>
-                                                                                          </div>
-                                                                                        <div>
-                                                                                                            <label htmlFor="contact-subject" style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "14px", color: "hsl(var(--foreground))" }}>Sujet</label>
-                                                                                                            <input id="contact-subject" type="text" name="subject" placeholder="Sujet de votre message" style={{ width: "100%", padding: "12px 16px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", background: "hsl(var(--background))", color: "hsl(var(--foreground))", boxSizing: "border-box" }} />
-                                                                                          </div>
-                                                                                        <div>
-                                                                                                            <label htmlFor="contact-message" style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "14px", color: "hsl(var(--foreground))" }}>Message *</label>
-                                                                                                            <textarea id="contact-message" name="message" placeholder="Décrivez votre demande..." required rows={5} style={{ width: "100%", padding: "12px 16px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", background: "hsl(var(--background))", color: "hsl(var(--foreground))", resize: "vertical", boxSizing: "border-box" }} />
-                                                                                          </div>
-                                                                                        <button type="submit" className="arise-btn-primary" style={{ justifyContent: "center" }}>
-                                                                                                            <Mail style={{ width: "18px", height: "18px" }} />Envoyer le message
-                                                                                          </button>
-                                                                      </form>
-                                                      </div>
-                                        </div>
-                            </div>
-                </section>
+        <section id="contact" style={{ ...sectionStyle, background: "hsl(var(--background))" }}>
+          <div className="container mx-auto px-8">
+            <h2 className="arise-serif" style={{ fontSize: "clamp(26px, 3vw, 36px)", fontWeight: "400", color: "hsl(var(--foreground))", textAlign: "center", marginBottom: "48px" }}>Envoyez-moi un message</h2>
+            <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+              <div className="arise-card" style={{ padding: "40px" }}>
+                <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="contact-name" style={labelStyle}>Nom complet *</label>
+                      <input id="contact-name" type="text" name="name" placeholder="Votre nom" required style={inputStyle} />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-email" style={labelStyle}>Email *</label>
+                      <input id="contact-email" type="email" name="email" placeholder="votre@email.com" required style={inputStyle} />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="contact-subject" style={labelStyle}>Sujet</label>
+                    <input id="contact-subject" type="text" name="subject" placeholder="Sujet de votre message" style={inputStyle} />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-message" style={labelStyle}>Message *</label>
+                    <textarea id="contact-message" name="message" placeholder="Décrivez votre demande..." required rows={5} style={{ ...inputStyle, resize: "vertical" }} />
+                  </div>
+                  <button
+                    type="submit"
+                    className="arise-btn-primary"
+                    style={{ justifyContent: "center", opacity: formStatus === "sending" ? 0.7 : 1 }}
+                    disabled={formStatus === "sending"}
+                  >
+                    <Mail style={{ width: "18px", height: "18px" }} />
+                    {formStatus === "sending" ? "Envoi en cours…" : "Envoyer le message"}
+                  </button>
+                  {formStatus === "success" && (
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "14px 18px", background: "#f0fdf4", border: "1.5px solid #86efac", borderRadius: "10px", color: "#166534", fontSize: "14px" }}>
+                      <CheckCircle style={{ width: "18px", height: "18px", flexShrink: 0 }} />
+                      Votre message a bien été envoyé ! Je vous répondrai dans les meilleurs délais.
+                    </div>
+                  )}
+                  {formStatus === "error" && (
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "14px 18px", background: "#fef2f2", border: "1.5px solid #fca5a5", borderRadius: "10px", color: "#991b1b", fontSize: "14px" }}>
+                      <AlertCircle style={{ width: "18px", height: "18px", flexShrink: 0 }} />
+                      Une erreur est survenue. Veuillez réessayer ou écrire à contact@christopherquershi.fr.
+                    </div>
+                  )}
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>
