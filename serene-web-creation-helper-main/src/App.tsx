@@ -22,6 +22,7 @@ import AdminContent from "./pages/AdminContent";
 import AdminBookings from "./pages/AdminBookings";
 import AdminMedia from "./pages/AdminMedia";
 import AdminArticles from "./pages/AdminArticles";
+import AdminStatistics from "./pages/AdminStatistics";
 import ArticleDetail from "./pages/ArticleDetail";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
                 <Route path="bookings" element={<AdminBookings />} />
                 <Route path="media" element={<AdminMedia />} />
                 <Route path="articles" element={<AdminArticles />} />
+                              <Route path="statistics" element={<AdminStatistics />} />
               </Route>
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
