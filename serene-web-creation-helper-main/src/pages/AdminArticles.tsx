@@ -333,6 +333,7 @@ export default function AdminArticles() {
                     <img
                       src={article.featured_image_url}
                       alt={article.title}
+                      loading="lazy"
                       className="w-16 h-16 object-cover rounded"
                     />
                   )}
@@ -432,6 +433,7 @@ export default function AdminArticles() {
                 <img
                   src={formData.featured_image_url}
                   alt="Preview"
+                  loading="lazy"
                   className="mt-2 w-32 h-32 object-cover rounded"
                 />
               )}

@@ -189,7 +189,7 @@ const PublicMediaLibrary = () => {
                       >
                         <div style={{ position: "relative", overflow: "hidden" }}>
                           {video.thumbnail_url ? (
-                            <img src={video.thumbnail_url} alt={video.title} style={{ width: "100%", height: "200px", objectFit: "cover", display: "block" }} />
+                            <img src={video.thumbnail_url} alt={video.title} loading="lazy" style={{ width: "100%", height: "200px", objectFit: "cover", display: "block" }} />
                           ) : (
                             <div style={{ width: "100%", height: "200px", background: "hsl(var(--secondary))", display: "flex", alignItems: "center", justifyContent: "center" }}>
                               <Video style={{ width: "48px", height: "48px", color: "hsl(var(--foreground))", opacity: 0.3 }} />
@@ -232,7 +232,7 @@ const PublicMediaLibrary = () => {
                       >
                         <div style={{ overflow: "hidden" }}>
                           {article.featured_image_url ? (
-                            <img src={article.featured_image_url} alt={article.title} style={{ width: "100%", height: "200px", objectFit: "cover", display: "block" }} />
+                            <img src={article.featured_image_url} alt={article.title} loading="lazy" style={{ width: "100%", height: "200px", objectFit: "cover", display: "block" }} />
                           ) : (
                             <div style={{ width: "100%", height: "200px", background: "hsl(var(--secondary))", display: "flex", alignItems: "center", justifyContent: "center" }}>
                               <BookOpen style={{ width: "48px", height: "48px", color: "hsl(var(--foreground))", opacity: 0.3 }} />
