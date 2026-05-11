@@ -54,7 +54,7 @@ const Services = () => {
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (
-              <div key={service.title} className="arise-card" style={{ animationDelay: `${index * 0.2}s`, transition: "all 0.3s ease" }}
+              <div key={service.title} className="arise-card" style={{ animationDelay: `${index * 0.2}s`, transition: "transform 0.3s, box-shadow 0.3s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "0 8px 24px rgba(0,0,0,0.10)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"; (e.currentTarget as HTMLDivElement).style.boxShadow = "0 2px 8px rgba(0,0,0,0.04)"; }}
               >

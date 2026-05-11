@@ -160,7 +160,7 @@ const Header = () => {
                   alignItems: "center",
                   gap: "8px",
                   cursor: "pointer",
-                  transition: "all 0.2s",
+                  transition: "background 0.2s, opacity 0.2s",
                 }}
               >
                 <Phone className="w-4 h-4" />

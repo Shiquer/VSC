@@ -76,7 +76,7 @@ const GroupClasses = () => {
                 const isFull = c.participants.current >= c.participants.max;
                 const pct = (c.participants.current / c.participants.max) * 100;
                 return (
-                  <div key={c.title} className="arise-card" style={{ transition: "all 0.3s" }}
+                  <div key={c.title} className="arise-card" style={{ transition: "transform 0.3s" }}
                     onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"}
                     onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
                   >

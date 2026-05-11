@@ -69,7 +69,7 @@ const ContactPage = () => {
                 {specialties.map((s) => {
                   const Icon = s.icon;
                   return (
-                    <div key={s.title} className="arise-card" style={{ transition: "all 0.3s" }}
+                    <div key={s.title} className="arise-card" style={{ transition: "transform 0.3s" }}
                       onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"}
                       onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
                     >

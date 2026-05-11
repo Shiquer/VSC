@@ -54,7 +54,7 @@ const Hypnose = () => {
           <h2 style={h2Style}>Domaines d'application</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ maxWidth: "960px", margin: "0 auto" }}>
             {domaines.map((d) => (
-              <div key={d.title} className="arise-card" style={{ transition: "all 0.3s" }}
+              <div key={d.title} className="arise-card" style={{ transition: "transform 0.3s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"; }}
               >

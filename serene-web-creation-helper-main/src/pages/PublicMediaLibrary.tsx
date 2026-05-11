@@ -195,7 +195,7 @@ const PublicMediaLibrary = () => {
                               <Video style={{ width: "48px", height: "48px", color: "hsl(var(--foreground))", opacity: 0.3 }} />
                             </div>
                           )}
-                          {video.duration && <span style={{ position: "absolute", top: "12px", right: "12px", background: "rgba(0,0,0,0.6)", color: "#fff", fontSize: "11px", fontWeight: "700", padding: "3px 8px", borderRadius: "99px" }}>{video.duration}</span>}
+                          {video.duration && <span style={{ position: "absolute", top: "12px", right: "12px", background: "rgba(0,0,0,0.6)", color: "#fff", fontSize: "12px", fontWeight: "700", padding: "3px 8px", borderRadius: "99px" }}>{video.duration}</span>}
                         </div>
                         <div style={{ padding: "24px" }}>
                           <div style={{ display: "flex", gap: "6px", marginBottom: "12px" }}>

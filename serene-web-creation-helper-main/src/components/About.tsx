@@ -89,7 +89,7 @@ const About = () => {
                 ].map((t, i) => (
                   <div key={t.author} style={{ marginBottom: i === 0 ? "16px" : 0 }}>
                     <p style={{ fontSize: "12px", fontStyle: "italic", color: "hsl(var(--primary-foreground))", opacity: 0.85, lineHeight: "1.6", marginBottom: "4px" }}>"{t.text}"</p>
-                    <p style={{ fontSize: "11px", color: "hsl(var(--primary-foreground))", opacity: 0.5 }}>— {t.author}</p>
+                    <p style={{ fontSize: "12px", color: "hsl(var(--primary-foreground))", opacity: 0.5 }}>— {t.author}</p>
                   </div>
                 ))}
               </div>
@@ -111,7 +111,7 @@ const About = () => {
                   ].map(({ val, label }) => (
                     <div key={label} style={{ textAlign: "center" }}>
                       <div className="arise-serif" style={{ fontSize: "22px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "2px" }}>{val}</div>
-                      <div style={{ fontSize: "11px", color: "hsl(var(--foreground))", opacity: 0.6 }}>{label}</div>
+                      <div style={{ fontSize: "12px", color: "hsl(var(--foreground))", opacity: 0.6 }}>{label}</div>
                     </div>
                   ))}
                 </div>
