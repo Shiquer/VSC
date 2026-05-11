@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useReducer, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,7 +28,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2, Eye } from "lucide-react";
+import { Plus, Pencil, Trash2 } from "lucide-react";
 
 interface Article {
   id: string;
@@ -43,41 +43,90 @@ interface Article {
   created_at: string;
 }
 
-export default function AdminArticles() {
-  const [articles, setArticles] = useState<Article[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [showDialog, setShowDialog] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [uploadProgress, setUploadProgress] = useState(0);
-  const imageInputRef = useRef<HTMLInputElement>(null);
+type FormData = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  featured_image_url: string;
+  category: string;
+  tags: string;
+  status: string;
+};
 
-  const [formData, setFormData] = useState({
-    id: "",
-    title: "",
-    slug: "",
-    excerpt: "",
-    content: "",
-    featured_image_url: "",
-    category: "",
-    tags: "",
-    status: "draft",
-  });
+type State = {
+  articles: Article[];
+  loading: boolean;
+  showDialog: boolean;
+  searchTerm: string;
+  uploadProgress: number;
+  formData: FormData;
+};
+
+type Action =
+  | { type: "SET_ARTICLES"; payload: Article[] }
+  | { type: "SET_LOADING"; payload: boolean }
+  | { type: "SET_SHOW_DIALOG"; payload: boolean }
+  | { type: "SET_SEARCH_TERM"; payload: string }
+  | { type: "SET_UPLOAD_PROGRESS"; payload: number }
+  | { type: "UPDATE_FORM"; payload: Partial<FormData> }
+  | { type: "RESET_FORM" };
+
+const initialFormData: FormData = {
+  id: "",
+  title: "",
+  slug: "",
+  excerpt: "",
+  content: "",
+  featured_image_url: "",
+  category: "",
+  tags: "",
+  status: "draft",
+};
+
+const initialState: State = {
+  articles: [],
+  loading: true,
+  showDialog: false,
+  searchTerm: "",
+  uploadProgress: 0,
+  formData: initialFormData,
+};
+
+function articlesReducer(state: State, action: Action): State {
+  switch (action.type) {
+    case "SET_ARTICLES": return { ...state, articles: action.payload };
+    case "SET_LOADING": return { ...state, loading: action.payload };
+    case "SET_SHOW_DIALOG": return { ...state, showDialog: action.payload };
+    case "SET_SEARCH_TERM": return { ...state, searchTerm: action.payload };
+    case "SET_UPLOAD_PROGRESS": return { ...state, uploadProgress: action.payload };
+    case "UPDATE_FORM": return { ...state, formData: { ...state.formData, ...action.payload } };
+    case "RESET_FORM": return { ...state, formData: initialFormData };
+    default: return state;
+  }
+}
+
+export default function AdminArticles() {
+  const [state, dispatch] = useReducer(articlesReducer, initialState);
+  const { articles, loading, showDialog, searchTerm, uploadProgress, formData } = state;
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const fetchArticles = async () => {
     try {
-      setLoading(true);
+      dispatch({ type: "SET_LOADING", payload: true });
       const { data, error } = await supabase
         .from("articles")
         .select("*")
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setArticles(data || []);
+      dispatch({ type: "SET_ARTICLES", payload: data || [] });
     } catch (error) {
       console.error("Error fetching articles:", error);
       toast.error("Erreur lors du chargement des articles");
     } finally {
-      setLoading(false);
+      dispatch({ type: "SET_LOADING", payload: false });
     }
   };
 
@@ -89,7 +138,7 @@ export default function AdminArticles() {
     return title
       .toLowerCase()
       .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[̀-ͯ]/g, "")
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/(^-|-$)/g, "");
   };
@@ -114,7 +163,7 @@ export default function AdminArticles() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setUploadProgress(0);
+    dispatch({ type: "SET_UPLOAD_PROGRESS", payload: 0 });
 
     try {
       const {
@@ -125,9 +174,9 @@ export default function AdminArticles() {
       let imageUrl = formData.featured_image_url;
 
       if (imageInputRef.current?.files?.[0]) {
-        setUploadProgress(30);
+        dispatch({ type: "SET_UPLOAD_PROGRESS", payload: 30 });
         imageUrl = await uploadFile(imageInputRef.current.files[0], "content-images");
-        setUploadProgress(60);
+        dispatch({ type: "SET_UPLOAD_PROGRESS", payload: 60 });
       }
 
       const tagsArray = formData.tags
@@ -154,36 +203,36 @@ export default function AdminArticles() {
           .eq("id", formData.id);
 
         if (error) throw error;
-        toast.success("Article mis Ã  jour avec succÃ¨s");
+        toast.success("Article mis à jour avec succès");
       } else {
         const { error } = await supabase
           .from("articles")
           .insert([articleData]);
 
         if (error) throw error;
-        toast.success("Article crÃ©Ã© avec succÃ¨s");
+        toast.success("Article créé avec succès");
       }
 
-      setUploadProgress(100);
-      setShowDialog(false);
+      dispatch({ type: "SET_UPLOAD_PROGRESS", payload: 100 });
+      dispatch({ type: "SET_SHOW_DIALOG", payload: false });
       fetchArticles();
       resetForm();
     } catch (error) {
       console.error("Error saving article:", error);
       toast.error("Erreur lors de la sauvegarde de l'article");
     } finally {
-      setUploadProgress(0);
+      dispatch({ type: "SET_UPLOAD_PROGRESS", payload: 0 });
     }
   };
 
   const deleteArticle = async (id: string) => {
-    if (!confirm("ÃŠtes-vous sÃ»r de vouloir supprimer cet article ?")) return;
+    if (!confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) return;
 
     try {
       const { error } = await supabase.from("articles").delete().eq("id", id);
 
       if (error) throw error;
-      toast.success("Article supprimÃ©");
+      toast.success("Article supprimé");
       fetchArticles();
     } catch (error) {
       console.error("Error deleting article:", error);
@@ -192,33 +241,26 @@ export default function AdminArticles() {
   };
 
   const resetForm = () => {
-    setFormData({
-      id: "",
-      title: "",
-      slug: "",
-      excerpt: "",
-      content: "",
-      featured_image_url: "",
-      category: "",
-      tags: "",
-      status: "draft",
-    });
+    dispatch({ type: "RESET_FORM" });
     if (imageInputRef.current) imageInputRef.current.value = "";
   };
 
   const editArticle = (article: Article) => {
-    setFormData({
-      id: article.id,
-      title: article.title,
-      slug: article.slug,
-      excerpt: article.excerpt || "",
-      content: article.content,
-      featured_image_url: article.featured_image_url || "",
-      category: article.category || "",
-      tags: article.tags?.join(", ") || "",
-      status: article.status,
+    dispatch({
+      type: "UPDATE_FORM",
+      payload: {
+        id: article.id,
+        title: article.title,
+        slug: article.slug,
+        excerpt: article.excerpt || "",
+        content: article.content,
+        featured_image_url: article.featured_image_url || "",
+        category: article.category || "",
+        tags: article.tags?.join(", ") || "",
+        status: article.status,
+      },
     });
-    setShowDialog(true);
+    dispatch({ type: "SET_SHOW_DIALOG", payload: true });
   };
 
   const getStatusColor = (status: string) => {
@@ -254,7 +296,7 @@ export default function AdminArticles() {
         <Button
           onClick={() => {
             resetForm();
-            setShowDialog(true);
+            dispatch({ type: "SET_SHOW_DIALOG", payload: true });
           }}
         >
           <Plus className="mr-2 h-4 w-4" />
@@ -266,7 +308,7 @@ export default function AdminArticles() {
         <Input
           placeholder="Rechercher un article..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => dispatch({ type: "SET_SEARCH_TERM", payload: e.target.value })}
           className="max-w-sm"
         />
       </div>
@@ -277,7 +319,7 @@ export default function AdminArticles() {
             <TableRow>
               <TableHead>Image</TableHead>
               <TableHead>Titre</TableHead>
-              <TableHead>CatÃ©gorie</TableHead>
+              <TableHead>Catégorie</TableHead>
               <TableHead>Statut</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Actions</TableHead>
@@ -329,7 +371,7 @@ export default function AdminArticles() {
         </Table>
       </div>
 
-      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+      <Dialog open={showDialog} onOpenChange={(open) => dispatch({ type: "SET_SHOW_DIALOG", payload: open })}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
@@ -342,9 +384,7 @@ export default function AdminArticles() {
               <Input
                 id="title"
                 value={formData.title}
-                onChange={(e) =>
-                  setFormData(prev => ({ ...prev, title: e.target.value }))
-                }
+                onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { title: e.target.value } })}
                 required
               />
             </div>
@@ -354,10 +394,8 @@ export default function AdminArticles() {
               <Input
                 id="slug"
                 value={formData.slug}
-                onChange={(e) =>
-                  setFormData(prev => ({ ...prev, slug: e.target.value }))
-                }
-                placeholder="GÃ©nÃ©rÃ© automatiquement si vide"
+                onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { slug: e.target.value } })}
+                placeholder="Généré automatiquement si vide"
               />
             </div>
 
@@ -366,9 +404,7 @@ export default function AdminArticles() {
               <Textarea
                 id="excerpt"
                 value={formData.excerpt}
-                onChange={(e) =>
-                  setFormData(prev => ({ ...prev, excerpt: e.target.value }))
-                }
+                onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { excerpt: e.target.value } })}
                 rows={3}
               />
             </div>
@@ -378,16 +414,14 @@ export default function AdminArticles() {
               <Textarea
                 id="content"
                 value={formData.content}
-                onChange={(e) =>
-                  setFormData(prev => ({ ...prev, content: e.target.value }))
-                }
+                onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { content: e.target.value } })}
                 rows={10}
                 required
               />
             </div>
 
             <div>
-              <Label htmlFor="image">Image Ã  la une</Label>
+              <Label htmlFor="image">Image à la une</Label>
               <Input
                 id="image"
                 type="file"
@@ -404,25 +438,21 @@ export default function AdminArticles() {
             </div>
 
             <div>
-              <Label htmlFor="category">CatÃ©gorie</Label>
+              <Label htmlFor="category">Catégorie</Label>
               <Input
                 id="category"
                 value={formData.category}
-                onChange={(e) =>
-                  setFormData(prev => ({ ...prev, category: e.target.value }))
-                }
+                onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { category: e.target.value } })}
               />
             </div>
 
             <div>
-              <Label htmlFor="tags">Tags (sÃ©parÃ©s par des virgules)</Label>
+              <Label htmlFor="tags">Tags (séparés par des virgules)</Label>
               <Input
                 id="tags"
                 value={formData.tags}
-                onChange={(e) =>
-                  setFormData(prev => ({ ...prev, tags: e.target.value }))
-                }
-                placeholder="sophrologie, bien-Ãªtre, stress"
+                onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { tags: e.target.value } })}
+                placeholder="sophrologie, bien-être, stress"
               />
             </div>
 
@@ -430,16 +460,14 @@ export default function AdminArticles() {
               <Label htmlFor="status">Statut</Label>
               <Select
                 value={formData.status}
-                onValueChange={(value) =>
-                  setFormData(prev => ({ ...prev, status: value }))
-                }
+                onValueChange={(value) => dispatch({ type: "UPDATE_FORM", payload: { status: value } })}
               >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="draft">Brouillon</SelectItem>
-                  <SelectItem value="published">PubliÃ©</SelectItem>
+                  <SelectItem value="published">Publié</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -457,12 +485,12 @@ export default function AdminArticles() {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setShowDialog(false)}
+                onClick={() => dispatch({ type: "SET_SHOW_DIALOG", payload: false })}
               >
                 Annuler
               </Button>
               <Button type="submit">
-                {formData.id ? "Mettre Ã  jour" : "CrÃ©er"}
+                {formData.id ? "Mettre à jour" : "Créer"}
               </Button>
             </div>
           </form>

@@ -1,5 +1,5 @@
-import { useState, useEffect, useRef } from "react";
-import { Plus, Search, Edit, Trash2, Play, Pause, Download, Upload, X } from "lucide-react";
+import { useReducer, useState, useEffect, useRef } from "react";
+import { Plus, Search, Edit, Trash2, Play, Pause, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -43,28 +43,76 @@ interface MediaContent {
   created_at: string;
 }
 
-const AdminMediaLibrary = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentPlaying, setCurrentPlaying] = useState<string | null>(null);
-  const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
-  const [mediaContents, setMediaContents] = useState<MediaContent[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [uploading, setUploading] = useState(false);
-  const { toast } = useToast();
+type MediaFormData = {
+  title: string;
+  description: string;
+  content_type: "audio" | "video";
+  category: string;
+  difficulty: "Débutant" | "Intermédiaire" | "Avancé";
+  status: "draft" | "published";
+};
 
-  // Form state
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    content_type: "audio" as "audio" | "video",
-    category: "",
-    difficulty: "DÃ©butant" as "DÃ©butant" | "IntermÃ©diaire" | "AvancÃ©",
-    status: "draft" as "draft" | "published",
-  });
+type MediaState = {
+  mediaContents: MediaContent[];
+  loading: boolean;
+  uploading: boolean;
+  isAddDialogOpen: boolean;
+  searchTerm: string;
+  currentPlaying: string | null;
+  formData: MediaFormData;
+};
+
+type MediaAction =
+  | { type: "SET_MEDIA_CONTENTS"; payload: MediaContent[] }
+  | { type: "SET_LOADING"; payload: boolean }
+  | { type: "SET_UPLOADING"; payload: boolean }
+  | { type: "SET_DIALOG_OPEN"; payload: boolean }
+  | { type: "SET_SEARCH_TERM"; payload: string }
+  | { type: "SET_CURRENT_PLAYING"; payload: string | null }
+  | { type: "UPDATE_FORM"; payload: Partial<MediaFormData> }
+  | { type: "RESET_FORM" };
+
+const initialFormData: MediaFormData = {
+  title: "",
+  description: "",
+  content_type: "audio",
+  category: "",
+  difficulty: "Débutant",
+  status: "draft",
+};
+
+const initialState: MediaState = {
+  mediaContents: [],
+  loading: true,
+  uploading: false,
+  isAddDialogOpen: false,
+  searchTerm: "",
+  currentPlaying: null,
+  formData: initialFormData,
+};
+
+function mediaReducer(state: MediaState, action: MediaAction): MediaState {
+  switch (action.type) {
+    case "SET_MEDIA_CONTENTS": return { ...state, mediaContents: action.payload };
+    case "SET_LOADING": return { ...state, loading: action.payload };
+    case "SET_UPLOADING": return { ...state, uploading: action.payload };
+    case "SET_DIALOG_OPEN": return { ...state, isAddDialogOpen: action.payload };
+    case "SET_SEARCH_TERM": return { ...state, searchTerm: action.payload };
+    case "SET_CURRENT_PLAYING": return { ...state, currentPlaying: action.payload };
+    case "UPDATE_FORM": return { ...state, formData: { ...state.formData, ...action.payload } };
+    case "RESET_FORM": return { ...state, formData: initialFormData };
+    default: return state;
+  }
+}
+
+const AdminMediaLibrary = () => {
+  const [state, dispatch] = useReducer(mediaReducer, initialState);
+  const { mediaContents, loading, uploading, isAddDialogOpen, searchTerm, currentPlaying, formData } = state;
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const thumbnailInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     fetchMediaContents();
@@ -78,21 +126,21 @@ const AdminMediaLibrary = () => {
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setMediaContents((data as MediaContent[]) || []);
+      dispatch({ type: "SET_MEDIA_CONTENTS", payload: (data as MediaContent[]) || [] });
     } catch (error) {
       console.error("Erreur lors du chargement:", error);
       toast({
         title: "Erreur",
-        description: "Impossible de charger les contenus multimÃ©dia.",
+        description: "Impossible de charger les contenus multimédia.",
         variant: "destructive",
       });
     } finally {
-      setLoading(false);
+      dispatch({ type: "SET_LOADING", payload: false });
     }
   };
 
   const handlePlayPause = (id: string) => {
-    setCurrentPlaying(currentPlaying === id ? null : id);
+    dispatch({ type: "SET_CURRENT_PLAYING", payload: currentPlaying === id ? null : id });
   };
 
   const uploadFile = async (file: File, folder: string): Promise<string> => {
@@ -104,9 +152,7 @@ const AdminMediaLibrary = () => {
       .from('media-files')
       .upload(filePath, file);
 
-    if (uploadError) {
-      throw uploadError;
-    }
+    if (uploadError) throw uploadError;
 
     const { data: { publicUrl } } = supabase.storage
       .from('media-files')
@@ -117,32 +163,28 @@ const AdminMediaLibrary = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!mediaFile) {
       toast({
         title: "Erreur",
-        description: "Veuillez sÃ©lectionner un fichier multimÃ©dia.",
+        description: "Veuillez sélectionner un fichier multimédia.",
         variant: "destructive",
       });
       return;
     }
 
-    setUploading(true);
+    dispatch({ type: "SET_UPLOADING", payload: true });
 
     try {
-      // Upload main media file
       const fileUrl = await uploadFile(mediaFile, formData.content_type);
-      
-      // Upload thumbnail if provided
+
       let thumbnailUrl = null;
       if (thumbnailFile) {
         thumbnailUrl = await uploadFile(thumbnailFile, 'thumbnails');
       }
 
-      // Get file size
       const fileSize = mediaFile.size;
 
-      // Insert into database
       const { error } = await supabase
         .from("media_content")
         .insert({
@@ -159,34 +201,26 @@ const AdminMediaLibrary = () => {
 
       if (error) throw error;
 
-      // Reset form and refresh data
-      setFormData({
-        title: "",
-        description: "",
-        content_type: "audio",
-        category: "",
-        difficulty: "DÃ©butant",
-        status: "draft",
-      });
+      dispatch({ type: "RESET_FORM" });
       setMediaFile(null);
       setThumbnailFile(null);
-      setIsAddDialogOpen(false);
-      
+      dispatch({ type: "SET_DIALOG_OPEN", payload: false });
+
       await fetchMediaContents();
 
       toast({
-        title: "SuccÃ¨s",
-        description: "Contenu multimÃ©dia ajoutÃ© avec succÃ¨s.",
+        title: "Succès",
+        description: "Contenu multimédia ajouté avec succès.",
       });
     } catch (error) {
       console.error("Erreur lors de l'ajout:", error);
       toast({
         title: "Erreur",
-        description: "Impossible d'ajouter le contenu multimÃ©dia.",
+        description: "Impossible d'ajouter le contenu multimédia.",
         variant: "destructive",
       });
     } finally {
-      setUploading(false);
+      dispatch({ type: "SET_UPLOADING", payload: false });
     }
   };
 
@@ -201,8 +235,8 @@ const AdminMediaLibrary = () => {
 
       await fetchMediaContents();
       toast({
-        title: "SuccÃ¨s",
-        description: "Contenu supprimÃ© avec succÃ¨s.",
+        title: "Succès",
+        description: "Contenu supprimé avec succès.",
       });
     } catch (error) {
       console.error("Erreur lors de la suppression:", error);
@@ -216,25 +250,18 @@ const AdminMediaLibrary = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "published":
-        return "default";
-      case "draft":
-        return "secondary";
-      default:
-        return "outline";
+      case "published": return "default";
+      case "draft": return "secondary";
+      default: return "outline";
     }
   };
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case "DÃ©butant":
-        return "default";
-      case "IntermÃ©diaire":
-        return "secondary";
-      case "AvancÃ©":
-        return "destructive";
-      default:
-        return "outline";
+      case "Débutant": return "default";
+      case "Intermédiaire": return "secondary";
+      case "Avancé": return "destructive";
+      default: return "outline";
     }
   };
 
@@ -270,16 +297,13 @@ const AdminMediaLibrary = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Gestion de la mÃ©diathÃ¨que</h1>
-          <p className="text-muted-foreground">
-            GÃ©rez vos contenus audio et vidÃ©o
-          </p>
+          <h1 className="text-3xl font-bold">Gestion de la médiathèque</h1>
+          <p className="text-muted-foreground">Gérez vos contenus audio et vidéo</p>
         </div>
-        
-        <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
+
+        <Dialog open={isAddDialogOpen} onOpenChange={(open) => dispatch({ type: "SET_DIALOG_OPEN", payload: open })}>
           <DialogTrigger asChild>
             <Button>
               <Plus className="w-4 h-4 mr-2" />
@@ -290,10 +314,10 @@ const AdminMediaLibrary = () => {
             <DialogHeader>
               <DialogTitle>Ajouter un nouveau contenu</DialogTitle>
               <DialogDescription>
-                Ajoutez un nouveau fichier audio ou vidÃ©o Ã  votre mÃ©diathÃ¨que.
+                Ajoutez un nouveau fichier audio ou vidéo à votre médiathèque.
               </DialogDescription>
             </DialogHeader>
-            
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -301,17 +325,17 @@ const AdminMediaLibrary = () => {
                   <Input
                     id="title"
                     value={formData.title}
-                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                    onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { title: e.target.value } })}
                     placeholder="Titre du contenu"
                     required
                   />
                 </div>
                 <div>
                   <Label htmlFor="content_type">Type de contenu *</Label>
-                  <Select 
-                    value={formData.content_type} 
-                    onValueChange={(value: "audio" | "video") => 
-                      setFormData(prev => ({ ...prev, content_type: value }))
+                  <Select
+                    value={formData.content_type}
+                    onValueChange={(value: "audio" | "video") =>
+                      dispatch({ type: "UPDATE_FORM", payload: { content_type: value } })
                     }
                   >
                     <SelectTrigger>
@@ -319,7 +343,7 @@ const AdminMediaLibrary = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="audio">Audio</SelectItem>
-                      <SelectItem value="video">VidÃ©o</SelectItem>
+                      <SelectItem value="video">Vidéo</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -330,7 +354,7 @@ const AdminMediaLibrary = () => {
                 <Textarea
                   id="description"
                   value={formData.description}
-                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                  onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { description: e.target.value } })}
                   placeholder="Description du contenu"
                   rows={3}
                 />
@@ -338,30 +362,30 @@ const AdminMediaLibrary = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="category">CatÃ©gorie *</Label>
+                  <Label htmlFor="category">Catégorie *</Label>
                   <Input
                     id="category"
                     value={formData.category}
-                    onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                    placeholder="ex: Relaxation, Stress, Ã‰ducatif"
+                    onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { category: e.target.value } })}
+                    placeholder="ex: Relaxation, Stress, Éducatif"
                     required
                   />
                 </div>
                 <div>
-                  <Label htmlFor="difficulty">DifficultÃ©</Label>
-                  <Select 
-                    value={formData.difficulty} 
-                    onValueChange={(value: "DÃ©butant" | "IntermÃ©diaire" | "AvancÃ©") => 
-                      setFormData(prev => ({ ...prev, difficulty: value }))
+                  <Label htmlFor="difficulty">Difficulté</Label>
+                  <Select
+                    value={formData.difficulty}
+                    onValueChange={(value: "Débutant" | "Intermédiaire" | "Avancé") =>
+                      dispatch({ type: "UPDATE_FORM", payload: { difficulty: value } })
                     }
                   >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="DÃ©butant">DÃ©butant</SelectItem>
-                      <SelectItem value="IntermÃ©diaire">IntermÃ©diaire</SelectItem>
-                      <SelectItem value="AvancÃ©">AvancÃ©</SelectItem>
+                      <SelectItem value="Débutant">Débutant</SelectItem>
+                      <SelectItem value="Intermédiaire">Intermédiaire</SelectItem>
+                      <SelectItem value="Avancé">Avancé</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -369,10 +393,10 @@ const AdminMediaLibrary = () => {
 
               <div>
                 <Label htmlFor="status">Statut</Label>
-                <Select 
-                  value={formData.status} 
-                  onValueChange={(value: "draft" | "published") => 
-                    setFormData(prev => ({ ...prev, status: value }))
+                <Select
+                  value={formData.status}
+                  onValueChange={(value: "draft" | "published") =>
+                    dispatch({ type: "UPDATE_FORM", payload: { status: value } })
                   }
                 >
                   <SelectTrigger>
@@ -380,14 +404,13 @@ const AdminMediaLibrary = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="draft">Brouillon</SelectItem>
-                    <SelectItem value="published">PubliÃ©</SelectItem>
+                    <SelectItem value="published">Publié</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* File upload */}
               <div className="space-y-3">
-                <Label>Fichier multimÃ©dia *</Label>
+                <Label>Fichier multimédia *</Label>
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -411,7 +434,6 @@ const AdminMediaLibrary = () => {
                 )}
               </div>
 
-              {/* Thumbnail upload for videos */}
               {formData.content_type === 'video' && (
                 <div className="space-y-3">
                   <Label>Miniature (optionnel)</Label>
@@ -438,13 +460,13 @@ const AdminMediaLibrary = () => {
                 <Button
                   type="button"
                   variant="outline"
-                  onClick={() => setIsAddDialogOpen(false)}
+                  onClick={() => dispatch({ type: "SET_DIALOG_OPEN", payload: false })}
                   disabled={uploading}
                 >
                   Annuler
                 </Button>
                 <Button type="submit" disabled={uploading}>
-                  {uploading ? "Ajout en cours..." : "Ajouter le contenu"}
+                  {uploading ? "Ajout en cours…" : "Ajouter le contenu"}
                 </Button>
               </div>
             </form>
@@ -452,42 +474,38 @@ const AdminMediaLibrary = () => {
         </Dialog>
       </div>
 
-      {/* Search */}
       <div className="flex items-center space-x-2">
         <Search className="w-4 h-4 text-muted-foreground" />
         <Input
-          placeholder="Rechercher dans la mÃ©diathÃ¨que..."
+          placeholder="Rechercher dans la médiathèque..."
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => dispatch({ type: "SET_SEARCH_TERM", payload: e.target.value })}
           className="max-w-sm"
         />
       </div>
 
-      {/* Tabs */}
       <Tabs defaultValue="audio" className="space-y-6">
         <TabsList>
           <TabsTrigger value="audio">Contenus Audio ({filteredAudio.length})</TabsTrigger>
-          <TabsTrigger value="video">Contenus VidÃ©o ({filteredVideo.length})</TabsTrigger>
+          <TabsTrigger value="video">Contenus Vidéo ({filteredVideo.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="audio" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Fichiers Audio</CardTitle>
-              <CardDescription>
-                GÃ©rez vos sÃ©ances audio de sophrologie et d'hypnose
-              </CardDescription>
+              <CardDescription>Gérez vos séances audio de sophrologie et d'hypnose</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Titre</TableHead>
-                    <TableHead>CatÃ©gorie</TableHead>
-                    <TableHead>DurÃ©e</TableHead>
-                    <TableHead>DifficultÃ©</TableHead>
+                    <TableHead>Catégorie</TableHead>
+                    <TableHead>Durée</TableHead>
+                    <TableHead>Difficulté</TableHead>
                     <TableHead>Statut</TableHead>
-                    <TableHead>TÃ©lÃ©chargements</TableHead>
+                    <TableHead>Téléchargements</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -497,49 +515,21 @@ const AdminMediaLibrary = () => {
                       <TableCell>
                         <div>
                           <div className="font-medium">{item.title}</div>
-                          <div className="text-sm text-muted-foreground truncate max-w-xs">
-                            {item.description}
-                          </div>
+                          <div className="text-sm text-muted-foreground truncate max-w-xs">{item.description}</div>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <Badge variant="outline">{item.category}</Badge>
-                      </TableCell>
+                      <TableCell><Badge variant="outline">{item.category}</Badge></TableCell>
                       <TableCell>{item.duration}</TableCell>
-                      <TableCell>
-                        <Badge variant={getDifficultyColor(item.difficulty)}>
-                          {item.difficulty}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={getStatusColor(item.status)}>
-                          {item.status === "published" ? "PubliÃ©" : "Brouillon"}
-                        </Badge>
-                      </TableCell>
+                      <TableCell><Badge variant={getDifficultyColor(item.difficulty)}>{item.difficulty}</Badge></TableCell>
+                      <TableCell><Badge variant={getStatusColor(item.status)}>{item.status === "published" ? "Publié" : "Brouillon"}</Badge></TableCell>
                       <TableCell>{item.downloads || 0}</TableCell>
                       <TableCell>
                         <div className="flex items-center space-x-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handlePlayPause(item.id)}
-                          >
-                            {currentPlaying === item.id ? (
-                              <Pause className="w-4 h-4" />
-                            ) : (
-                              <Play className="w-4 h-4" />
-                            )}
+                          <Button variant="ghost" size="sm" onClick={() => handlePlayPause(item.id)}>
+                            {currentPlaying === item.id ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                           </Button>
-                          <Button variant="ghost" size="sm">
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={() => deleteContent(item.id)}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
+                          <Button variant="ghost" size="sm"><Edit className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="sm" onClick={() => deleteContent(item.id)}><Trash2 className="w-4 h-4" /></Button>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -553,19 +543,17 @@ const AdminMediaLibrary = () => {
         <TabsContent value="video" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Fichiers VidÃ©o</CardTitle>
-              <CardDescription>
-                GÃ©rez vos contenus vidÃ©o Ã©ducatifs et sÃ©ances guidÃ©es
-              </CardDescription>
+              <CardTitle>Fichiers Vidéo</CardTitle>
+              <CardDescription>Gérez vos contenus vidéo éducatifs et séances guidées</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>Titre</TableHead>
-                    <TableHead>CatÃ©gorie</TableHead>
-                    <TableHead>DurÃ©e</TableHead>
-                    <TableHead>DifficultÃ©</TableHead>
+                    <TableHead>Catégorie</TableHead>
+                    <TableHead>Durée</TableHead>
+                    <TableHead>Difficulté</TableHead>
                     <TableHead>Statut</TableHead>
                     <TableHead>Vues</TableHead>
                     <TableHead>Actions</TableHead>
@@ -577,49 +565,21 @@ const AdminMediaLibrary = () => {
                       <TableCell>
                         <div>
                           <div className="font-medium">{item.title}</div>
-                          <div className="text-sm text-muted-foreground truncate max-w-xs">
-                            {item.description}
-                          </div>
+                          <div className="text-sm text-muted-foreground truncate max-w-xs">{item.description}</div>
                         </div>
                       </TableCell>
-                      <TableCell>
-                        <Badge variant="outline">{item.category}</Badge>
-                      </TableCell>
+                      <TableCell><Badge variant="outline">{item.category}</Badge></TableCell>
                       <TableCell>{item.duration}</TableCell>
-                      <TableCell>
-                        <Badge variant={getDifficultyColor(item.difficulty)}>
-                          {item.difficulty}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Badge variant={getStatusColor(item.status)}>
-                          {item.status === "published" ? "PubliÃ©" : "Brouillon"}
-                        </Badge>
-                      </TableCell>
+                      <TableCell><Badge variant={getDifficultyColor(item.difficulty)}>{item.difficulty}</Badge></TableCell>
+                      <TableCell><Badge variant={getStatusColor(item.status)}>{item.status === "published" ? "Publié" : "Brouillon"}</Badge></TableCell>
                       <TableCell>{item.views || 0}</TableCell>
                       <TableCell>
                         <div className="flex items-center space-x-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handlePlayPause(item.id)}
-                          >
-                            {currentPlaying === item.id ? (
-                              <Pause className="w-4 h-4" />
-                            ) : (
-                              <Play className="w-4 h-4" />
-                            )}
+                          <Button variant="ghost" size="sm" onClick={() => handlePlayPause(item.id)}>
+                            {currentPlaying === item.id ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                           </Button>
-                          <Button variant="ghost" size="sm">
-                            <Edit className="w-4 h-4" />
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={() => deleteContent(item.id)}
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </Button>
+                          <Button variant="ghost" size="sm"><Edit className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="sm" onClick={() => deleteContent(item.id)}><Trash2 className="w-4 h-4" /></Button>
                         </div>
                       </TableCell>
                     </TableRow>

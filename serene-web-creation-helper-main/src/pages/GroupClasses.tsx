@@ -104,8 +104,8 @@ const GroupClasses = () => {
                           {c.participants.current}/{c.participants.max}
                         </span>
                       </div>
-                      <div style={{ height: "6px", background: "hsl(var(--background))", borderRadius: "99px", marginBottom: "8px" }}>
-                        <div style={{ height: "6px", width: `${pct}%`, background: pct >= 90 ? "#B20000" : "hsl(var(--foreground))", borderRadius: "99px", transition: "width 0.3s" }} />
+                      <div style={{ height: "6px", background: "hsl(var(--background))", borderRadius: "99px", marginBottom: "8px", overflow: "hidden" }}>
+                        <div style={{ height: "6px", width: "100%", transformOrigin: "left", transform: `scaleX(${pct / 100})`, background: pct >= 90 ? "#B20000" : "hsl(var(--foreground))", borderRadius: "99px", transition: "transform 0.3s" }} />
                       </div>
                       <p style={{ fontSize: "12px", color: "hsl(var(--foreground))", opacity: 0.6 }}>{getAvailabilityText(c.participants.current, c.participants.max)}</p>
                     </div>
