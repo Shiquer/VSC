@@ -112,5 +112,7 @@ export function AdminSidebar() {
         </SidebarGroup>
       </SidebarContent>
     </Sidebar>
+      );
+}
   );
 }
