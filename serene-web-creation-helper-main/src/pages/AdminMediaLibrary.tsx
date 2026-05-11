@@ -253,8 +253,8 @@ const AdminMediaLibrary = () => {
   if (loading) {
     return (
       <div className="space-y-4">
-        {[...Array(6)].map((_, i) => (
-          <Card key={`skeleton-${i}`} className="h-32">
+        {["a","b","c","d","e","f"].map((k) => (
+          <Card key={`skeleton-${k}`} className="h-32">
             <CardContent className="p-6">
               <div className="animate-pulse space-y-2">
                 <div className="h-4 bg-muted rounded w-1/4"></div>

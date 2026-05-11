@@ -85,8 +85,8 @@ const Footer = () => {
               {getContent("footer_hours_title", "Horaires")}
             </p>
             <div style={{ fontSize: "14px", lineHeight: "1.8", color: "hsl(var(--primary-foreground))", opacity: 0.8, marginBottom: "24px" }}>
-              {getContent("footer_hours", "Mardi: 8h - 21h\nVendredi: 8h - 21h\nSamedi: 8h - 13h").split(/\n|<br\s*\/?>/i).map((line, i) => (
-                <span key={i} style={{ display: "block" }}>{line}</span>
+              {getContent("footer_hours", "Mardi: 8h - 21h\nVendredi: 8h - 21h\nSamedi: 8h - 13h").split(/\n|<br\s*\/?>/i).map((line) => (
+                <span key={line} style={{ display: "block" }}>{line}</span>
               ))}
             </div>
             <Link to="/reservation">

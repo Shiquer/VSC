@@ -117,8 +117,8 @@ const Hero = () => {
                 </span>
               </div>
               <div style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7 }}>
-                {getContent("hero_hours", "Mardi et vendredi de 8h à 21h\net samedi de 8h à 13h").split(/\n|<br\s*\/?>/i).map((line, i) => (
-                  <span key={i} style={{ display: "block" }}>{line}</span>
+                {getContent("hero_hours", "Mardi et vendredi de 8h à 21h\net samedi de 8h à 13h").split(/\n|<br\s*\/?>/i).map((line) => (
+                  <span key={line} style={{ display: "block" }}>{line}</span>
                 ))}
               </div>
             </div>

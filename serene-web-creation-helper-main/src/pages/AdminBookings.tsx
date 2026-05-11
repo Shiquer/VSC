@@ -100,8 +100,8 @@ const AdminBookings = () => {
   if (loading) {
     return (
       <div className="space-y-4">
-        {[...Array(5)].map((_, i) => (
-          <Card key={`skeleton-${i}`} className="h-48">
+        {["a","b","c","d","e"].map((k) => (
+          <Card key={`skeleton-${k}`} className="h-48">
             <CardContent className="p-6">
               <div className="animate-pulse space-y-3">
                 <div className="h-4 bg-muted rounded w-1/3"></div>
