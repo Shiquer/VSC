@@ -130,8 +130,8 @@ const AdminContent = () => {
       setImageFile(null);
 
       toast({
-        title: "Succès",
-        description: "Contenu mis à jour avec succès.",
+        title: "SuccÃ¨s",
+        description: "Contenu mis Ã  jour avec succÃ¨s.",
       });
     } catch (error) {
       console.error("Erreur lors de la sauvegarde:", error);
@@ -159,12 +159,12 @@ const AdminContent = () => {
 
       await fetchContents();
       if (editingId === contentId) {
-        setEditForm({ ...editForm, image_url: "" });
+        setEditForm(prev => ({ ...prev, image_url: "" }));
       }
 
       toast({
-        title: "Succès",
-        description: "Image supprimée avec succès.",
+        title: "SuccÃ¨s",
+        description: "Image supprimÃ©e avec succÃ¨s.",
       });
     } catch (error) {
       console.error("Erreur lors de la suppression:", error);
@@ -177,7 +177,7 @@ const AdminContent = () => {
   };
 
   const deleteContent = async (contentId: string) => {
-    if (!confirm("Êtes-vous sûr de vouloir supprimer ce contenu ? Cette action est irréversible.")) {
+    if (!confirm("ÃŠtes-vous sÃ»r de vouloir supprimer ce contenu ? Cette action est irrÃ©versible.")) {
       return;
     }
 
@@ -192,8 +192,8 @@ const AdminContent = () => {
       await fetchContents();
       
       toast({
-        title: "Succès",
-        description: "Contenu supprimé avec succès.",
+        title: "SuccÃ¨s",
+        description: "Contenu supprimÃ© avec succÃ¨s.",
       });
     } catch (error) {
       console.error("Erreur lors de la suppression:", error);
@@ -274,14 +274,14 @@ const AdminContent = () => {
       setCreateImageFile(null);
 
       toast({
-        title: "Succès",
-        description: "Nouveau contenu créé avec succès.",
+        title: "SuccÃ¨s",
+        description: "Nouveau contenu crÃ©Ã© avec succÃ¨s.",
       });
     } catch (error) {
-      console.error("Erreur lors de la création:", error);
+      console.error("Erreur lors de la crÃ©ation:", error);
       toast({
         title: "Erreur",
-        description: "Impossible de créer le contenu.",
+        description: "Impossible de crÃ©er le contenu.",
         variant: "destructive",
       });
     } finally {
@@ -298,10 +298,10 @@ const AdminContent = () => {
   }, {} as Record<string, SiteContent[]>);
 
   const sectionTitles = {
-    header: "En-tête / Navigation",
+    header: "En-tÃªte / Navigation",
     hero: "Page d'accueil - Section principale",
-    services: "Services et spécialités",
-    about: "À propos",
+    services: "Services et spÃ©cialitÃ©s",
+    about: "Ã€ propos",
     contact: "Contact et informations",
     footer: "Pied de page",
   };
@@ -310,7 +310,7 @@ const AdminContent = () => {
     return (
       <div className="space-y-4">
         {[...Array(6)].map((_, i) => (
-          <Card key={i} className="h-32">
+          <Card key={`skeleton-${i}`} className="h-32">
             <CardContent className="p-6">
               <div className="animate-pulse space-y-2">
                 <div className="h-4 bg-muted rounded w-1/4"></div>
@@ -330,7 +330,7 @@ const AdminContent = () => {
         <div>
           <h2 className="text-2xl font-bold mb-2">Gestion du contenu</h2>
           <p className="text-muted-foreground">
-            Modifiez le contenu affiché sur votre site web.
+            Modifiez le contenu affichÃ© sur votre site web.
           </p>
         </div>
         <Button onClick={startCreate} disabled={isCreating}>
@@ -343,7 +343,7 @@ const AdminContent = () => {
       {isCreating && (
         <Card className="border-primary/20 bg-primary/5">
           <CardHeader>
-            <CardTitle>Créer un nouveau contenu</CardTitle>
+            <CardTitle>CrÃ©er un nouveau contenu</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
@@ -352,17 +352,17 @@ const AdminContent = () => {
                 <Input
                   value={createForm.title}
                   onChange={(e) =>
-                    setCreateForm({ ...createForm, title: e.target.value })
+                    setCreateForm(prev => ({ ...prev, title: e.target.value }))
                   }
                   placeholder="Titre du contenu"
                 />
               </div>
               <div>
-                <Label className="text-sm font-medium mb-2 block">Clé unique *</Label>
+                <Label className="text-sm font-medium mb-2 block">ClÃ© unique *</Label>
                 <Input
                   value={createForm.key}
                   onChange={(e) =>
-                    setCreateForm({ ...createForm, key: e.target.value })
+                    setCreateForm(prev => ({ ...prev, key: e.target.value }))
                   }
                   placeholder="ex: hero_title, about_description"
                 />
@@ -375,14 +375,14 @@ const AdminContent = () => {
                 <select
                   value={createForm.section}
                   onChange={(e) =>
-                    setCreateForm({ ...createForm, section: e.target.value })
+                    setCreateForm(prev => ({ ...prev, section: e.target.value }))
                   }
                   className="w-full px-3 py-2 rounded-md border border-input bg-background text-sm"
                 >
-                  <option value="header">En-tête / Navigation</option>
+                  <option value="header">En-tÃªte / Navigation</option>
                   <option value="hero">Page d'accueil - Section principale</option>
-                  <option value="services">Services et spécialités</option>
-                  <option value="about">À propos</option>
+                  <option value="services">Services et spÃ©cialitÃ©s</option>
+                  <option value="about">Ã€ propos</option>
                   <option value="contact">Contact et informations</option>
                   <option value="footer">Pied de page</option>
                 </select>
@@ -392,7 +392,7 @@ const AdminContent = () => {
                 <select
                   value={createForm.content_type}
                   onChange={(e) =>
-                    setCreateForm({ ...createForm, content_type: e.target.value })
+                    setCreateForm(prev => ({ ...prev, content_type: e.target.value }))
                   }
                   className="w-full px-3 py-2 rounded-md border border-input bg-background text-sm"
                 >
@@ -407,14 +407,14 @@ const AdminContent = () => {
               <Textarea
                 value={createForm.content}
                 onChange={(e) =>
-                  setCreateForm({ ...createForm, content: e.target.value })
+                  setCreateForm(prev => ({ ...prev, content: e.target.value }))
                 }
                 placeholder="Contenu de la section"
                 rows={createForm.content_type === "html" ? 6 : 4}
               />
               {createForm.content_type === "html" && (
                 <p className="text-xs text-muted-foreground mt-1">
-                  HTML autorisé: &lt;br&gt;, &lt;strong&gt;, &lt;em&gt;, etc.
+                  HTML autorisÃ©: &lt;br&gt;, &lt;strong&gt;, &lt;em&gt;, etc.
                 </p>
               )}
             </div>
@@ -426,7 +426,7 @@ const AdminContent = () => {
               {createImageFile && (
                 <div className="space-y-2">
                   <div className="text-sm text-muted-foreground">
-                    Image sélectionnée: {createImageFile.name}
+                    Image sÃ©lectionnÃ©e: {createImageFile.name}
                   </div>
                 </div>
               )}
@@ -470,7 +470,7 @@ const AdminContent = () => {
                 className="flex-1"
               >
                 <Save className="w-4 h-4 mr-2" />
-                {uploadingImage ? "Création..." : "Créer le contenu"}
+                {uploadingImage ? "CrÃ©ation..." : "CrÃ©er le contenu"}
               </Button>
               <Button
                 variant="outline"
@@ -557,7 +557,7 @@ const AdminContent = () => {
                         <Input
                           value={editForm.title}
                           onChange={(e) =>
-                            setEditForm({ ...editForm, title: e.target.value })
+                            setEditForm(prev => ({ ...prev, title: e.target.value }))
                           }
                           placeholder="Titre de la section"
                         />
@@ -567,14 +567,14 @@ const AdminContent = () => {
                         <Textarea
                           value={editForm.content}
                           onChange={(e) =>
-                            setEditForm({ ...editForm, content: e.target.value })
+                            setEditForm(prev => ({ ...prev, content: e.target.value }))
                           }
                           placeholder="Contenu de la section"
                           rows={content.content_type === "html" ? 6 : 4}
                         />
                         {content.content_type === "html" && (
                           <p className="text-xs text-muted-foreground mt-1">
-                            HTML autorisé: &lt;br&gt;, &lt;strong&gt;, &lt;em&gt;, etc.
+                            HTML autorisÃ©: &lt;br&gt;, &lt;strong&gt;, &lt;em&gt;, etc.
                           </p>
                         )}
                       </div>
@@ -589,7 +589,7 @@ const AdminContent = () => {
                             <div className="relative inline-block">
                               <img
                                 src={editForm.image_url || content.image_url}
-                                alt="Aperçu"
+                                alt="AperÃ§u"
                                 className="max-w-xs max-h-32 object-cover rounded-md border"
                               />
                               <Button
@@ -628,7 +628,7 @@ const AdminContent = () => {
                           {imageFile && (
                             <div className="flex items-center justify-between text-sm">
                               <span className="text-muted-foreground">
-                                Nouvelle image sélectionnée: {imageFile.name}
+                                Nouvelle image sÃ©lectionnÃ©e: {imageFile.name}
                               </span>
                               <Button
                                 type="button"
@@ -673,7 +673,7 @@ const AdminContent = () => {
                       </div>
                       
                       <p className="text-xs text-muted-foreground">
-                        Clé: <code className="bg-muted px-1 rounded">{content.key}</code>
+                        ClÃ©: <code className="bg-muted px-1 rounded">{content.key}</code>
                       </p>
                     </div>
                   )}

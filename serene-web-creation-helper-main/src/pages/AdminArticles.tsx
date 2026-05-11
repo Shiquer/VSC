@@ -154,14 +154,14 @@ export default function AdminArticles() {
           .eq("id", formData.id);
 
         if (error) throw error;
-        toast.success("Article mis à jour avec succès");
+        toast.success("Article mis Ã  jour avec succÃ¨s");
       } else {
         const { error } = await supabase
           .from("articles")
           .insert([articleData]);
 
         if (error) throw error;
-        toast.success("Article créé avec succès");
+        toast.success("Article crÃ©Ã© avec succÃ¨s");
       }
 
       setUploadProgress(100);
@@ -177,13 +177,13 @@ export default function AdminArticles() {
   };
 
   const deleteArticle = async (id: string) => {
-    if (!confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) return;
+    if (!confirm("ÃŠtes-vous sÃ»r de vouloir supprimer cet article ?")) return;
 
     try {
       const { error } = await supabase.from("articles").delete().eq("id", id);
 
       if (error) throw error;
-      toast.success("Article supprimé");
+      toast.success("Article supprimÃ©");
       fetchArticles();
     } catch (error) {
       console.error("Error deleting article:", error);
@@ -277,7 +277,7 @@ export default function AdminArticles() {
             <TableRow>
               <TableHead>Image</TableHead>
               <TableHead>Titre</TableHead>
-              <TableHead>Catégorie</TableHead>
+              <TableHead>CatÃ©gorie</TableHead>
               <TableHead>Statut</TableHead>
               <TableHead>Date</TableHead>
               <TableHead>Actions</TableHead>
@@ -343,7 +343,7 @@ export default function AdminArticles() {
                 id="title"
                 value={formData.title}
                 onChange={(e) =>
-                  setFormData({ ...formData, title: e.target.value })
+                  setFormData(prev => ({ ...prev, title: e.target.value }))
                 }
                 required
               />
@@ -355,9 +355,9 @@ export default function AdminArticles() {
                 id="slug"
                 value={formData.slug}
                 onChange={(e) =>
-                  setFormData({ ...formData, slug: e.target.value })
+                  setFormData(prev => ({ ...prev, slug: e.target.value }))
                 }
-                placeholder="Généré automatiquement si vide"
+                placeholder="GÃ©nÃ©rÃ© automatiquement si vide"
               />
             </div>
 
@@ -367,7 +367,7 @@ export default function AdminArticles() {
                 id="excerpt"
                 value={formData.excerpt}
                 onChange={(e) =>
-                  setFormData({ ...formData, excerpt: e.target.value })
+                  setFormData(prev => ({ ...prev, excerpt: e.target.value }))
                 }
                 rows={3}
               />
@@ -379,7 +379,7 @@ export default function AdminArticles() {
                 id="content"
                 value={formData.content}
                 onChange={(e) =>
-                  setFormData({ ...formData, content: e.target.value })
+                  setFormData(prev => ({ ...prev, content: e.target.value }))
                 }
                 rows={10}
                 required
@@ -387,7 +387,7 @@ export default function AdminArticles() {
             </div>
 
             <div>
-              <Label htmlFor="image">Image à la une</Label>
+              <Label htmlFor="image">Image Ã  la une</Label>
               <Input
                 id="image"
                 type="file"
@@ -404,25 +404,25 @@ export default function AdminArticles() {
             </div>
 
             <div>
-              <Label htmlFor="category">Catégorie</Label>
+              <Label htmlFor="category">CatÃ©gorie</Label>
               <Input
                 id="category"
                 value={formData.category}
                 onChange={(e) =>
-                  setFormData({ ...formData, category: e.target.value })
+                  setFormData(prev => ({ ...prev, category: e.target.value }))
                 }
               />
             </div>
 
             <div>
-              <Label htmlFor="tags">Tags (séparés par des virgules)</Label>
+              <Label htmlFor="tags">Tags (sÃ©parÃ©s par des virgules)</Label>
               <Input
                 id="tags"
                 value={formData.tags}
                 onChange={(e) =>
-                  setFormData({ ...formData, tags: e.target.value })
+                  setFormData(prev => ({ ...prev, tags: e.target.value }))
                 }
-                placeholder="sophrologie, bien-être, stress"
+                placeholder="sophrologie, bien-Ãªtre, stress"
               />
             </div>
 
@@ -431,7 +431,7 @@ export default function AdminArticles() {
               <Select
                 value={formData.status}
                 onValueChange={(value) =>
-                  setFormData({ ...formData, status: value })
+                  setFormData(prev => ({ ...prev, status: value }))
                 }
               >
                 <SelectTrigger>
@@ -439,7 +439,7 @@ export default function AdminArticles() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="draft">Brouillon</SelectItem>
-                  <SelectItem value="published">Publié</SelectItem>
+                  <SelectItem value="published">PubliÃ©</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -462,7 +462,7 @@ export default function AdminArticles() {
                 Annuler
               </Button>
               <Button type="submit">
-                {formData.id ? "Mettre à jour" : "Créer"}
+                {formData.id ? "Mettre Ã  jour" : "CrÃ©er"}
               </Button>
             </div>
           </form>

@@ -58,7 +58,7 @@ const AdminMediaLibrary = () => {
     description: "",
     content_type: "audio" as "audio" | "video",
     category: "",
-    difficulty: "Débutant" as "Débutant" | "Intermédiaire" | "Avancé",
+    difficulty: "DÃ©butant" as "DÃ©butant" | "IntermÃ©diaire" | "AvancÃ©",
     status: "draft" as "draft" | "published",
   });
   const [mediaFile, setMediaFile] = useState<File | null>(null);
@@ -83,7 +83,7 @@ const AdminMediaLibrary = () => {
       console.error("Erreur lors du chargement:", error);
       toast({
         title: "Erreur",
-        description: "Impossible de charger les contenus multimédia.",
+        description: "Impossible de charger les contenus multimÃ©dia.",
         variant: "destructive",
       });
     } finally {
@@ -121,7 +121,7 @@ const AdminMediaLibrary = () => {
     if (!mediaFile) {
       toast({
         title: "Erreur",
-        description: "Veuillez sélectionner un fichier multimédia.",
+        description: "Veuillez sÃ©lectionner un fichier multimÃ©dia.",
         variant: "destructive",
       });
       return;
@@ -146,7 +146,7 @@ const AdminMediaLibrary = () => {
       const { data: { user } } = await supabase.auth.getUser();
       
       if (!user) {
-        throw new Error("Utilisateur non authentifié");
+        throw new Error("Utilisateur non authentifiÃ©");
       }
 
       // Insert into database
@@ -173,7 +173,7 @@ const AdminMediaLibrary = () => {
         description: "",
         content_type: "audio",
         category: "",
-        difficulty: "Débutant",
+        difficulty: "DÃ©butant",
         status: "draft",
       });
       setMediaFile(null);
@@ -183,14 +183,14 @@ const AdminMediaLibrary = () => {
       await fetchMediaContents();
 
       toast({
-        title: "Succès",
-        description: "Contenu multimédia ajouté avec succès.",
+        title: "SuccÃ¨s",
+        description: "Contenu multimÃ©dia ajoutÃ© avec succÃ¨s.",
       });
     } catch (error) {
       console.error("Erreur lors de l'ajout:", error);
       toast({
         title: "Erreur",
-        description: "Impossible d'ajouter le contenu multimédia.",
+        description: "Impossible d'ajouter le contenu multimÃ©dia.",
         variant: "destructive",
       });
     } finally {
@@ -209,8 +209,8 @@ const AdminMediaLibrary = () => {
 
       await fetchMediaContents();
       toast({
-        title: "Succès",
-        description: "Contenu supprimé avec succès.",
+        title: "SuccÃ¨s",
+        description: "Contenu supprimÃ© avec succÃ¨s.",
       });
     } catch (error) {
       console.error("Erreur lors de la suppression:", error);
@@ -235,11 +235,11 @@ const AdminMediaLibrary = () => {
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case "Débutant":
+      case "DÃ©butant":
         return "default";
-      case "Intermédiaire":
+      case "IntermÃ©diaire":
         return "secondary";
-      case "Avancé":
+      case "AvancÃ©":
         return "destructive";
       default:
         return "outline";
@@ -262,7 +262,7 @@ const AdminMediaLibrary = () => {
     return (
       <div className="space-y-4">
         {[...Array(6)].map((_, i) => (
-          <Card key={i} className="h-32">
+          <Card key={`skeleton-${i}`} className="h-32">
             <CardContent className="p-6">
               <div className="animate-pulse space-y-2">
                 <div className="h-4 bg-muted rounded w-1/4"></div>
@@ -281,9 +281,9 @@ const AdminMediaLibrary = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Gestion de la médiathèque</h1>
+          <h1 className="text-3xl font-bold">Gestion de la mÃ©diathÃ¨que</h1>
           <p className="text-muted-foreground">
-            Gérez vos contenus audio et vidéo
+            GÃ©rez vos contenus audio et vidÃ©o
           </p>
         </div>
         
@@ -298,7 +298,7 @@ const AdminMediaLibrary = () => {
             <DialogHeader>
               <DialogTitle>Ajouter un nouveau contenu</DialogTitle>
               <DialogDescription>
-                Ajoutez un nouveau fichier audio ou vidéo à votre médiathèque.
+                Ajoutez un nouveau fichier audio ou vidÃ©o Ã  votre mÃ©diathÃ¨que.
               </DialogDescription>
             </DialogHeader>
             
@@ -309,7 +309,7 @@ const AdminMediaLibrary = () => {
                   <Input
                     id="title"
                     value={formData.title}
-                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                    onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                     placeholder="Titre du contenu"
                     required
                   />
@@ -319,7 +319,7 @@ const AdminMediaLibrary = () => {
                   <Select 
                     value={formData.content_type} 
                     onValueChange={(value: "audio" | "video") => 
-                      setFormData({ ...formData, content_type: value })
+                      setFormData(prev => ({ ...prev, content_type: value }))
                     }
                   >
                     <SelectTrigger>
@@ -327,7 +327,7 @@ const AdminMediaLibrary = () => {
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="audio">Audio</SelectItem>
-                      <SelectItem value="video">Vidéo</SelectItem>
+                      <SelectItem value="video">VidÃ©o</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -338,7 +338,7 @@ const AdminMediaLibrary = () => {
                 <Textarea
                   id="description"
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                   placeholder="Description du contenu"
                   rows={3}
                 />
@@ -346,30 +346,30 @@ const AdminMediaLibrary = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="category">Catégorie *</Label>
+                  <Label htmlFor="category">CatÃ©gorie *</Label>
                   <Input
                     id="category"
                     value={formData.category}
-                    onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    placeholder="ex: Relaxation, Stress, Éducatif"
+                    onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
+                    placeholder="ex: Relaxation, Stress, Ã‰ducatif"
                     required
                   />
                 </div>
                 <div>
-                  <Label htmlFor="difficulty">Difficulté</Label>
+                  <Label htmlFor="difficulty">DifficultÃ©</Label>
                   <Select 
                     value={formData.difficulty} 
-                    onValueChange={(value: "Débutant" | "Intermédiaire" | "Avancé") => 
-                      setFormData({ ...formData, difficulty: value })
+                    onValueChange={(value: "DÃ©butant" | "IntermÃ©diaire" | "AvancÃ©") => 
+                      setFormData(prev => ({ ...prev, difficulty: value }))
                     }
                   >
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Débutant">Débutant</SelectItem>
-                      <SelectItem value="Intermédiaire">Intermédiaire</SelectItem>
-                      <SelectItem value="Avancé">Avancé</SelectItem>
+                      <SelectItem value="DÃ©butant">DÃ©butant</SelectItem>
+                      <SelectItem value="IntermÃ©diaire">IntermÃ©diaire</SelectItem>
+                      <SelectItem value="AvancÃ©">AvancÃ©</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -380,7 +380,7 @@ const AdminMediaLibrary = () => {
                 <Select 
                   value={formData.status} 
                   onValueChange={(value: "draft" | "published") => 
-                    setFormData({ ...formData, status: value })
+                    setFormData(prev => ({ ...prev, status: value }))
                   }
                 >
                   <SelectTrigger>
@@ -388,14 +388,14 @@ const AdminMediaLibrary = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="draft">Brouillon</SelectItem>
-                    <SelectItem value="published">Publié</SelectItem>
+                    <SelectItem value="published">PubliÃ©</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
               {/* File upload */}
               <div className="space-y-3">
-                <Label>Fichier multimédia *</Label>
+                <Label>Fichier multimÃ©dia *</Label>
                 <input
                   type="file"
                   ref={fileInputRef}
@@ -464,7 +464,7 @@ const AdminMediaLibrary = () => {
       <div className="flex items-center space-x-2">
         <Search className="w-4 h-4 text-muted-foreground" />
         <Input
-          placeholder="Rechercher dans la médiathèque..."
+          placeholder="Rechercher dans la mÃ©diathÃ¨que..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="max-w-sm"
@@ -475,7 +475,7 @@ const AdminMediaLibrary = () => {
       <Tabs defaultValue="audio" className="space-y-6">
         <TabsList>
           <TabsTrigger value="audio">Contenus Audio ({filteredAudio.length})</TabsTrigger>
-          <TabsTrigger value="video">Contenus Vidéo ({filteredVideo.length})</TabsTrigger>
+          <TabsTrigger value="video">Contenus VidÃ©o ({filteredVideo.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="audio" className="space-y-4">
@@ -483,7 +483,7 @@ const AdminMediaLibrary = () => {
             <CardHeader>
               <CardTitle>Fichiers Audio</CardTitle>
               <CardDescription>
-                Gérez vos séances audio de sophrologie et d'hypnose
+                GÃ©rez vos sÃ©ances audio de sophrologie et d'hypnose
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -491,11 +491,11 @@ const AdminMediaLibrary = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Titre</TableHead>
-                    <TableHead>Catégorie</TableHead>
-                    <TableHead>Durée</TableHead>
-                    <TableHead>Difficulté</TableHead>
+                    <TableHead>CatÃ©gorie</TableHead>
+                    <TableHead>DurÃ©e</TableHead>
+                    <TableHead>DifficultÃ©</TableHead>
                     <TableHead>Statut</TableHead>
-                    <TableHead>Téléchargements</TableHead>
+                    <TableHead>TÃ©lÃ©chargements</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -521,7 +521,7 @@ const AdminMediaLibrary = () => {
                       </TableCell>
                       <TableCell>
                         <Badge variant={getStatusColor(item.status)}>
-                          {item.status === "published" ? "Publié" : "Brouillon"}
+                          {item.status === "published" ? "PubliÃ©" : "Brouillon"}
                         </Badge>
                       </TableCell>
                       <TableCell>{item.downloads || 0}</TableCell>
@@ -561,9 +561,9 @@ const AdminMediaLibrary = () => {
         <TabsContent value="video" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Fichiers Vidéo</CardTitle>
+              <CardTitle>Fichiers VidÃ©o</CardTitle>
               <CardDescription>
-                Gérez vos contenus vidéo éducatifs et séances guidées
+                GÃ©rez vos contenus vidÃ©o Ã©ducatifs et sÃ©ances guidÃ©es
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -571,9 +571,9 @@ const AdminMediaLibrary = () => {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Titre</TableHead>
-                    <TableHead>Catégorie</TableHead>
-                    <TableHead>Durée</TableHead>
-                    <TableHead>Difficulté</TableHead>
+                    <TableHead>CatÃ©gorie</TableHead>
+                    <TableHead>DurÃ©e</TableHead>
+                    <TableHead>DifficultÃ©</TableHead>
                     <TableHead>Statut</TableHead>
                     <TableHead>Vues</TableHead>
                     <TableHead>Actions</TableHead>
@@ -601,7 +601,7 @@ const AdminMediaLibrary = () => {
                       </TableCell>
                       <TableCell>
                         <Badge variant={getStatusColor(item.status)}>
-                          {item.status === "published" ? "Publié" : "Brouillon"}
+                          {item.status === "published" ? "PubliÃ©" : "Brouillon"}
                         </Badge>
                       </TableCell>
                       <TableCell>{item.views || 0}</TableCell>

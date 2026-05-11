@@ -48,10 +48,10 @@ const Entreprise = () => {
         <div className="container mx-auto px-8">
           <h2 style={h2Style}>Nos accompagnements en entreprise</h2>
           <div className="grid md:grid-cols-2 gap-6" style={{ maxWidth: "960px", margin: "0 auto" }}>
-            {services.map((s, i) => {
+            {services.map((s) => {
               const Icon = s.icon;
               return (
-                <div key={i} className="arise-card" style={{ transition: "all 0.3s" }}
+                <div key={s.title} className="arise-card" style={{ transition: "all 0.3s" }}
                   onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"}
                   onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
                 >
@@ -80,8 +80,8 @@ const Entreprise = () => {
         <div className="container mx-auto px-8">
           <h2 style={h2Style}>Les bénéfices pour votre organisation</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ maxWidth: "960px", margin: "0 auto" }}>
-            {benefices.map((b, i) => (
-              <div key={i} className="arise-card" style={{ textAlign: "center" }}>
+            {benefices.map((b) => (
+              <div key={b} className="arise-card" style={{ textAlign: "center" }}>
                 <div style={{ width: "44px", height: "44px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
                   <CheckCircle style={{ width: "20px", height: "20px", color: "hsl(var(--primary-foreground))" }} />
                 </div>
@@ -97,8 +97,8 @@ const Entreprise = () => {
         <div className="container mx-auto px-8">
           <h2 style={h2Style}>Secteurs d'intervention</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ maxWidth: "960px", margin: "0 auto" }}>
-            {secteurs.map((s, i) => (
-              <div key={i} className="arise-card" style={{ textAlign: "center" }}>
+            {secteurs.map((s) => (
+              <div key={s} className="arise-card" style={{ textAlign: "center" }}>
                 <div style={{ width: "44px", height: "44px", background: "#334862", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 12px" }}>
                   <Building style={{ width: "20px", height: "20px", color: "#fff" }} />
                 </div>

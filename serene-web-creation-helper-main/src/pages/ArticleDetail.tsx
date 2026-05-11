@@ -155,8 +155,8 @@ export default function ArticleDetail() {
             <div className="mt-12 pt-8 border-t">
               <div className="flex items-center gap-2 flex-wrap">
                 <Tag className="w-4 h-4 text-soft-gray" />
-                {article.tags.map((tag, index) => (
-                  <Badge key={index} variant="secondary">
+                {article.tags.map((tag) => (
+                  <Badge key={tag} variant="secondary">
                     {tag}
                   </Badge>
                 ))}

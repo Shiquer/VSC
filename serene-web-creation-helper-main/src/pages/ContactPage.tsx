@@ -59,17 +59,17 @@ const ContactPage = () => {
                   Diplômé en sophrologie et formé aux techniques d'hypnose thérapeutique, je me suis spécialisé dans l'accompagnement des particuliers et des entreprises.
                 </p>
                 <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                  {certifications.map((cert, i) => (
-                    <span key={i} className="arise-badge">{cert}</span>
+                  {certifications.map((cert) => (
+                    <span key={cert} className="arise-badge">{cert}</span>
                   ))}
                 </div>
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                {specialties.map((s, i) => {
+                {specialties.map((s) => {
                   const Icon = s.icon;
                   return (
-                    <div key={i} className="arise-card" style={{ transition: "all 0.3s" }}
+                    <div key={s.title} className="arise-card" style={{ transition: "all 0.3s" }}
                       onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"}
                       onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
                     >

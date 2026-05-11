@@ -64,8 +64,8 @@ const Services = () => {
                 <h3 className="arise-serif" style={{ fontSize: "20px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "12px" }}>{service.title}</h3>
                 <p style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7, marginBottom: "20px" }}>{service.description}</p>
                 <ul style={{ marginBottom: "24px" }}>
-                  {service.features.map((feature, i) => (
-                    <li key={i} style={{ display: "flex", alignItems: "center", fontSize: "14px", color: "hsl(var(--foreground))", marginBottom: "8px" }}>
+                  {service.features.map((feature) => (
+                    <li key={feature} style={{ display: "flex", alignItems: "center", fontSize: "14px", color: "hsl(var(--foreground))", marginBottom: "8px" }}>
                       <div style={{ width: "6px", height: "6px", background: "hsl(var(--foreground))", borderRadius: "50%", marginRight: "10px", flexShrink: 0 }} />
                       {feature}
                     </li>

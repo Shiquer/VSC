@@ -101,7 +101,7 @@ const AdminBookings = () => {
     return (
       <div className="space-y-4">
         {[...Array(5)].map((_, i) => (
-          <Card key={i} className="h-48">
+          <Card key={`skeleton-${i}`} className="h-48">
             <CardContent className="p-6">
               <div className="animate-pulse space-y-3">
                 <div className="h-4 bg-muted rounded w-1/3"></div>

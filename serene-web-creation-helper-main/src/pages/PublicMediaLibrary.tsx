@@ -30,6 +30,24 @@ const badgeStyle = (color?: string) => ({
   border: color ? "1px solid hsl(var(--border))" : "none",
 });
 
+const EmptyState = ({ text }: { text: string }) => (
+  <div style={{ textAlign: "center", padding: "64px 0" }}>
+    <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.5 }}>{text}</p>
+  </div>
+);
+
+const LoadingSkeleton = ({ count = 3, cols = 2 }: { count?: number; cols?: number }) => (
+  <div className={`grid md:grid-cols-${cols} gap-6`}>
+    {Array.from({ length: count }).map((_, i) => (
+      <div key={i} style={{ ...cardStyle, padding: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div style={{ height: "20px", background: "hsl(var(--secondary))", borderRadius: "99px", width: "70%" }} />
+        <div style={{ height: "16px", background: "hsl(var(--secondary))", borderRadius: "99px", width: "50%" }} />
+        <div style={{ height: "80px", background: "hsl(var(--secondary))", borderRadius: "16px" }} />
+      </div>
+    ))}
+  </div>
+);
+
 const PublicMediaLibrary = () => {
   const [currentPlaying, setCurrentPlaying] = useState<string | null>(null);
   const [mediaContents, setMediaContents] = useState<MediaContent[]>([]);
@@ -58,24 +76,6 @@ const PublicMediaLibrary = () => {
   const videoContent = mediaContents.filter(m => m.content_type === "video");
 
   const handlePlayPause = (id: string) => setCurrentPlaying(currentPlaying === id ? null : id);
-
-  const EmptyState = ({ text }: { text: string }) => (
-    <div style={{ textAlign: "center", padding: "64px 0" }}>
-      <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.5 }}>{text}</p>
-    </div>
-  );
-
-  const LoadingSkeleton = ({ count = 3, cols = 2 }: { count?: number; cols?: number }) => (
-    <div className={`grid md:grid-cols-${cols} gap-6`}>
-      {Array.from({ length: count }).map((_, i) => (
-        <div key={i} style={{ ...cardStyle, padding: "24px", display: "flex", flexDirection: "column", gap: "12px" }}>
-          <div style={{ height: "20px", background: "hsl(var(--secondary))", borderRadius: "99px", width: "70%" }} />
-          <div style={{ height: "16px", background: "hsl(var(--secondary))", borderRadius: "99px", width: "50%" }} />
-          <div style={{ height: "80px", background: "hsl(var(--secondary))", borderRadius: "16px" }} />
-        </div>
-      ))}
-    </div>
-  );
 
   return (
     <div className="min-h-screen" style={{ background: "hsl(var(--background))" }}>
@@ -270,8 +270,8 @@ const PublicMediaLibrary = () => {
                 { icon: Music, title: "Qualité Audio HD", desc: "Enregistrements haute définition pour une expérience d'écoute optimale." },
                 { icon: Download, title: "Téléchargement", desc: "Téléchargez vos contenus favoris pour une écoute hors ligne." },
                 { icon: Book, title: "Contenu Exclusif", desc: "Accès à des séances exclusives créées spécialement pour nos clients." },
-              ].map(({ icon: Icon, title, desc }, i) => (
-                <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
                   <div style={{ width: "64px", height: "64px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Icon style={{ width: "28px", height: "28px", color: "hsl(var(--primary-foreground))" }} />
                   </div>

@@ -68,8 +68,8 @@ const About = () => {
                   <h4 className="arise-serif" style={{ fontSize: "15px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Formations</h4>
                 </div>
                 <ul style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  {["Sophrologue certifié RNCP", "Hypnothérapeute diplômé", "Thérapies brèves", "Accompagnement entreprise"].map((cert, i) => (
-                    <li key={i} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "hsl(var(--foreground))", opacity: 0.75 }}>
+                  {["Sophrologue certifié RNCP", "Hypnothérapeute diplômé", "Thérapies brèves", "Accompagnement entreprise"].map((cert) => (
+                    <li key={cert} style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "13px", color: "hsl(var(--foreground))", opacity: 0.75 }}>
                       <div style={{ width: "5px", height: "5px", background: "hsl(var(--foreground))", borderRadius: "50%", flexShrink: 0 }} />
                       {cert}
                     </li>
@@ -87,7 +87,7 @@ const About = () => {
                   { text: "Accompagnement exceptionnel, j'ai retrouvé confiance en moi.", author: "Marie L." },
                   { text: "Des séances qui ont transformé ma gestion du stress.", author: "Thomas R." }
                 ].map((t, i) => (
-                  <div key={i} style={{ marginBottom: i === 0 ? "16px" : 0 }}>
+                  <div key={t.author} style={{ marginBottom: i === 0 ? "16px" : 0 }}>
                     <p style={{ fontSize: "12px", fontStyle: "italic", color: "hsl(var(--primary-foreground))", opacity: 0.85, lineHeight: "1.6", marginBottom: "4px" }}>"{t.text}"</p>
                     <p style={{ fontSize: "11px", color: "hsl(var(--primary-foreground))", opacity: 0.5 }}>— {t.author}</p>
                   </div>

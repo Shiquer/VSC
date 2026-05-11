@@ -41,8 +41,8 @@ const Sophrologie = () => {
         <div className="container mx-auto px-8">
           <h2 style={h2Style}>Mes techniques de sophrologie</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ maxWidth: "960px", margin: "0 auto" }}>
-            {techniques.map((t, i) => (
-              <div key={i} className="arise-card" style={{ textAlign: "center" }}>
+            {techniques.map((t) => (
+              <div key={t} className="arise-card" style={{ textAlign: "center" }}>
                 <div style={{ width: "48px", height: "48px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 16px" }}>
                   <CheckCircle style={{ width: "22px", height: "22px", color: "hsl(var(--primary-foreground))" }} />
                 </div>
@@ -59,8 +59,8 @@ const Sophrologie = () => {
           <h2 style={h2Style}>Les bénéfices de la sophrologie</h2>
           <div className="grid md:grid-cols-2 gap-10" style={{ maxWidth: "960px", margin: "0 auto" }}>
             <ul style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              {benefices.map((b, i) => (
-                <li key={i} style={{ display: "flex", alignItems: "flex-start", gap: "12px", fontSize: "16px", color: "hsl(var(--foreground))" }}>
+              {benefices.map((b) => (
+                <li key={b} style={{ display: "flex", alignItems: "flex-start", gap: "12px", fontSize: "16px", color: "hsl(var(--foreground))" }}>
                   <div style={{ width: "24px", height: "24px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "2px" }}>
                     <CheckCircle style={{ width: "14px", height: "14px", color: "hsl(var(--primary-foreground))" }} />
                   </div>

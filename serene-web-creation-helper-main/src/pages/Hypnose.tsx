@@ -53,8 +53,8 @@ const Hypnose = () => {
         <div className="container mx-auto px-8">
           <h2 style={h2Style}>Domaines d'application</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6" style={{ maxWidth: "960px", margin: "0 auto" }}>
-            {domaines.map((d, i) => (
-              <div key={i} className="arise-card" style={{ transition: "all 0.3s" }}
+            {domaines.map((d) => (
+              <div key={d.title} className="arise-card" style={{ transition: "all 0.3s" }}
                 onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"; }}
                 onMouseLeave={e => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"; }}
               >
@@ -74,8 +74,8 @@ const Hypnose = () => {
         <div className="container mx-auto px-8">
           <h2 style={h2Style}>Mythes et réalités sur l'hypnose</h2>
           <div style={{ maxWidth: "800px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "16px" }}>
-            {mythes.map((m, i) => (
-              <div key={i} className="arise-card">
+            {mythes.map((m) => (
+              <div key={m.mythe} className="arise-card">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <p style={{ fontSize: "12px", fontWeight: "700", color: "#B20000", marginBottom: "8px", fontFamily: "'Helvetica Neue', sans-serif" }}>❌ MYTHE</p>

@@ -72,11 +72,11 @@ const GroupClasses = () => {
             </div>
 
             <div className="grid lg:grid-cols-2 gap-8">
-              {classes.map((c, i) => {
+              {classes.map((c) => {
                 const isFull = c.participants.current >= c.participants.max;
                 const pct = (c.participants.current / c.participants.max) * 100;
                 return (
-                  <div key={i} className="arise-card" style={{ transition: "all 0.3s" }}
+                  <div key={c.title} className="arise-card" style={{ transition: "all 0.3s" }}
                     onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(-4px)"}
                     onMouseLeave={e => (e.currentTarget as HTMLDivElement).style.transform = "translateY(0)"}
                   >
@@ -162,8 +162,8 @@ const GroupClasses = () => {
                 { icon: Users, title: "Dynamique de groupe", desc: "L'énergie collective favorise la motivation et crée une émulation positive entre les participants." },
                 { icon: Star, title: "Qualité professionnelle", desc: "Encadrement par un sophrologue certifié avec un programme structuré et adapté." },
                 { icon: MapPin, title: "Cadre bienveillant", desc: "Environnement calme et sécurisant dans notre cabinet à Montreuil." },
-              ].map(({ icon: Icon, title, desc }, i) => (
-                <div key={i} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+              ].map(({ icon: Icon, title, desc }) => (
+                <div key={title} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
                   <div style={{ width: "64px", height: "64px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Icon style={{ width: "28px", height: "28px", color: "hsl(var(--primary-foreground))" }} />
                   </div>
