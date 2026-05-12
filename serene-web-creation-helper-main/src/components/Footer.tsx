@@ -113,9 +113,9 @@ const Footer = () => {
               </a>
               <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "13px" }}>
                 <Link to="/contact" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none" }}>Contact</Link>
-                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>âÂÂ¢</span>
+                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>•</span>
                 <button style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none", background: "none", border: "none", cursor: "pointer", fontSize: "13px", padding: 0 }}>Mentions légales</button>
-                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>âÂÂ¢</span>
+                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>•</span>
                 <button style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none", background: "none", border: "none", cursor: "pointer", fontSize: "13px", padding: 0 }}>Confidentialité</button>
               </div>
             </div>
