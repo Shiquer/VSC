@@ -70,7 +70,7 @@ const Footer = () => {
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
                 <Phone style={{ width: "16px", height: "16px" }} />
-                <span style={{ fontSize: "14px" }}>Téléphone sur demande</span>
+                <a href={`tel:${getHeaderContent("header_phone", "+33123456789")}`} style={{ color: "inherit", textDecoration: "none" }}><span style={{ fontSize: "14px" }}>{getHeaderContent("header_phone", "+33 1 23 45 67 89")}</span></a>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
                 <Mail style={{ width: "16px", height: "16px" }} />
@@ -102,7 +102,7 @@ const Footer = () => {
         <div style={{ borderTop: "1px solid rgba(235,208,193,0.15)", padding: "24px 0" }}>
           <div className="flex flex-col md:flex-row justify-between items-center" style={{ gap: "16px" }}>
             <p style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.5 }}>
-              {getContent("footer_copyright", "© 2025 Christopher Quershi. Tous droits réservés.")}
+              {getContent("footer_copyright", "Â© 2025 Christopher Quershi. Tous droits réservés.")}
             </p>
             <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
               <a href={getContent("footer_linkedin", "#")} aria-label="LinkedIn" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, transition: "opacity 0.2s" }}
@@ -113,9 +113,9 @@ const Footer = () => {
               </a>
               <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "13px" }}>
                 <Link to="/contact" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none" }}>Contact</Link>
-                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>•</span>
+                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>â¢</span>
                 <button style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none", background: "none", border: "none", cursor: "pointer", fontSize: "13px", padding: 0 }}>Mentions légales</button>
-                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>•</span>
+                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>â¢</span>
                 <button style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none", background: "none", border: "none", cursor: "pointer", fontSize: "13px", padding: 0 }}>Confidentialité</button>
               </div>
             </div>
