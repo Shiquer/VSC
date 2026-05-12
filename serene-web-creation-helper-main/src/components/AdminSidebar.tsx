@@ -114,5 +114,3 @@ export function AdminSidebar() {
     </Sidebar>
       );
 }
-  );
-}
