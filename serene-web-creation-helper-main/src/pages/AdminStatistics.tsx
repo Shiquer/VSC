@@ -84,7 +84,7 @@ const AdminStatistics = () => {
     return (
           <div className="space-y-6">
                 <div>
-                        <h2 className="text-2xl font-bold mb-2">Statistiques</h2>h2>
+                        <h2 className="text-2xl font-bold mb-2">Statistiques</h2>
                         <p className="text-muted-foreground">
                                   Vue d'ensemble des données de votre site.
                         </p>
@@ -94,7 +94,7 @@ const AdminStatistics = () => {
                 <div>
                         <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                                   <Calendar className="h-5 w-5" /> Réservations
-                        </h3>h3>
+                        </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                   <Card>
                                               <CardHeader className="pb-2">
@@ -135,7 +135,7 @@ const AdminStatistics = () => {
                 <div>
                         <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                                   <BookOpen className="h-5 w-5" /> Articles
-                        </h3>h3>
+                        </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                   <Card>
                                               <CardHeader className="pb-2">
@@ -165,11 +165,11 @@ const AdminStatistics = () => {
                 <div>
                         <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                                   <BarChart3 className="h-5 w-5" /> Contenu & Médias
-                        </h3>h3>
+                        </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                   <Card>
                                               <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Ãléments de contenu</CardTitle>
+                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Éléments de contenu</CardTitle>
                                               </CardHeader>
                                               <CardContent>
                                                             <div className="text-3xl font-bold">{stats.totalContent}</div>
@@ -189,4 +189,4 @@ const AdminStatistics = () => {
         );
 };
 
-export default AdminStatistics;</div>
+export default AdminStatistics;
