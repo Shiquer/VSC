@@ -102,7 +102,7 @@ const Footer = () => {
         <div style={{ borderTop: "1px solid rgba(235,208,193,0.15)", padding: "24px 0" }}>
           <div className="flex flex-col md:flex-row justify-between items-center" style={{ gap: "16px" }}>
             <p style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.5 }}>
-              {getContent("footer_copyright", "Â© 2025 Christopher Quershi. Tous droits réservés.")}
+              {getContent("footer_copyright", "© 2025 Christopher Quershi. Tous droits réservés.")}
             </p>
             <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
               <a href={getContent("footer_linkedin", "#")} aria-label="LinkedIn" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, transition: "opacity 0.2s" }}
@@ -113,9 +113,9 @@ const Footer = () => {
               </a>
               <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "13px" }}>
                 <Link to="/contact" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none" }}>Contact</Link>
-                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>â¢</span>
+                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>âÂÂ¢</span>
                 <button style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none", background: "none", border: "none", cursor: "pointer", fontSize: "13px", padding: 0 }}>Mentions légales</button>
-                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>â¢</span>
+                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>âÂÂ¢</span>
                 <button style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none", background: "none", border: "none", cursor: "pointer", fontSize: "13px", padding: 0 }}>Confidentialité</button>
               </div>
             </div>
