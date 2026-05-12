@@ -51,7 +51,7 @@ const About = () => {
                 </div>
                 <div>
                   <h4 style={{ fontFamily: "'Playfair Display', serif", fontSize: "16px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "4px" }}>Horaires d'ouverture</h4>
-                  <p style={{ fontSize: "14px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Mardi et vendredi 8hâÂÂ21h Â· Samedi 8hâÂÂ13h</p>
+                  <p style={{ fontSize: "14px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Mardi et vendredi 8h–21h · Samedi 8h–13h</p>
                 </div>
               </div>
             </div>
@@ -89,7 +89,7 @@ const About = () => {
                 ].map((t, i) => (
                   <div key={t.author} style={{ marginBottom: i === 0 ? "16px" : 0 }}>
                     <p style={{ fontSize: "12px", fontStyle: "italic", color: "hsl(var(--primary-foreground))", opacity: 0.85, lineHeight: "1.6", marginBottom: "4px" }}>"{t.text}"</p>
-                    <p style={{ fontSize: "12px", color: "hsl(var(--primary-foreground))", opacity: 0.5 }}>âÂÂ {t.author}</p>
+                    <p style={{ fontSize: "12px", color: "hsl(var(--primary-foreground))", opacity: 0.5 }}>— {t.author}</p>
                   </div>
                 ))}
               </div>
@@ -154,7 +154,7 @@ const About = () => {
               <blockquote className="arise-serif" style={{ fontSize: "16px", fontWeight: "400", color: "hsl(var(--primary-foreground))", lineHeight: "1.7", marginBottom: "16px", fontStyle: "italic" }}>
                 {getContent("about_quote", "\"On ne change pas en luttant contre ce qui existe déjà. Pour changer quelque chose, construisez un modèle nouveau.\"")}
               </blockquote>
-              <cite style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.6 }}>âÂÂ Buckminster Fuller</cite>
+              <cite style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.6 }}>— Buckminster Fuller</cite>
             </div>
           </div>
         </div>
