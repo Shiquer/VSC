@@ -79,7 +79,7 @@ const Contact = () => {
             Prendre contact
           </h2>
           <p style={{ fontSize: "16px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7, maxWidth: "480px", margin: "0 auto" }}>
-            N'hésitez pas Ã  me contacter pour tout renseignement ou question, auxquels je répondrai avec plaisir.
+            N'hésitez pas à me contacter pour tout renseignement ou question, auxquels je répondrai avec plaisir.
           </p>
         </div>
 
