@@ -43,7 +43,7 @@ const Services = () => {
             {getContent("services_title", "Mes spécialités")}
           </h2>
           <p style={{ fontSize: "16px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7, maxWidth: "560px", margin: "0 auto 32px" }}>
-            {getContent("services_intro", "Je vous accompagne en sophrologie et en hypnose pour votre mieux-être. N'hésitez pas Ã  me contacter.")}
+            {getContent("services_intro", "Je vous accompagne en sophrologie et en hypnose pour votre mieux-être. N'hésitez pas à me contacter.")}
           </p>
         </div>
 
