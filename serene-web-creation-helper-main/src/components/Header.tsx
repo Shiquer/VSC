@@ -194,6 +194,7 @@ const Header = () => {
                     </button>
                   </Link>
                 )}
+                {isAdmin && (
                 <button
                   onClick={signOut}
                   style={{
@@ -215,6 +216,7 @@ const Header = () => {
                   <LogOut className="w-4 h-4" />
                   Déconnexion
                 </button>
+                )}
                 <Link to="/reservation">
                   <button
                     style={{
