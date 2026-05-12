@@ -70,14 +70,14 @@ const AdminStatistics = () => {
                                 <Card key={k}>
                                               <CardContent className="p-6">
                                                               <div className="animate-pulse space-y-3">
-                                                                                <div className="h-4 bg-muted rounded w-2/3"></div>div>
-                                                                                <div className="h-8 bg-muted rounded w-1/3"></div>div>
-                                                              </div>div>
-                                              </CardContent>CardContent>
-                                </Card>Card>
+                                                                                <div className="h-4 bg-muted rounded w-2/3"></div>
+                                                                                <div className="h-8 bg-muted rounded w-1/3"></div>
+                                                              </div>
+                                              </CardContent>
+                                </Card>
                               ))}
-                          </div>div>
-                  </div>div>
+                          </div>
+                  </div>
                 );
     }
   
@@ -87,8 +87,8 @@ const AdminStatistics = () => {
                         <h2 className="text-2xl font-bold mb-2">Statistiques</h2>h2>
                         <p className="text-muted-foreground">
                                   Vue d'ensemble des données de votre site.
-                        </p>p>
-                </div>div>
+                        </p>
+                </div>
           
             {/* Réservations */}
                 <div>
@@ -98,38 +98,38 @@ const AdminStatistics = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                   <Card>
                                               <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Total</CardTitle>CardTitle>
-                                              </CardHeader>CardHeader>
+                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Total</CardTitle>
+                                              </CardHeader>
                                               <CardContent>
-                                                            <div className="text-3xl font-bold">{stats.totalBookings}</div>div>
-                                              </CardContent>CardContent>
-                                  </Card>Card>
+                                                            <div className="text-3xl font-bold">{stats.totalBookings}</div>
+                                              </CardContent>
+                                  </Card>
                                   <Card>
                                               <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-yellow-600">En attente</CardTitle>CardTitle>
-                                              </CardHeader>CardHeader>
+                                                            <CardTitle className="text-sm font-medium text-yellow-600">En attente</CardTitle>
+                                              </CardHeader>
                                               <CardContent>
-                                                            <div className="text-3xl font-bold text-yellow-600">{stats.pendingBookings}</div>div>
-                                              </CardContent>CardContent>
-                                  </Card>Card>
+                                                            <div className="text-3xl font-bold text-yellow-600">{stats.pendingBookings}</div>
+                                              </CardContent>
+                                  </Card>
                                   <Card>
                                               <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-green-600">Confirmées</CardTitle>CardTitle>
-                                              </CardHeader>CardHeader>
+                                                            <CardTitle className="text-sm font-medium text-green-600">Confirmées</CardTitle>
+                                              </CardHeader>
                                               <CardContent>
-                                                            <div className="text-3xl font-bold text-green-600">{stats.confirmedBookings}</div>div>
-                                              </CardContent>CardContent>
-                                  </Card>Card>
+                                                            <div className="text-3xl font-bold text-green-600">{stats.confirmedBookings}</div>
+                                              </CardContent>
+                                  </Card>
                                   <Card>
                                               <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-red-600">Annulées</CardTitle>CardTitle>
-                                              </CardHeader>CardHeader>
+                                                            <CardTitle className="text-sm font-medium text-red-600">Annulées</CardTitle>
+                                              </CardHeader>
                                               <CardContent>
-                                                            <div className="text-3xl font-bold text-red-600">{stats.cancelledBookings}</div>div>
-                                              </CardContent>CardContent>
-                                  </Card>Card>
-                        </div>div>
-                </div>div>
+                                                            <div className="text-3xl font-bold text-red-600">{stats.cancelledBookings}</div>
+                                              </CardContent>
+                                  </Card>
+                        </div>
+                </div>
           
             {/* Articles */}
                 <div>
@@ -139,27 +139,27 @@ const AdminStatistics = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                   <Card>
                                               <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Total articles</CardTitle>CardTitle>
-                                              </CardHeader>CardHeader>
+                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Total articles</CardTitle>
+                                              </CardHeader>
                                               <CardContent>
-                                                            <div className="text-3xl font-bold">{stats.totalArticles}</div>div>
-                                              </CardContent>CardContent>
-                                  </Card>Card>
+                                                            <div className="text-3xl font-bold">{stats.totalArticles}</div>
+                                              </CardContent>
+                                  </Card>
                                   <Card>
                                               <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-green-600">Publiés</CardTitle>CardTitle>
-                                              </CardHeader>CardHeader>
+                                                            <CardTitle className="text-sm font-medium text-green-600">Publiés</CardTitle>
+                                              </CardHeader>
                                               <CardContent>
-                                                            <div className="text-3xl font-bold text-green-600">{stats.publishedArticles}</div>div>
+                                                            <div className="text-3xl font-bold text-green-600">{stats.publishedArticles}</div>
                                                 {stats.totalArticles > 0 && (
                             <p className="text-xs text-muted-foreground mt-1">
                               {Math.round((stats.publishedArticles / stats.totalArticles) * 100)}% du total
-                            </p>p>
+                            </p>
                                                             )}
-                                              </CardContent>CardContent>
-                                  </Card>Card>
-                        </div>div>
-                </div>div>
+                                              </CardContent>
+                                  </Card>
+                        </div>
+                </div>
           
             {/* Contenus & Médias */}
                 <div>
@@ -169,23 +169,23 @@ const AdminStatistics = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                   <Card>
                                               <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Éléments de contenu</CardTitle>CardTitle>
-                                              </CardHeader>CardHeader>
+                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Ãléments de contenu</CardTitle>
+                                              </CardHeader>
                                               <CardContent>
-                                                            <div className="text-3xl font-bold">{stats.totalContent}</div>div>
-                                              </CardContent>CardContent>
-                                  </Card>Card>
+                                                            <div className="text-3xl font-bold">{stats.totalContent}</div>
+                                              </CardContent>
+                                  </Card>
                                   <Card>
                                               <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Médias</CardTitle>CardTitle>
-                                              </CardHeader>CardHeader>
+                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Médias</CardTitle>
+                                              </CardHeader>
                                               <CardContent>
-                                                            <div className="text-3xl font-bold">{stats.totalMedia}</div>div>
-                                              </CardContent>CardContent>
-                                  </Card>Card>
-                        </div>div>
-                </div>div>
-          </div>div>
+                                                            <div className="text-3xl font-bold">{stats.totalMedia}</div>
+                                              </CardContent>
+                                  </Card>
+                        </div>
+                </div>
+          </div>
         );
 };
 
