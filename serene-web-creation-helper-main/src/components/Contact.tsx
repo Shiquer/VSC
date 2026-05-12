@@ -79,7 +79,7 @@ const Contact = () => {
             Prendre contact
           </h2>
           <p style={{ fontSize: "16px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7, maxWidth: "480px", margin: "0 auto" }}>
-            N'hésitez pas à me contacter pour tout renseignement ou question, auxquels je répondrai avec plaisir.
+            N'hésitez pas Ã  me contacter pour tout renseignement ou question, auxquels je répondrai avec plaisir.
           </p>
         </div>
 
@@ -126,7 +126,7 @@ const Contact = () => {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {[
-                  { href: "tel:+33123456789", icon: Phone, label: "Appeler" },
+                  { href: "tel:+33123456789", icon: Phone, label: "+33 1 23 45 67 89" },
                   { href: "mailto:contact@christopherquershi.fr", icon: Mail, label: "Email" },
                   { href: "#", icon: Linkedin, label: "LinkedIn" },
                 ].map(({ href, icon: Icon, label }) => (
