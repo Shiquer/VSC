@@ -76,12 +76,6 @@ const Services = () => {
           })}
 
         </div>
-
-        <div style={{ textAlign: "center", marginTop: "48px" }}>
-          <Link to="/contact">
-            <button className="arise-btn-outline">Me contacter</button>
-          </Link>
-        </div>
       </div>
     </section>
   );
