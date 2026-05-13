@@ -1,7 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BookingForm from "@/components/BookingForm";
-import therapyOffice from "@/assets/therapy-office.jpg";
 
 const Reservation = () => {
   return (
@@ -17,23 +16,8 @@ const Reservation = () => {
               Réservez votre séance de sophrologie ou d'hypnose en quelques clics
             </p>
           </div>
-
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Image */}
-            <div className="hidden lg:block">
-              <div style={{ borderRadius: "25px", overflow: "hidden", position: "sticky", top: "100px" }}>
-                <img
-                  src={therapyOffice}
-                  alt="Cabinet de sophrologie et hypnose"
-                  style={{ width: "100%", height: "600px", objectFit: "cover", display: "block" }}
-                />
-              </div>
-            </div>
-
-            {/* Formulaire */}
-            <div>
-              <BookingForm />
-            </div>
+          <div className="max-w-2xl mx-auto">
+            <BookingForm />
           </div>
         </div>
       </main>
