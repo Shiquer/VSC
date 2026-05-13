@@ -13,7 +13,7 @@ const Services = () => {
       title: getContent("sophrologie_title", "Sophrologie"),
       description: getContent("sophrologie_description", "Techniques de relaxation et de gestion du stress pour retrouver un équilibre mental et physique."),
       features: ["Gestion du stress et de l'anxiété", "Préparation aux examens", "Accompagnement sommeil", "Développement personnel"],
-      link: "/sophrologie"
+      link: "/#specialites"
     },
     {
       icon: Heart,
@@ -22,7 +22,7 @@ const Services = () => {
       title: getContent("hypnose_title", "Hypnose"),
       description: getContent("hypnose_description", "Accompagnement thérapeutique pour modifier les comportements et surmonter les blocages."),
       features: ["Arrêt du tabac", "Gestion des phobies", "Perte de poids", "Confiance en soi"],
-      link: "/hypnose"
+      link: "/#specialites"
     },
     {
       icon: Users,
