@@ -6,7 +6,7 @@ const Services = () => {
   const { getContent } = useSiteContent("services");
 
   const services = [
-    {h
+    {
       icon: Brain,
       iconBg: "hsl(var(--foreground))",
       iconColor: "hsl(var(--primary-foreground))",
