@@ -6,7 +6,7 @@ const Services = () => {
   const { getContent } = useSiteContent("services");
 
   const services = [
-    {
+    {h
       icon: Brain,
       iconBg: "hsl(var(--foreground))",
       iconColor: "hsl(var(--primary-foreground))",
@@ -75,11 +75,12 @@ const Services = () => {
             );
           })}
 
-          <div style={{ textAlign: "center", marginTop: "32px" }}>
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: "48px" }}>
           <Link to="/contact">
             <button className="arise-btn-outline">Me contacter</button>
           </Link>
-          </div>
         </div>
       </div>
     </section>
