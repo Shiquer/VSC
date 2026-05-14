@@ -30,7 +30,7 @@ const Hero = () => {
                   margin: "0 0 8px",
                 }}
               >
-                {getContent("hero_title", "Christopher Quershi")},
+                {getContent("hero_title", "Natalia Kourycheva")},
               </h1>
               <h1
                 className="arise-serif"
@@ -42,7 +42,7 @@ const Hero = () => {
                   margin: "0 0 8px",
                 }}
               >
-                {getContent("hero_subtitle", "Sophrologue")}
+                {getContent("hero_subtitle", "Psychanalyste & Hypnotherapeute")}
               </h1>
               <h1
                 className="arise-serif"
@@ -73,108 +73,3 @@ const Hero = () => {
                 lineHeight: "1.7",
                 color: "hsl(var(--foreground))",
                 opacity: 0.75,
-                maxWidth: "480px",
-              }}
-            >
-              {getContent("hero_intro", "Et si vous décidiez d'agir en vous faisant aider par un spécialiste ? Accompagnement personnalisé en sophrologie ou en hypnose.")}
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/reservation">
-                <button className="arise-btn-primary">
-                  <Calendar className="w-5 h-5" />
-                  Prendre rendez-vous
-                </button>
-              </Link>
-              <Link to="/sophrologie">
-                <button className="arise-btn-outline">
-                  En savoir plus
-                </button>
-              </Link>
-            </div>
-
-            {/* Horaires */}
-            <div
-              style={{
-                borderLeft: "3px solid hsl(var(--foreground))",
-                paddingLeft: "20px",
-                paddingTop: "16px",
-                paddingBottom: "16px",
-              }}
-            >
-              <div className="flex items-center space-x-2 mb-2">
-                <Clock className="w-4 h-4" style={{ color: "hsl(var(--foreground))" }} />
-                <span
-                  style={{
-                    fontWeight: "700",
-                    fontSize: "13px",
-                    color: "hsl(var(--foreground))",
-                    fontFamily: "'Helvetica Neue', sans-serif",
-                  }}
-                >
-                  {getContent("hero_hours_title", "Horaires")}
-                </span>
-              </div>
-              <div style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7 }}>
-                {getContent("hero_hours", "Mardi et vendredi de 8h à 21h\net samedi de 8h à 13h").split(/\n|<br\s*\/?>/i).map((line) => (
-                  <span key={line} style={{ display: "block" }}>{line}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Portrait */}
-          <div className="relative animate-scale-in flex justify-center">
-            <div className="relative" style={{ maxWidth: "420px", width: "100%" }}>
-              <div
-                style={{
-                  background: "hsl(var(--secondary))",
-                  borderRadius: "25px",
-                  padding: "16px",
-                  border: "1px solid hsl(var(--border))",
-                }}
-              >
-                <img
-                  src={portraitImage}
-                  alt="Christopher Quershi, Sophrologue et Hypnothérapeute"
-                  style={{
-                    width: "100%",
-                    height: "auto",
-                    borderRadius: "16px",
-                    display: "block",
-                  }}
-                />
-              </div>
-
-              {/* LinkedIn Badge */}
-              <div
-                style={{
-                  position: "absolute",
-                  bottom: "24px",
-                  left: "24px",
-                  background: "hsl(var(--foreground))",
-                  padding: "10px 14px",
-                  borderRadius: "12px",
-                }}
-              >
-                <span
-                  style={{
-                    color: "hsl(var(--primary-foreground))",
-                    fontWeight: "700",
-                    fontSize: "14px",
-                  }}
-                >
-                  in
-                </span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default Hero;
