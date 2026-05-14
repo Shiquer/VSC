@@ -21,23 +21,20 @@ const About = () => {
 
         <div className="grid lg:grid-cols-12 gap-8 items-start">
 
-          {/* Left - Image + cards */}
+          {/* Left - Calendar + info */}
           <div className="lg:col-span-8" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
 
             {/* Calendrier */}
             <div style={{ borderRadius: "25px", overflow: "hidden", background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", padding: "28px", position: "relative" }}>
-              {/* Header calendrier */}
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
                 <span className="arise-serif" style={{ fontSize: "22px", fontWeight: "400", color: "hsl(var(--foreground))", letterSpacing: "0.05em" }}>SEPTEMBRE</span>
                 <span style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.5, fontFamily: "'Helvetica Neue', sans-serif" }}>2025</span>
               </div>
-              {/* Jours de la semaine */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "4px", marginBottom: "6px" }}>
                 {["LUN","MAR","MER","JEU","VEN","SAM","DIM"].map(d => (
                   <div key={d} style={{ textAlign: "center", fontSize: "10px", fontWeight: "700", color: "hsl(var(--foreground))", opacity: 0.45, fontFamily: "'Helvetica Neue', sans-serif", padding: "4px 0" }}>{d}</div>
                 ))}
               </div>
-              {/* Grille des jours */}
               <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "4px" }}>
                 {[
                   { day: 1, events: [{ label: "Séances petit groupe", color: "#5a9e6f" }] },
@@ -73,3 +70,58 @@ const About = () => {
                     ))}
                   </div>
                 ))}
+              </div>
+            </div>
+
+            {/* Info card */}
+            <div style={{ borderRadius: "20px", background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", padding: "24px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
+                <MapPin size={20} style={{ color: "hsl(var(--primary))" }} />
+                <span style={{ fontWeight: "600" }}>Cabinet à Saint-Maurice (94), Île-de-France</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+                <Calendar size={20} style={{ color: "hsl(var(--primary))" }} />
+                <span style={{ fontSize: "14px", color: "hsl(var(--muted-foreground))" }}>Séances en présentiel et à distance disponibles</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right - Bio */}
+          <div className="lg:col-span-4" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+
+            {/* Quote */}
+            <div style={{ borderRadius: "20px", background: "hsl(var(--primary)/0.05)", border: "1px solid hsl(var(--primary)/0.15)", padding: "24px" }}>
+              <Quote size={24} style={{ color: "hsl(var(--primary))", marginBottom: "12px" }} />
+              <p style={{ fontSize: "15px", lineHeight: "1.7", color: "hsl(var(--foreground))", fontStyle: "italic" }}>
+                {getContent("about_quote", "Mon approche est centrée sur la personne, avec bienveillance et professionnalisme.")}
+              </p>
+            </div>
+
+            {/* Stats */}
+            <div style={{ borderRadius: "20px", background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", padding: "24px" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                {[
+                  { icon: Award, value: "10+", label: "Années d'expérience" },
+                  { icon: Calendar, value: "500+", label: "Patients accompagnés" },
+                ].map(({ icon: Icon, value, label }) => (
+                  <div key={label} style={{ textAlign: "center" }}>
+                    <Icon size={24} style={{ color: "hsl(var(--primary))", margin: "0 auto 8px" }} />
+                    <p style={{ fontSize: "24px", fontWeight: "700", color: "hsl(var(--foreground))" }}>{value}</p>
+                    <p style={{ fontSize: "12px", color: "hsl(var(--muted-foreground))" }}>{label}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* CTA */}
+            <Link to="/contact" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))", padding: "14px 24px", borderRadius: "12px", textDecoration: "none", fontWeight: "600", fontSize: "15px" }}>
+              Prendre contact
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default About;
