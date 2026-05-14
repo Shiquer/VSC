@@ -31,18 +31,6 @@ const Hero = () => {
               >
                 {getContent("hero_title", "Natalia Kourycheva")},
               </h1>
-              <h1
-                className="arise-serif"
-                style={{
-                  fontSize: "clamp(32px, 4vw, 48px)",
-                  fontWeight: "400",
-                  lineHeight: "1.2",
-                  color: "hsl(var(--foreground))",
-                  margin: "0 0 8px",
-                }}
-              >
-                {getContent("hero_subtitle", "Psychanalyste & Hypnotherapeute")}
-              </h1>
             </div>
 
             {/* Location */}
