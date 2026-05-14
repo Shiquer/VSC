@@ -39,7 +39,7 @@ const Header = () => {
                   fontSize: "16px",
                 }}
               >
-                CQ
+                NK
               </span>
             </div>
             <div>
@@ -132,7 +132,7 @@ const Header = () => {
               style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}
             >
               Réservation
-            </Link>
+            </Link>h
             <Link
               to="/contact"
               className="text-foreground hover:text-muted-foreground transition-colors"
