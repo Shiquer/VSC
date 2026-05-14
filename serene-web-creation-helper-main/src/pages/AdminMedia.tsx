@@ -19,6 +19,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import {
   Table,
   TableBody,
   TableCell,
@@ -144,6 +154,7 @@ const AdminMediaLibrary = () => {
 
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
@@ -291,16 +302,18 @@ const AdminMediaLibrary = () => {
     }
   };
 
-  const deleteContent = async (id: string) => {
-    if (!confirm("Êtes-vous sûr de vouloir supprimer ce contenu ?")) return;
+  const confirmDelete = async () => {
+    if (!itemToDelete) return;
     try {
-      const { error } = await supabase.from("media_content").delete().eq("id", id);
+      const { error } = await supabase.from("media_content").delete().eq("id", itemToDelete);
       if (error) throw error;
       await fetchMediaContents();
       toast({ title: "Succès", description: "Contenu supprimé avec succès." });
     } catch (error) {
       console.error("Error deleting:", error);
       toast({ title: "Erreur", description: "Impossible de supprimer le contenu.", variant: "destructive" });
+    } finally {
+      setItemToDelete(null);
     }
   };
 
@@ -550,6 +563,23 @@ const AdminMediaLibrary = () => {
         <EditDialogContent />
       </Dialog>
 
+      <AlertDialog open={!!itemToDelete} onOpenChange={(open) => { if (!open) setItemToDelete(null); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmer la suppression</AlertDialogTitle>
+            <AlertDialogDescription>
+              Êtes-vous sûr de vouloir supprimer ce contenu ? Cette action est irréversible.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Annuler</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Supprimer
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <div className="flex items-center gap-4">
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
@@ -617,7 +647,7 @@ const AdminMediaLibrary = () => {
                           <Button variant="ghost" size="sm" onClick={() => dispatch({ type: "SET_EDITING_ITEM", payload: item })}>
                             <Edit className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="sm" onClick={() => deleteContent(item.id)}>
+                          <Button variant="ghost" size="sm" onClick={() => setItemToDelete(item.id)}>
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
@@ -679,7 +709,7 @@ const AdminMediaLibrary = () => {
                           <Button variant="ghost" size="sm" onClick={() => dispatch({ type: "SET_EDITING_ITEM", payload: item })}>
                             <Edit className="w-4 h-4" />
                           </Button>
-                          <Button variant="ghost" size="sm" onClick={() => deleteContent(item.id)}>
+                          <Button variant="ghost" size="sm" onClick={() => setItemToDelete(item.id)}>
                             <Trash2 className="w-4 h-4" />
                           </Button>
                         </div>
