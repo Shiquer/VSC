@@ -19,7 +19,7 @@ interface Article {
 }
 
 const cardStyle = {
-  background: "#fff", borderRadius: "25px", border: "1px solid hsl(var(--border))",h
+  background: "#fff", borderRadius: "25px", border: "1px solid hsl(var(--border))",
   overflow: "hidden", transition: "all 0.3s", boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
 };
 
