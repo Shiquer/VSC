@@ -2,10 +2,10 @@
 
 -- Header/Navigation
 INSERT INTO site_content (key, title, content, content_type, section, order_index) VALUES
-('header_title', 'Nom du praticien', 'Christopher Quershi', 'text', 'header', 1),
-('header_subtitle', 'Spécialités', 'Sophrologue & Hypnothérapeute', 'text', 'header', 2),
+('header_title', 'Nom du praticien', 'Natalia Kourycheva', 'text', 'header', 1),
+('header_subtitle', 'Spécialités', 'Psychanalyste & Hypnotherapeute', 'text', 'header', 2),
 ('header_phone', 'Numéro de téléphone', '+33123456789', 'text', 'header', 3),
-('header_email', 'Email de contact', 'contact@christopherquershi.fr', 'text', 'header', 4);
+('header_email', 'Email de contact', 'contact@nataliaquershi.fr', 'text', 'header', 4);
 
 -- Hero section (page d'accueil)
 INSERT INTO site_content (key, title, content, content_type, section, order_index) VALUES
@@ -28,7 +28,7 @@ INSERT INTO site_content (key, title, content, content_type, section, order_inde
 
 -- Section À propos
 INSERT INTO site_content (key, title, content, content_type, section, order_index) VALUES
-('about_title', 'Titre À propos', 'À propos de Christopher Quershi', 'text', 'about', 1),
+('about_title', 'Titre À propos', 'À propos de Natalia Kourycheva', 'text', 'about', 1),
 ('about_intro', 'Introduction À propos', 'Découvrez mon parcours et ma philosophie d''accompagnement.', 'text', 'about', 2);
 
 -- Footer
@@ -38,5 +38,5 @@ INSERT INTO site_content (key, title, content, content_type, section, order_inde
 ('footer_contact_title', 'Titre contact footer', 'Contact', 'text', 'footer', 3),
 ('footer_hours_title', 'Titre horaires footer', 'Horaires', 'text', 'footer', 4),
 ('footer_hours', 'Horaires footer', 'Mardi: 8h - 21h<br />Vendredi: 8h - 21h<br />Samedi: 8h - 13h', 'html', 'footer', 5),
-('footer_copyright', 'Copyright', '© 2024 Christopher Quershi. Tous droits réservés.', 'text', 'footer', 6),
+('footer_copyright', 'Copyright', '© 2024 Natalia Kourycheva. Tous droits réservés.', 'text', 'footer', 6),
 ('footer_linkedin', 'Lien LinkedIn', '#', 'text', 'footer', 7);
