@@ -22,10 +22,10 @@ const Footer = () => {
               </div>
               <div>
                 <p style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: "700", fontSize: "16px", color: "hsl(var(--primary-foreground))", lineHeight: "1.2" }}>
-                  {getHeaderContent("header_title", "Christopher Quershi")}
+                  {getHeaderContent("header_title", "Natalia Kourycheva")}
                 </p>
                 <p style={{ fontSize: "12px", color: "hsl(var(--primary-foreground))", opacity: 0.6, lineHeight: "1.2" }}>
-                  {getHeaderContent("header_subtitle", "Sophrologue & Hypnothérapeute")}
+                  {getHeaderContent("header_subtitle", "Psychanalyste & Hypnotherapeute")}
                 </p>
               </div>
             </div>
@@ -73,57 +73,3 @@ const Footer = () => {
                 <a href={`tel:${getHeaderContent("header_phone", "+33123456789")}`} style={{ color: "inherit", textDecoration: "none" }}><span style={{ fontSize: "14px" }}>{getHeaderContent("header_phone", "+33 1 23 45 67 89")}</span></a>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
-                <Mail style={{ width: "16px", height: "16px" }} />
-                <span style={{ fontSize: "14px" }}>{getHeaderContent("header_email", "contact@christopherquershi.fr")}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Horaires & CTA */}
-          <div>
-            <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.5, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>
-              {getContent("footer_hours_title", "Horaires")}
-            </p>
-            <div style={{ fontSize: "14px", lineHeight: "1.8", color: "hsl(var(--primary-foreground))", opacity: 0.8, marginBottom: "24px" }}>
-              {getContent("footer_hours", "Mardi: 8h - 21h\nVendredi: 8h - 21h\nSamedi: 8h - 13h").split(/\n|<br\s*\/?>/i).map((line) => (
-                <span key={line} style={{ display: "block" }}>{line}</span>
-              ))}
-            </div>
-            <Link to="/reservation">
-              <button style={{ background: "hsl(var(--primary-foreground))", color: "hsl(var(--foreground))", border: "none", borderRadius: "30px", height: "48px", padding: "0 20px", fontSize: "13px", fontWeight: "700", fontFamily: "'Helvetica Neue', Helvetica, sans-serif", display: "inline-flex", alignItems: "center", gap: "8px", cursor: "pointer" }}>
-                <Calendar style={{ width: "16px", height: "16px" }} />
-                Prendre RDV
-              </button>
-            </Link>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div style={{ borderTop: "1px solid rgba(235,208,193,0.15)", padding: "24px 0" }}>
-          <div className="flex flex-col md:flex-row justify-between items-center" style={{ gap: "16px" }}>
-            <p style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.5 }}>
-              {getContent("footer_copyright", "© 2025 Christopher Quershi. Tous droits réservés.")}
-            </p>
-            <div style={{ display: "flex", alignItems: "center", gap: "24px" }}>
-              <a href={getContent("footer_linkedin", "#")} aria-label="LinkedIn" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, transition: "opacity 0.2s" }}
-                onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.opacity = "1"}
-                onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.opacity = "0.6"}
-              >
-                <Linkedin style={{ width: "20px", height: "20px" }} />
-              </a>
-              <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "13px" }}>
-                <Link to="/contact" style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none" }}>Contact</Link>
-                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>•</span>
-                <button style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none", background: "none", border: "none", cursor: "pointer", fontSize: "13px", padding: 0 }}>Mentions légales</button>
-                <span style={{ color: "hsl(var(--primary-foreground))", opacity: 0.3 }}>•</span>
-                <button style={{ color: "hsl(var(--primary-foreground))", opacity: 0.6, textDecoration: "none", background: "none", border: "none", cursor: "pointer", fontSize: "13px", padding: 0 }}>Confidentialité</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-};
-
-export default Footer;
