@@ -46,10 +46,10 @@ interface MediaContent {
 type MediaFormData = {
   title: string;
   description: string;
-  content_type: "audio" | "video";
   category: string;
-  difficulty: "Débutant" | "Intermédiaire" | "Avancé";
-  status: "draft" | "published";
+  difficulty: string;
+  content_type: 'audio' | 'video';
+  status: 'draft' | 'published';
 };
 
 type MediaState = {
@@ -57,6 +57,8 @@ type MediaState = {
   loading: boolean;
   uploading: boolean;
   isAddDialogOpen: boolean;
+  isEditDialogOpen: boolean;
+  editingItem: MediaContent | null;
   searchTerm: string;
   currentPlaying: string | null;
   formData: MediaFormData;
@@ -67,6 +69,8 @@ type MediaAction =
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_UPLOADING"; payload: boolean }
   | { type: "SET_DIALOG_OPEN"; payload: boolean }
+  | { type: "SET_EDIT_DIALOG_OPEN"; payload: boolean }
+  | { type: "SET_EDITING_ITEM"; payload: MediaContent | null }
   | { type: "SET_SEARCH_TERM"; payload: string }
   | { type: "SET_CURRENT_PLAYING"; payload: string | null }
   | { type: "UPDATE_FORM"; payload: Partial<MediaFormData> }
@@ -75,20 +79,10 @@ type MediaAction =
 const initialFormData: MediaFormData = {
   title: "",
   description: "",
-  content_type: "audio",
   category: "",
-  difficulty: "Débutant",
+  difficulty: "debutant",
+  content_type: "audio",
   status: "draft",
-};
-
-const initialState: MediaState = {
-  mediaContents: [],
-  loading: true,
-  uploading: false,
-  isAddDialogOpen: false,
-  searchTerm: "",
-  currentPlaying: null,
-  formData: initialFormData,
 };
 
 function mediaReducer(state: MediaState, action: MediaAction): MediaState {
@@ -97,6 +91,23 @@ function mediaReducer(state: MediaState, action: MediaAction): MediaState {
     case "SET_LOADING": return { ...state, loading: action.payload };
     case "SET_UPLOADING": return { ...state, uploading: action.payload };
     case "SET_DIALOG_OPEN": return { ...state, isAddDialogOpen: action.payload };
+    case "SET_EDIT_DIALOG_OPEN": return { ...state, isEditDialogOpen: action.payload };
+    case "SET_EDITING_ITEM":
+      return {
+        ...state,
+        editingItem: action.payload,
+        isEditDialogOpen: action.payload !== null,
+        formData: action.payload
+          ? {
+              title: action.payload.title,
+              description: action.payload.description,
+              category: action.payload.category,
+              difficulty: action.payload.difficulty,
+              content_type: action.payload.content_type,
+              status: action.payload.status,
+            }
+          : initialFormData,
+      };
     case "SET_SEARCH_TERM": return { ...state, searchTerm: action.payload };
     case "SET_CURRENT_PLAYING": return { ...state, currentPlaying: action.payload };
     case "UPDATE_FORM": return { ...state, formData: { ...state.formData, ...action.payload } };
@@ -106,34 +117,51 @@ function mediaReducer(state: MediaState, action: MediaAction): MediaState {
 }
 
 const AdminMediaLibrary = () => {
-  const [state, dispatch] = useReducer(mediaReducer, initialState);
-  const { mediaContents, loading, uploading, isAddDialogOpen, searchTerm, currentPlaying, formData } = state;
+  const { toast } = useToast();
+  const [state, dispatch] = useReducer(mediaReducer, {
+    mediaContents: [],
+    loading: true,
+    uploading: false,
+    isAddDialogOpen: false,
+    isEditDialogOpen: false,
+    editingItem: null,
+    searchTerm: "",
+    currentPlaying: null,
+    formData: initialFormData,
+  });
+
+  const {
+    mediaContents,
+    loading,
+    uploading,
+    isAddDialogOpen,
+    isEditDialogOpen,
+    editingItem,
+    searchTerm,
+    currentPlaying,
+    formData,
+  } = state;
+
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const thumbnailInputRef = useRef<HTMLInputElement>(null);
-  const { toast } = useToast();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     fetchMediaContents();
   }, []);
 
   const fetchMediaContents = async () => {
+    dispatch({ type: "SET_LOADING", payload: true });
     try {
       const { data, error } = await supabase
         .from("media_content")
         .select("*")
         .order("created_at", { ascending: false });
-
       if (error) throw error;
-      dispatch({ type: "SET_MEDIA_CONTENTS", payload: (data as MediaContent[]) || [] });
+      dispatch({ type: "SET_MEDIA_CONTENTS", payload: data || [] });
     } catch (error) {
-      console.error("Erreur lors du chargement:", error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de charger les contenus multimédia.",
-        variant: "destructive",
-      });
+      console.error("Error fetching media:", error);
+      toast({ title: "Erreur", description: "Impossible de charger les contenus.", variant: "destructive" });
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }
@@ -168,6 +196,16 @@ const AdminMediaLibrary = () => {
       toast({
         title: "Erreur",
         description: "Veuillez sélectionner un fichier multimédia.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const MAX_SIZE_MB = 50;
+    if (mediaFile.size > MAX_SIZE_MB * 1024 * 1024) {
+      toast({
+        title: "Fichier trop volumineux",
+        description: `La taille maximale est ${MAX_SIZE_MB} MB. Votre fichier fait ${(mediaFile.size / 1024 / 1024).toFixed(1)} MB.`,
         variant: "destructive",
       });
       return;
@@ -209,95 +247,175 @@ const AdminMediaLibrary = () => {
       setMediaFile(null);
       setThumbnailFile(null);
       dispatch({ type: "SET_DIALOG_OPEN", payload: false });
-
       await fetchMediaContents();
 
-      toast({
-        title: "Succès",
-        description: "Contenu multimédia ajouté avec succès.",
-      });
+      toast({ title: "Succès", description: "Contenu multimédia ajouté avec succès." });
     } catch (error) {
-      console.error("Erreur lors de l'ajout:", error);
-      toast({
-        title: "Erreur",
-        description: "Impossible d'ajouter le contenu multimédia.",
-        variant: "destructive",
-      });
+      console.error("Error uploading:", error);
+      toast({ title: "Erreur", description: "Impossible d'ajouter le contenu.", variant: "destructive" });
+    } finally {
+      dispatch({ type: "SET_UPLOADING", payload: false });
+    }
+  };
+
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingItem) return;
+
+    dispatch({ type: "SET_UPLOADING", payload: true });
+
+    try {
+      const { error } = await supabase
+        .from("media_content")
+        .update({
+          title: formData.title,
+          description: formData.description,
+          content_type: formData.content_type,
+          category: formData.category,
+          difficulty: formData.difficulty,
+          status: formData.status,
+        })
+        .eq("id", editingItem.id);
+
+      if (error) throw error;
+
+      dispatch({ type: "SET_EDITING_ITEM", payload: null });
+      await fetchMediaContents();
+
+      toast({ title: "Succès", description: "Contenu mis à jour avec succès." });
+    } catch (error) {
+      console.error("Error updating:", error);
+      toast({ title: "Erreur", description: "Impossible de mettre à jour le contenu.", variant: "destructive" });
     } finally {
       dispatch({ type: "SET_UPLOADING", payload: false });
     }
   };
 
   const deleteContent = async (id: string) => {
+    if (!confirm("Êtes-vous sûr de vouloir supprimer ce contenu ?")) return;
     try {
-      const { error } = await supabase
-        .from("media_content")
-        .delete()
-        .eq("id", id);
-
+      const { error } = await supabase.from("media_content").delete().eq("id", id);
       if (error) throw error;
-
       await fetchMediaContents();
-      toast({
-        title: "Succès",
-        description: "Contenu supprimé avec succès.",
-      });
+      toast({ title: "Succès", description: "Contenu supprimé avec succès." });
     } catch (error) {
-      console.error("Erreur lors de la suppression:", error);
-      toast({
-        title: "Erreur",
-        description: "Impossible de supprimer le contenu.",
-        variant: "destructive",
-      });
+      console.error("Error deleting:", error);
+      toast({ title: "Erreur", description: "Impossible de supprimer le contenu.", variant: "destructive" });
     }
   };
 
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case "published": return "default";
-      case "draft": return "secondary";
-      default: return "outline";
-    }
+    return status === "published" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800";
   };
 
   const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case "Débutant": return "default";
-      case "Intermédiaire": return "secondary";
-      case "Avancé": return "destructive";
-      default: return "outline";
-    }
+    const colors: Record<string, string> = {
+      debutant: "bg-blue-100 text-blue-800",
+      intermediaire: "bg-orange-100 text-orange-800",
+      avance: "bg-red-100 text-red-800",
+    };
+    return colors[difficulty] || "bg-gray-100 text-gray-800";
   };
 
-  const filteredAudio = mediaContents.filter(item =>
-    item.content_type === 'audio' &&
-    (item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.category.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredContents = mediaContents.filter(item =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const filteredVideo = mediaContents.filter(item =>
-    item.content_type === 'video' &&
-    (item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    item.category.toLowerCase().includes(searchTerm.toLowerCase()))
-  );
+  const audioContents = filteredContents.filter(item => item.content_type === 'audio');
+  const videoContents = filteredContents.filter(item => item.content_type === 'video');
 
-  if (loading) {
-    return (
-      <div className="space-y-4">
-        {["a","b","c","d","e","f"].map((k) => (
-          <Card key={`skeleton-${k}`} className="h-32">
-            <CardContent className="p-6">
-              <div className="animate-pulse space-y-2">
-                <div className="h-4 bg-muted rounded w-1/4"></div>
-                <div className="h-4 bg-muted rounded w-3/4"></div>
-                <div className="h-4 bg-muted rounded w-1/2"></div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    );
-  }
+  const EditDialogContent = () => (
+    <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+      <DialogHeader>
+        <DialogTitle>Modifier le contenu</DialogTitle>
+        <DialogDescription>
+          Modifiez les informations du contenu multimédia.
+        </DialogDescription>
+      </DialogHeader>
+      <form onSubmit={handleUpdate} className="space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <Label htmlFor="edit-title">Titre *</Label>
+            <Input
+              id="edit-title"
+              value={formData.title}
+              onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { title: e.target.value } })}
+              required
+            />
+          </div>
+          <div>
+            <Label htmlFor="edit-category">Catégorie *</Label>
+            <Input
+              id="edit-category"
+              value={formData.category}
+              onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { category: e.target.value } })}
+              required
+            />
+          </div>
+        </div>
+        <div>
+          <Label htmlFor="edit-description">Description</Label>
+          <Textarea
+            id="edit-description"
+            value={formData.description}
+            onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { description: e.target.value } })}
+            rows={3}
+          />
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          <div>
+            <Label>Type</Label>
+            <Select
+              value={formData.content_type}
+              onValueChange={(value) => dispatch({ type: "UPDATE_FORM", payload: { content_type: value as 'audio' | 'video' } })}
+            >
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="audio">Audio</SelectItem>
+                <SelectItem value="video">Vidéo</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label>Difficulté</Label>
+            <Select
+              value={formData.difficulty}
+              onValueChange={(value) => dispatch({ type: "UPDATE_FORM", payload: { difficulty: value } })}
+            >
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="debutant">Débutant</SelectItem>
+                <SelectItem value="intermediaire">Intermédiaire</SelectItem>
+                <SelectItem value="avance">Avancé</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          <div>
+            <Label>Statut</Label>
+            <Select
+              value={formData.status}
+              onValueChange={(value) => dispatch({ type: "UPDATE_FORM", payload: { status: value as 'draft' | 'published' } })}
+            >
+              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="draft">Brouillon</SelectItem>
+                <SelectItem value="published">Publié</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+        <div className="flex justify-end gap-2">
+          <Button type="button" variant="outline" onClick={() => dispatch({ type: "SET_EDITING_ITEM", payload: null })}>
+            Annuler
+          </Button>
+          <Button type="submit" disabled={uploading}>
+            {uploading ? "Enregistrement..." : "Enregistrer"}
+          </Button>
+        </div>
+      </form>
+    </DialogContent>
+  );
 
   return (
     <div className="space-y-6">
@@ -306,7 +424,6 @@ const AdminMediaLibrary = () => {
           <h1 className="text-3xl font-bold">Gestion de la médiathèque</h1>
           <p className="text-muted-foreground">Gérez vos contenus audio et vidéo</p>
         </div>
-
         <Dialog open={isAddDialogOpen} onOpenChange={(open) => dispatch({ type: "SET_DIALOG_OPEN", payload: open })}>
           <DialogTrigger asChild>
             <Button>
@@ -321,7 +438,6 @@ const AdminMediaLibrary = () => {
                 Ajoutez un nouveau fichier audio ou vidéo à votre médiathèque.
               </DialogDescription>
             </DialogHeader>
-
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -330,147 +446,99 @@ const AdminMediaLibrary = () => {
                     id="title"
                     value={formData.title}
                     onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { title: e.target.value } })}
-                    placeholder="Titre du contenu"
                     required
                   />
                 </div>
-                <div>
-                  <Label htmlFor="content_type">Type de contenu *</Label>
-                  <Select
-                    value={formData.content_type}
-                    onValueChange={(value: "audio" | "video") =>
-                      dispatch({ type: "UPDATE_FORM", payload: { content_type: value } })
-                    }
-                  >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="audio">Audio</SelectItem>
-                      <SelectItem value="video">Vidéo</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { description: e.target.value } })}
-                  placeholder="Description du contenu"
-                  rows={3}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="category">Catégorie *</Label>
                   <Input
                     id="category"
                     value={formData.category}
                     onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { category: e.target.value } })}
-                    placeholder="ex: Relaxation, Stress, Éducatif"
                     required
                   />
                 </div>
+              </div>
+              <div>
+                <Label htmlFor="description">Description</Label>
+                <Textarea
+                  id="description"
+                  value={formData.description}
+                  onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { description: e.target.value } })}
+                  rows={3}
+                />
+              </div>
+              <div className="grid grid-cols-3 gap-4">
                 <div>
-                  <Label htmlFor="difficulty">Difficulté</Label>
+                  <Label>Type de contenu</Label>
+                  <Select
+                    value={formData.content_type}
+                    onValueChange={(value) => dispatch({ type: "UPDATE_FORM", payload: { content_type: value as 'audio' | 'video' } })}
+                  >
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="audio">Audio</SelectItem>
+                      <SelectItem value="video">Vidéo</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Difficulté</Label>
                   <Select
                     value={formData.difficulty}
-                    onValueChange={(value: "Débutant" | "Intermédiaire" | "Avancé") =>
-                      dispatch({ type: "UPDATE_FORM", payload: { difficulty: value } })
-                    }
+                    onValueChange={(value) => dispatch({ type: "UPDATE_FORM", payload: { difficulty: value } })}
                   >
-                    <SelectTrigger>
-                      <SelectValue />
-                    </SelectTrigger>
+                    <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Débutant">Débutant</SelectItem>
-                      <SelectItem value="Intermédiaire">Intermédiaire</SelectItem>
-                      <SelectItem value="Avancé">Avancé</SelectItem>
+                      <SelectItem value="debutant">Débutant</SelectItem>
+                      <SelectItem value="intermediaire">Intermédiaire</SelectItem>
+                      <SelectItem value="avance">Avancé</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label>Statut</Label>
+                  <Select
+                    value={formData.status}
+                    onValueChange={(value) => dispatch({ type: "UPDATE_FORM", payload: { status: value as 'draft' | 'published' } })}
+                  >
+                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="draft">Brouillon</SelectItem>
+                      <SelectItem value="published">Publié</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
-
               <div>
-                <Label htmlFor="status">Statut</Label>
-                <Select
-                  value={formData.status}
-                  onValueChange={(value: "draft" | "published") =>
-                    dispatch({ type: "UPDATE_FORM", payload: { status: value } })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="draft">Brouillon</SelectItem>
-                    <SelectItem value="published">Publié</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-3">
-                <Label>Fichier multimédia *</Label>
-                <input
+                <Label htmlFor="media-file">Fichier multimédia * (max 50 MB)</Label>
+                <Input
+                  id="media-file"
                   type="file"
-                  ref={fileInputRef}
+                  accept="audio/*,video/*"
                   onChange={(e) => setMediaFile(e.target.files?.[0] || null)}
-                  accept={formData.content_type === 'audio' ? 'audio/*' : 'video/*'}
-                  className="hidden"
+                  required
                 />
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="w-full"
-                >
-                  <Upload className="w-4 h-4 mr-2" />
-                  {mediaFile ? mediaFile.name : `Choisir un fichier ${formData.content_type}`}
-                </Button>
-                {mediaFile && (
-                  <p className="text-sm text-muted-foreground">
-                    Taille: {(mediaFile.size / 1024 / 1024).toFixed(2)} MB
-                  </p>
-                )}
               </div>
-
-              {formData.content_type === 'video' && (
-                <div className="space-y-3">
-                  <Label>Miniature (optionnel)</Label>
-                  <input
-                    type="file"
-                    ref={thumbnailInputRef}
-                    onChange={(e) => setThumbnailFile(e.target.files?.[0] || null)}
-                    accept="image/*"
-                    className="hidden"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => thumbnailInputRef.current?.click()}
-                    className="w-full"
-                  >
-                    <Upload className="w-4 h-4 mr-2" />
-                    {thumbnailFile ? thumbnailFile.name : "Choisir une miniature"}
-                  </Button>
-                </div>
-              )}
-
-              <div className="flex justify-end space-x-2 pt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => dispatch({ type: "SET_DIALOG_OPEN", payload: false })}
-                  disabled={uploading}
-                >
+              <div>
+                <Label htmlFor="thumbnail-file">Image miniature (optionnel)</Label>
+                <Input
+                  id="thumbnail-file"
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => setThumbnailFile(e.target.files?.[0] || null)}
+                />
+              </div>
+              <div className="flex justify-end gap-2">
+                <Button type="button" variant="outline" onClick={() => dispatch({ type: "SET_DIALOG_OPEN", payload: false })}>
                   Annuler
                 </Button>
                 <Button type="submit" disabled={uploading}>
-                  {uploading ? "Ajout en cours…" : "Ajouter le contenu"}
+                  {uploading ? (
+                    <><Upload className="w-4 h-4 mr-2 animate-spin" />Upload en cours...</>
+                  ) : (
+                    <><Upload className="w-4 h-4 mr-2" />Ajouter le contenu</>
+                  )}
                 </Button>
               </div>
             </form>
@@ -478,27 +546,33 @@ const AdminMediaLibrary = () => {
         </Dialog>
       </div>
 
-      <div className="flex items-center space-x-2">
-        <Search className="w-4 h-4 text-muted-foreground" />
-        <Input
-          placeholder="Rechercher dans la médiathèque..."
-          value={searchTerm}
-          onChange={(e) => dispatch({ type: "SET_SEARCH_TERM", payload: e.target.value })}
-          className="max-w-sm"
-        />
+      <Dialog open={isEditDialogOpen} onOpenChange={(open) => { if (!open) dispatch({ type: "SET_EDITING_ITEM", payload: null }); }}>
+        <EditDialogContent />
+      </Dialog>
+
+      <div className="flex items-center gap-4">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+          <Input
+            placeholder="Rechercher dans la médiathèque..."
+            value={searchTerm}
+            onChange={(e) => dispatch({ type: "SET_SEARCH_TERM", payload: e.target.value })}
+            className="pl-10"
+          />
+        </div>
       </div>
 
-      <Tabs defaultValue="audio" className="space-y-6">
+      <Tabs defaultValue="audio">
         <TabsList>
-          <TabsTrigger value="audio">Contenus Audio ({filteredAudio.length})</TabsTrigger>
-          <TabsTrigger value="video">Contenus Vidéo ({filteredVideo.length})</TabsTrigger>
+          <TabsTrigger value="audio">Contenus Audio ({audioContents.length})</TabsTrigger>
+          <TabsTrigger value="video">Contenus Vidéo ({videoContents.length})</TabsTrigger>
         </TabsList>
 
         <TabsContent value="audio" className="space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>Fichiers Audio</CardTitle>
-              <CardDescription>Gérez vos séances audio de sophrologie et d'hypnose</CardDescription>
+              <CardDescription>Gérez vos séances audio de sophrologie et relaxation</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
@@ -509,31 +583,43 @@ const AdminMediaLibrary = () => {
                     <TableHead>Durée</TableHead>
                     <TableHead>Difficulté</TableHead>
                     <TableHead>Statut</TableHead>
-                    <TableHead>Téléchargements</TableHead>
+                    <TableHead>Écoutes</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredAudio.map((item) => (
+                  {audioContents.map((item) => (
                     <TableRow key={item.id}>
                       <TableCell>
                         <div>
-                          <div className="font-medium">{item.title}</div>
-                          <div className="text-sm text-muted-foreground truncate max-w-xs">{item.description}</div>
+                          <p className="font-medium">{item.title}</p>
+                          <p className="text-sm text-muted-foreground">{item.description}</p>
                         </div>
                       </TableCell>
                       <TableCell><Badge variant="outline">{item.category}</Badge></TableCell>
-                      <TableCell>{item.duration}</TableCell>
-                      <TableCell><Badge variant={getDifficultyColor(item.difficulty)}>{item.difficulty}</Badge></TableCell>
-                      <TableCell><Badge variant={getStatusColor(item.status)}>{item.status === "published" ? "Publié" : "Brouillon"}</Badge></TableCell>
+                      <TableCell>{item.duration || "—"}</TableCell>
+                      <TableCell>
+                        <Badge className={getDifficultyColor(item.difficulty)}>
+                          {item.difficulty === 'debutant' ? 'Débutant' : item.difficulty === 'intermediaire' ? 'Intermédiaire' : 'Avancé'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={getStatusColor(item.status)}>
+                          {item.status === 'published' ? 'Publié' : 'Brouillon'}
+                        </Badge>
+                      </TableCell>
                       <TableCell>{item.downloads || 0}</TableCell>
                       <TableCell>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center gap-1">
                           <Button variant="ghost" size="sm" onClick={() => handlePlayPause(item.id)}>
                             {currentPlaying === item.id ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                           </Button>
-                          <Button variant="ghost" size="sm"><Edit className="w-4 h-4" /></Button>
-                          <Button variant="ghost" size="sm" onClick={() => deleteContent(item.id)}><Trash2 className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="sm" onClick={() => dispatch({ type: "SET_EDITING_ITEM", payload: item })}>
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button variant="ghost" size="sm" onClick={() => deleteContent(item.id)}>
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
                         </div>
                       </TableCell>
                     </TableRow>
@@ -564,26 +650,38 @@ const AdminMediaLibrary = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredVideo.map((item) => (
+                  {videoContents.map((item) => (
                     <TableRow key={item.id}>
                       <TableCell>
                         <div>
-                          <div className="font-medium">{item.title}</div>
-                          <div className="text-sm text-muted-foreground truncate max-w-xs">{item.description}</div>
+                          <p className="font-medium">{item.title}</p>
+                          <p className="text-sm text-muted-foreground">{item.description}</p>
                         </div>
                       </TableCell>
                       <TableCell><Badge variant="outline">{item.category}</Badge></TableCell>
-                      <TableCell>{item.duration}</TableCell>
-                      <TableCell><Badge variant={getDifficultyColor(item.difficulty)}>{item.difficulty}</Badge></TableCell>
-                      <TableCell><Badge variant={getStatusColor(item.status)}>{item.status === "published" ? "Publié" : "Brouillon"}</Badge></TableCell>
+                      <TableCell>{item.duration || "—"}</TableCell>
+                      <TableCell>
+                        <Badge className={getDifficultyColor(item.difficulty)}>
+                          {item.difficulty === 'debutant' ? 'Débutant' : item.difficulty === 'intermediaire' ? 'Intermédiaire' : 'Avancé'}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Badge className={getStatusColor(item.status)}>
+                          {item.status === 'published' ? 'Publié' : 'Brouillon'}
+                        </Badge>
+                      </TableCell>
                       <TableCell>{item.views || 0}</TableCell>
                       <TableCell>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center gap-1">
                           <Button variant="ghost" size="sm" onClick={() => handlePlayPause(item.id)}>
                             {currentPlaying === item.id ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                           </Button>
-                          <Button variant="ghost" size="sm"><Edit className="w-4 h-4" /></Button>
-                          <Button variant="ghost" size="sm" onClick={() => deleteContent(item.id)}><Trash2 className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="sm" onClick={() => dispatch({ type: "SET_EDITING_ITEM", payload: item })}>
+                            <Edit className="w-4 h-4" />
+                          </Button>
+                          <Button variant="ghost" size="sm" onClick={() => deleteContent(item.id)}>
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
                         </div>
                       </TableCell>
                     </TableRow>
