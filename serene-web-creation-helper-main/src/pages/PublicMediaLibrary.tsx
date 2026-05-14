@@ -19,7 +19,7 @@ interface Article {
 }
 
 const cardStyle = {
-  background: "#fff", borderRadius: "25px", border: "1px solid hsl(var(--border))",
+  background: "#fff", borderRadius: "25px", border: "1px solid hsl(var(--border))",h
   overflow: "hidden", transition: "all 0.3s", boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
 };
 
@@ -92,7 +92,7 @@ const PublicMediaLibrary = () => {
             </p>
             <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
               <button className="arise-btn-primary"><Headphones style={{ width: "18px", height: "18px" }} />Explorer les audios</button>
-              <button className="arise-btn-outline"><Video style={{ width: "18px", height: "18px" }} />Voir les vidéos</button>
+              <button className="arise-btn-outline"><Video style={{ width: "18px", height: "18px" }} />Voir les vidéos</button>                <button className="arise-btn-outline"><BookOpen style={{ width: "18px", height: "18px" }} />Voir les articles</button>
             </div>
           </div>
         </section>
