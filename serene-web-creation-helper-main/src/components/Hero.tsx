@@ -44,19 +44,7 @@ const Hero = () => {
               >
                 {getContent("hero_subtitle", "Psychanalyste & Hypnotherapeute")}
               </h1>
-              <h1
-                className="arise-serif"
-                style={{
-                  fontSize: "clamp(32px, 4vw, 48px)",
-                  fontWeight: "400",
-                  lineHeight: "1.2",
-                  color: "hsl(var(--accent))",
-                  margin: "0",
-                }}
-              >
-                & Hypnothérapeute
-              </h1>
-            </div>
+              div>
 
             {/* Location */}
             <div className="flex items-center space-x-2" style={{ color: "hsl(var(--muted-foreground))" }}>
