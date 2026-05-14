@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { MapPin, Phone, Mail, Calendar, Clock, Award, Users, Heart, CheckCircle, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
-import nataliaPortrait from "@/assets/natalia-portrait.jpg";
+import nataliaPortrait from "@/assets/christopher-portrait.jpg";
 
 const ContactPage = () => {
   const [formStatus, setFormStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
