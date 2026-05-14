@@ -1,5 +1,4 @@
-import { Calendar, MapPin, Clock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { MapPin } from "lucide-react";
 import { useSiteContent } from "@/hooks/useSiteContent";
 import defaultPortrait from "@/assets/christopher-portrait.jpg";
 
@@ -44,7 +43,7 @@ const Hero = () => {
               >
                 {getContent("hero_subtitle", "Psychanalyste & Hypnotherapeute")}
               </h1>
-              div>
+            </div>
 
             {/* Location */}
             <div className="flex items-center space-x-2" style={{ color: "hsl(var(--muted-foreground))" }}>
@@ -61,3 +60,26 @@ const Hero = () => {
                 lineHeight: "1.7",
                 color: "hsl(var(--foreground))",
                 opacity: 0.75,
+              }}
+            >
+              {getContent("hero_intro", "Bienvenue sur mon site.")}
+            </p>
+
+          </div>
+
+          {/* Portrait */}
+          <div className="flex justify-center">
+            <img
+              src={portraitImage}
+              alt="Portrait"
+              className="rounded-2xl max-h-[500px] object-cover"
+            />
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
