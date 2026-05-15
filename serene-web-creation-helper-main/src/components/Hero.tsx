@@ -29,11 +29,11 @@ const Hero = () => {
                   margin: "0 0 8px",
                 }}
               >
-                {getContent("hero_title", "Natalia Kourycheva")},
+                {getContent("hero_title", "Natalia Kourycheva")}
               </h1>
             </div>
 
-            {/* Location */}
+            {/* Subtitle */}            <p style={{ fontSize: "1.1rem", color: "hsl(var(--accent))", fontWeight: "600", marginTop: "4px", marginBottom: "0" }}>              {getContent("hero_subtitle", "Psychanalyste & Hypnothérapeute")}            </p>            {/* Location */}
             <div className="flex items-center space-x-2" style={{ color: "hsl(var(--muted-foreground))" }}>
               <MapPin className="w-4 h-4" style={{ color: "hsl(var(--foreground))" }} />
               <span style={{ fontSize: "15px" }}>
