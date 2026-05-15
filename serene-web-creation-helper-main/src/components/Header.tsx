@@ -19,7 +19,7 @@ const Header = () => {
   return (
     <header className="bg-background border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-8">
-        <div className="flex items-center justify-between" style={{ height: "72px" }}>h
+        <div className="flex items-center justify-between" style={{ height: "72px" }}>
 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
