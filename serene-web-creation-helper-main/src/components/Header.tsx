@@ -19,7 +19,7 @@ const Header = () => {
   return (
     <header className="bg-background border-b border-border sticky top-0 z-50">
       <div className="container mx-auto px-8">
-        <div className="flex items-center justify-between" style={{ height: "72px" }}>
+        <div className="flex items-center justify-between" style={{ height: "72px" }}>h
 
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity">
@@ -132,7 +132,7 @@ const Header = () => {
               style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}
             >
               Réservation
-            </Link>h
+            </Link>
             <Link
               to="/contact"
               className="text-foreground hover:text-muted-foreground transition-colors"
