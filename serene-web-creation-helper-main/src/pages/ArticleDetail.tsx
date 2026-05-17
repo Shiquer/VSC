@@ -145,11 +145,15 @@ export default function ArticleDetail() {
             )}
           </div>
 
-          <div className="prose prose-lg max-w-none">
-            <div className="text-foreground leading-relaxed whitespace-pre-wrap">
-              {article.content}
-            </div>
-          </div>
+          <div
+            className="prose prose-lg max-w-none text-foreground leading-relaxed"
+            dangerouslySetInnerHTML={{
+              __html: article.content && (
+                article.content.trim().startsWith('<') ? article.content : 
+                article.content.split('\n').map(p => p.trim() ? `<p>${p}</p>` : '').join('')
+              ) || ''
+            }}
+          />
 
           {article.tags && article.tags.length > 0 && (
             <div className="mt-12 pt-8 border-t">
