@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/RichTextEditor";
 import { Label } from "@/components/ui/label";
 import {
   Table,
@@ -412,12 +413,9 @@ export default function AdminArticles() {
 
             <div>
               <Label htmlFor="content">Contenu *</Label>
-              <Textarea
-                id="content"
+              <RichTextEditor
                 value={formData.content}
-                onChange={(e) => dispatch({ type: "UPDATE_FORM", payload: { content: e.target.value } })}
-                rows={10}
-                required
+                onChange={(value) => dispatch({ type: "UPDATE_FORM", payload: { content: value } })}
               />
             </div>
 
