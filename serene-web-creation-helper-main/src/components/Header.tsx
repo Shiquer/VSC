@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Phone, Calendar, LogOut, User, ChevronDown, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
@@ -58,6 +58,9 @@ const Header = () => {
   const { getContent } = useSiteContent("header");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+
+  const location = useLocation();
+  const isActive = (path: string) => location.pathname === path;
 
   const closeMobileMenu = () => {
     setMobileMenuOpen(false);
@@ -122,7 +125,7 @@ const Header = () => {
           <nav className="hidden md:flex items-center">
             <Link
               to="/"
-              className="text-foreground hover:text-muted-foreground transition-colors"
+              className={isActive("/") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"}
               style={navLinkStyle}
             >
               Accueil
@@ -155,16 +158,16 @@ const Header = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Link to="/entreprise" className="text-foreground hover:text-muted-foreground transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
+            <Link to="/entreprise" className={isActive("/entreprise") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
               Entreprise
             </Link>
-            <Link to="/mediatheque" className="text-foreground hover:text-muted-foreground transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
+            <Link to="/mediatheque" className={isActive("/mediatheque") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
               Médiathèque
             </Link>
-            <Link to="/reservation" className="text-foreground hover:text-muted-foreground transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
+            <Link to="/reservation" className={isActive("/reservation") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
               Réservation
             </Link>
-            <Link to="/contact" className="text-foreground hover:text-muted-foreground transition-colors" style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
+            <Link to="/contact" className={isActive("/contact") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
               Contact
             </Link>
           </nav>
