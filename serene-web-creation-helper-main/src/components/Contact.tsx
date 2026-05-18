@@ -9,7 +9,7 @@ const inputStyle = {
   borderRadius: "99px",
   height: "60px",
   padding: "0 24px",
-  fontSize: "16px",
+  fontSize: "16px",h
   fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
   color: "hsl(var(--foreground))",
   width: "100%",
@@ -97,7 +97,7 @@ const Contact = () => {
                 <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Adresse</h3>
               </div>
               <p style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7 }}>
-                93, Montreuil rue test<br />93100 Montreuil
+                19 rue de Choiseul<br />75002 Paris
               </p>
             </div>
 
@@ -126,7 +126,7 @@ const Contact = () => {
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {[
-                  { href: "tel:+33123456789", icon: Phone, label: "+33 1 23 45 67 89" },
+                  { href: "tel:+33675394716", icon: Phone, label: "06 75 39 47 16" },
                   { href: "mailto:contact@christopherquershi.fr", icon: Mail, label: "Email" },
                   { href: "#", icon: Linkedin, label: "LinkedIn" },
                 ].map(({ href, icon: Icon, label }) => (
