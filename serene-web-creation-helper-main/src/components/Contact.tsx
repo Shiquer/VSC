@@ -9,7 +9,7 @@ const inputStyle = {
   borderRadius: "99px",
   height: "60px",
   padding: "0 24px",
-  fontSize: "16px",h
+  fontSize: "16px",
   fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
   color: "hsl(var(--foreground))",
   width: "100%",
@@ -127,7 +127,7 @@ const Contact = () => {
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {[
                   { href: "tel:+33675394716", icon: Phone, label: "06 75 39 47 16" },
-                  { href: "mailto:contact@christopherquershi.fr", icon: Mail, label: "Email" },
+                  { href: "mailto:natalia.kourycheva@gmail.com", icon: Mail, label: "Email" },
                   { href: "#", icon: Linkedin, label: "LinkedIn" },
                 ].map(({ href, icon: Icon, label }) => (
                   <a key={label} href={href} target={label === "LinkedIn" ? "_blank" : undefined} rel="noopener noreferrer">
