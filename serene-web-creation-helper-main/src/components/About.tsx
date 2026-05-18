@@ -77,7 +77,7 @@ const About = () => {
             <div style={{ borderRadius: "20px", background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", padding: "24px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
                 <MapPin size={20} style={{ color: "hsl(var(--primary))" }} />
-                <span style={{ fontWeight: "600" }}>Cabinet à Saint-Maurice (94), Île-de-France</span>
+                <span style={{ fontWeight: "600" }}>Cabinet à Paris (75)</span>
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
                 <Calendar size={20} style={{ color: "hsl(var(--primary))" }} />
