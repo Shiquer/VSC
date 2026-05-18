@@ -44,7 +44,7 @@ const ContactPage = () => {
           <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px", textAlign: "center" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "hsl(var(--primary)/0.1)", borderRadius: "100px", padding: "6px 16px", marginBottom: "24px" }}>
               <MapPin size={14} style={{ color: "hsl(var(--primary))" }} />
-              <span style={{ fontSize: "13px", color: "hsl(var(--primary))", fontWeight: "600" }}>Saint-Maurice (94)</span>
+              <span style={{ fontSize: "13px", color: "hsl(var(--primary))", fontWeight: "600" }}>Paris (75)</span>
             </div>
             <h1 style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: "800", marginBottom: "16px", lineHeight: "1.2" }}>
               Prendre Rendez-vous
@@ -82,7 +82,7 @@ const ContactPage = () => {
                     </div>
                     <div>
                       <p style={{ fontWeight: "600", fontSize: "0.9rem" }}>Cabinet</p>
-                      <p style={{ color: "hsl(var(--muted-foreground))", fontSize: "0.85rem" }}>Saint-Maurice (94), Île-de-France</p>
+                      <p style={{ color: "hsl(var(--muted-foreground))", fontSize: "0.85rem" }}>19 rue de Choiseul, 75002 Paris</p>
                     </div>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
