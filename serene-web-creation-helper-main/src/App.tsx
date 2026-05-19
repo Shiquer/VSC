@@ -24,45 +24,49 @@ import AdminMedia from "./pages/AdminMedia";
 import AdminArticles from "./pages/AdminArticles";
 import AdminStatistics from "./pages/AdminStatistics";
 import ArticleDetail from "./pages/ArticleDetail";
+import MentionsLegales from "./pages/MentionsLegales";
+import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <AdminAuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/sophrologie" element={<Sophrologie />} />
-              <Route path="/hypnose" element={<Hypnose />} />
-              <Route path="/entreprise" element={<Entreprise />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/cours-collectifs" element={<GroupClasses />} />
-              <Route path="/mediatheque" element={<PublicMediaLibrary />} />
-              <Route path="/article/:slug" element={<ArticleDetail />} />
-              <Route path="/reservation" element={<Reservation />} />
-              <Route path="/auth" element={<UserAuth />} />
-              <Route path="/admin/auth" element={<AdminAuth />} />
-              <Route path="/admin" element={<Admin />}>
-                <Route index element={<AdminDashboard />} />
-                <Route path="content" element={<AdminContent />} />
-                <Route path="bookings" element={<AdminBookings />} />
-                <Route path="media" element={<AdminMedia />} />
-                <Route path="articles" element={<AdminArticles />} />
-                              <Route path="statistics" element={<AdminStatistics />} />
-              </Route>
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AdminAuthProvider>
-    </AuthProvider>
-  </QueryClientProvider>
-);
+    <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+                <AdminAuthProvider>
+                        <TooltipProvider>
+                                  <Toaster />
+                                  <Sonner />
+                                  <BrowserRouter>
+                                              <Routes>
+                                                            <Route path="/" element={<Index />} />
+                                                            <Route path="/sophrologie" element={<Sophrologie />} />
+                                                            <Route path="/hypnose" element={<Hypnose />} />
+                                                            <Route path="/entreprise" element={<Entreprise />} />
+                                                            <Route path="/contact" element={<ContactPage />} />
+                                                            <Route path="/cours-collectifs" element={<GroupClasses />} />
+                                                            <Route path="/mediatheque" element={<PublicMediaLibrary />} />
+                                                            <Route path="/article/:slug" element={<ArticleDetail />} />
+                                                            <Route path="/reservation" element={<Reservation />} />
+                                                            <Route path="/auth" element={<UserAuth />} />
+                                                            <Route path="/mentions-legales" element={<MentionsLegales />} />
+                                                            <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
+                                                            <Route path="/admin/auth" element={<AdminAuth />} />
+                                                            <Route path="/admin" element={<Admin />}>
+                                                                            <Route index element={<AdminDashboard />} />
+                                                                            <Route path="content" element={<AdminContent />} />
+                                                                            <Route path="bookings" element={<AdminBookings />} />
+                                                                            <Route path="media" element={<AdminMedia />} />
+                                                                            <Route path="articles" element={<AdminArticles />} />
+                                                                            <Route path="statistics" element={<AdminStatistics />} />
+                                                            </Route>Route>
+                                                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                                                            <Route path="*" element={<NotFound />} />
+                                              </Routes>Routes>
+                                  </BrowserRouter>BrowserRouter>
+                        </TooltipProvider>TooltipProvider>
+                </AdminAuthProvider>AdminAuthProvider>
+          </AuthProvider>AuthProvider>
+    </QueryClientProvider>QueryClientProvider>
+  );
 
-export default App;
+export default App;</AuthProvider>
