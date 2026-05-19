@@ -16,7 +16,7 @@ const Hero = () => {
           <div className="space-y-8 animate-fade-in">
 
             {/* Badge */}
-            <span className="arise-badge">Sophrologue certifié</span>
+            <span className="arise-badge">Psychanalyste &amp; Hypnothérapeute certifiée</span>
 
             {/* Title */}
             <div style={{ marginTop: "20px" }}>
@@ -34,9 +34,12 @@ const Hero = () => {
               </h1>
             </div>
 
-            {/* Subtitle */}           <p style={{ fontSize: "1.1rem", color: "hsl(var(--accent))", fontWeight: "600", marginTop: "4px", marginBottom: "0" }}>
+            {/* Subtitle */}
+            <p style={{ fontSize: "1.1rem", color: "hsl(var(--accent))", fontWeight: "600", marginTop: "4px", marginBottom: "0" }}>
               {getContent("hero_subtitle", "Psychanalyste & Hypnothérapeute")}
-            </p>            {/* Location */}
+            </p>
+
+            {/* Location */}
             <div className="flex items-center space-x-2" style={{ color: "hsl(var(--muted-foreground))" }}>
               <MapPin className="w-4 h-4" style={{ color: "hsl(var(--foreground))" }} />
               <span style={{ fontSize: "15px" }}>
