@@ -29,7 +29,7 @@ const MentionsLegales = () => {
                                                       }}
                                                     >
                                                     <ArrowLeft style={{ width: "16px", height: "16px" }} /> Retour à l'accueil
-                                        </Link>Link>
+                                        </Link>
                             
                                       <h1
                                                     className="arise-serif"
@@ -41,7 +41,7 @@ const MentionsLegales = () => {
                                                     }}
                                                   >
                                         {getContent("legal_title", "Mentions légales")}
-                                      </h1>h1>
+                                      </h1>
                             
                               {/* Éditeur du site */}
                                       <div style={{ marginBottom: "48px" }}>
@@ -55,7 +55,7 @@ const MentionsLegales = () => {
                                                                   }}
                                                                 >
                                                     {getContent("legal_editor_title", "Editeur du site")}
-                                                  </h2>h2>
+                                                  </h2>
                                                   <div
                                                                   style={{ fontSize: "15px", lineHeight: "1.9", color: "hsl(var(--foreground))", opacity: 0.85 }}
                                                                   dangerouslySetInnerHTML={{
@@ -70,7 +70,7 @@ const MentionsLegales = () => {
                                                                                                       ),
                                                                   }}
                                                                 />
-                                      </div>div>
+                                      </div>
                             
                               {/* Directeur de publication */}
                                       <div style={{ marginBottom: "48px" }}>
@@ -84,7 +84,7 @@ const MentionsLegales = () => {
                                                                   }}
                                                                 >
                                                     {getContent("legal_director_title", "Directeur de publication")}
-                                                  </h2>h2>
+                                                  </h2>
                                                   <div
                                                                   style={{ fontSize: "15px", lineHeight: "1.9", color: "hsl(var(--foreground))", opacity: 0.85 }}
                                                                   dangerouslySetInnerHTML={{
@@ -95,7 +95,7 @@ const MentionsLegales = () => {
                                                                                                       ),
                                                                   }}
                                                                 />
-                                      </div>div>
+                                      </div>
                             
                               {/* Hébergeur du site */}
                                       <div style={{ marginBottom: "48px" }}>
@@ -109,7 +109,7 @@ const MentionsLegales = () => {
                                                                   }}
                                                                 >
                                                     {getContent("legal_host_title", "Hébergeur du site")}
-                                                  </h2>h2>
+                                                  </h2>
                                                   <div
                                                                   style={{ fontSize: "15px", lineHeight: "1.9", color: "hsl(var(--foreground))", opacity: 0.85 }}
                                                                   dangerouslySetInnerHTML={{
@@ -121,12 +121,12 @@ const MentionsLegales = () => {
                                                                                                       ),
                                                                   }}
                                                                 />
-                                      </div>div>
-                            </div>div>
-                  </section>section>
+                                      </div>
+                            </div>
+                  </section>
           
                 <Footer />
-          </div>div>
+          </div>
         );
 };
 
