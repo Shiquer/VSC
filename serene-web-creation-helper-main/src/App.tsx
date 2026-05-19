@@ -68,7 +68,5 @@ const App = () => (
           </AuthProvider>
     </QueryClientProvider>
   );
-
 export default App;
-export default App;</AuthProvider>
-h
+export default App;
