@@ -43,7 +43,7 @@ const PolitiqueConfidentialite = () => {
                                                       }}
                                                     >
                                                     <ArrowLeft style={{ width: "16px", height: "16px" }} /> Retour à l'accueil
-                                        </Link>Link>
+                                        </Link>
                             
                                       <h1
                                                     className="arise-serif"
@@ -55,9 +55,9 @@ const PolitiqueConfidentialite = () => {
                                                     }}
                                                   >
                                         {getContent("privacy_title", "Politique de confidentialité")}
-                                      </h1>h1>
+                                      </h1>
                             
-                                      <h2 style={h2Style}>{getContent("privacy_responsible_title", "Responsable")}</h2>h2>
+                                      <h2 style={h2Style}>{getContent("privacy_responsible_title", "Responsable")}</h2>
                                       <div
                                                     style={pStyle}
                                                     dangerouslySetInnerHTML={{
@@ -68,7 +68,7 @@ const PolitiqueConfidentialite = () => {
                                                     }}
                                                   />
                             
-                                      <h2 style={h2Style}>{getContent("privacy_collect_title", "Collecte des données")}</h2>h2>
+                                      <h2 style={h2Style}>{getContent("privacy_collect_title", "Collecte des données")}</h2>
                                       <div
                                                     style={pStyle}
                                                     dangerouslySetInnerHTML={{
@@ -79,7 +79,7 @@ const PolitiqueConfidentialite = () => {
                                                     }}
                                                   />
                             
-                                      <h2 style={h2Style}>{getContent("privacy_purposes_title", "Finalités des données récoltées")}</h2>h2>
+                                      <h2 style={h2Style}>{getContent("privacy_purposes_title", "Finalités des données récoltées")}</h2>
                                       <div
                                                     style={pStyle}
                                                     dangerouslySetInnerHTML={{
@@ -90,7 +90,7 @@ const PolitiqueConfidentialite = () => {
                                                     }}
                                                   />
                             
-                                      <h2 style={h2Style}>{getContent("privacy_recipients_title", "Destinataires des données")}</h2>h2>
+                                      <h2 style={h2Style}>{getContent("privacy_recipients_title", "Destinataires des données")}</h2>
                                       <div
                                                     style={pStyle}
                                                     dangerouslySetInnerHTML={{
@@ -101,7 +101,7 @@ const PolitiqueConfidentialite = () => {
                                                     }}
                                                   />
                             
-                                      <h2 style={h2Style}>{getContent("privacy_protection_title", "Protection des données")}</h2>h2>
+                                      <h2 style={h2Style}>{getContent("privacy_protection_title", "Protection des données")}</h2>
                                       <div
                                                     style={pStyle}
                                                     dangerouslySetInnerHTML={{
@@ -112,7 +112,7 @@ const PolitiqueConfidentialite = () => {
                                                     }}
                                                   />
                             
-                                      <h2 style={h2Style}>{getContent("privacy_retention_title", "Durée de conservation")}</h2>h2>
+                                      <h2 style={h2Style}>{getContent("privacy_retention_title", "Durée de conservation")}</h2>
                                       <div
                                                     style={pStyle}
                                                     dangerouslySetInnerHTML={{
@@ -123,7 +123,7 @@ const PolitiqueConfidentialite = () => {
                                                     }}
                                                   />
                             
-                                      <h2 style={h2Style}>{getContent("privacy_cookies_title", "Cookies")}</h2>h2>
+                                      <h2 style={h2Style}>{getContent("privacy_cookies_title", "Cookies")}</h2>
                                       <div
                                                     style={pStyle}
                                                     dangerouslySetInnerHTML={{
@@ -135,7 +135,7 @@ const PolitiqueConfidentialite = () => {
                                                     }}
                                                   />
                             
-                                      <h2 style={h2Style}>{getContent("privacy_rights_title", "Droits des personnes")}</h2>h2>
+                                      <h2 style={h2Style}>{getContent("privacy_rights_title", "Droits des personnes")}</h2>
                                       <div
                                                     style={pStyle}
                                                     dangerouslySetInnerHTML={{
@@ -146,11 +146,11 @@ const PolitiqueConfidentialite = () => {
                                                                                     ),
                                                     }}
                                                   />
-                            </div>div>
-                  </section>section>
+                            </div>
+                  </section>
           
                 <Footer />
-          </div>div>
+          </div>
         );
 };
 
