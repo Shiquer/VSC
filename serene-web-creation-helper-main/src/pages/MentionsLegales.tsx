@@ -130,4 +130,4 @@ const MentionsLegales = () => {
         );
 };
 
-export default MentionsLegales;</Link>
+export default MentionsLegales;
