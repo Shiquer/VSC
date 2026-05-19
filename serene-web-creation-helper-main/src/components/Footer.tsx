@@ -86,7 +86,7 @@ const Footer = () => {
             <p style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--primary-foreground))", opacity: 0.7, marginBottom: "16px" }}>
               {getContent("footer_booking_text", "Prenez rendez-vous en ligne pour une consultation.")}
             </p>
-            <Link to="/reservation" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))", padding: "10px 20px", borderRadius: "8px", textDecoration: "none", fontSize: "14px", fontWeight: "600" }}>
+            <Link to="/reservation" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#8a6b5c", color: "#fff", padding: "10px 20px", borderRadius: "99px", textDecoration: "none", fontSize: "14px", fontWeight: "600" }}>
               <Calendar style={{ width: "16px", height: "16px" }} />
               Réserver
             </Link>
