@@ -101,6 +101,8 @@ const Footer = () => {
           <div style={{ display: "flex", gap: "24px" }}>
             <Link to="/contact" style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.5, textDecoration: "none" }}>Contact</Link>
             <Link to="/reservation" style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.5, textDecoration: "none" }}>Réservation</Link>
+                        <Link to="/mentions-legales" style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.5, textDecoration: "none" }}>Mentions légales</Link>
+                        <Link to="/politique-confidentialite" style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.5, textDecoration: "none" }}>Confidentialité</Link>
           </div>
         </div>
       </div>
