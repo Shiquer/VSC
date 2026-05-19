@@ -5,6 +5,15 @@ import { useSiteContent } from "@/hooks/useSiteContent";
 const About = () => {
   const { getContent } = useSiteContent("about");
 
+  // Mois et année dynamiques
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const moisFR = [
+    "JANVIER", "FÉVRIER", "MARS", "AVRIL", "MAI", "JUIN",
+    "JUILLET", "AOÛT", "SEPTEMBRE", "OCTOBRE", "NOVEMBRE", "DÉCEMBRE"
+  ];
+  const currentMonth = moisFR[now.getMonth()];
+
   return (
     <section id="a-propos" style={{ padding: "80px 0", background: "hsl(var(--secondary))" }}>
       <div className="container mx-auto px-8">
@@ -27,8 +36,8 @@ const About = () => {
             {/* Calendrier */}
             <div style={{ borderRadius: "25px", overflow: "hidden", background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", padding: "28px", position: "relative" }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-                <span className="arise-serif" style={{ fontSize: "22px", fontWeight: "400", color: "hsl(var(--foreground))", letterSpacing: "0.05em" }}>SEPTEMBRE</span>
-                <span style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.5, fontFamily: "'Helvetica Neue', sans-serif" }}>2025</span>
+                <span className="arise-serif" style={{ fontSize: "22px", fontWeight: "400", color: "hsl(var(--foreground))", letterSpacing: "0.05em" }}>{currentMonth}</span>
+                <span style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.5, fontFamily: "'Helvetica Neue', sans-serif" }}>{currentYear}</span>
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "4px", marginBottom: "6px" }}>
                 {["LUN","MAR","MER","JEU","VEN","SAM","DIM"].map(d => (
