@@ -119,11 +119,6 @@ const PublicMediaLibrary = () => {
             <p style={{ fontSize: "18px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7, maxWidth: "560px", margin: "0 auto 36px" }}>
               Accedez a notre collection de contenus audio, video et articles pour pratiquer la sophrologie a votre rythme.
             </p>
-            <div style={{ display: "flex", justifyContent: "center", gap: "16px", flexWrap: "wrap" }}>
-              <button className="arise-btn-primary"><Headphones style={{ width: "18px", height: "18px" }} />Explorer les audios</button>
-              <button className="arise-btn-outline"><Video style={{ width: "18px", height: "18px" }} />Voir les videos</button>
-              <button className="arise-btn-outline"><BookOpen style={{ width: "18px", height: "18px" }} />Voir les articles</button>
-            </div>
           </div>
         </section>
 
