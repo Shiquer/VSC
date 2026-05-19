@@ -58,15 +58,17 @@ const App = () => (
                                                                             <Route path="media" element={<AdminMedia />} />
                                                                             <Route path="articles" element={<AdminArticles />} />
                                                                             <Route path="statistics" element={<AdminStatistics />} />
-                                                            </Route>Route>
+                                                            </Route>
                                                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                                                             <Route path="*" element={<NotFound />} />
-                                              </Routes>Routes>
-                                  </BrowserRouter>BrowserRouter>
-                        </TooltipProvider>TooltipProvider>
-                </AdminAuthProvider>AdminAuthProvider>
-          </AuthProvider>AuthProvider>
-    </QueryClientProvider>QueryClientProvider>
+                                              </Routes>
+                                  </BrowserRouter>
+                        </TooltipProvider>
+                </AdminAuthProvider>
+          </AuthProvider>
+    </QueryClientProvider>
   );
 
+export default App;
 export default App;</AuthProvider>
+h
