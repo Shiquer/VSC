@@ -154,4 +154,4 @@ const PolitiqueConfidentialite = () => {
         );
 };
 
-export default PolitiqueConfidentialite;</Link>
+export default PolitiqueConfidentialite;
