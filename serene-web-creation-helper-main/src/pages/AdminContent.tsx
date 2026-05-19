@@ -279,6 +279,8 @@ const AdminContent = () => {
     about: "À propos",
     contact: "Contact et informations",
     footer: "Pied de page",
+      legal: "Mentions légales",
+      privacy: "Politique de confidentialité",
   };
 
   if (loading) {
@@ -351,6 +353,8 @@ const AdminContent = () => {
                   <option value="about">À propos</option>
                   <option value="contact">Contact et informations</option>
                   <option value="footer">Pied de page</option>
+                                  <option value="legal">Mentions légales</option>option>
+                                <option value="privacy">Politique de confidentialité</option>
                 </select>
               </div>
               <div>
