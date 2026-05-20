@@ -426,7 +426,7 @@ const AdminContent = () => {
       )}
 
       <Tabs defaultValue={Object.keys(groupedContents)[0]}>
-        <TabsList className="grid w-full grid-cols-6">
+        <TabsList className="flex w-full overflow-x-auto h-auto flex-wrap gap-1 p-1">
           {Object.keys(groupedContents).map((section) => (
             <TabsTrigger key={section} value={section}>
               {sectionTitles[section as keyof typeof sectionTitles] || section}
