@@ -26,6 +26,7 @@ import AdminStatistics from "./pages/AdminStatistics";
 import ArticleDetail from "./pages/ArticleDetail";
 import MentionsLegales from "./pages/MentionsLegales";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ const App = () => (
                                                             <Route path="/article/:slug" element={<ArticleDetail />} />
                                                             <Route path="/reservation" element={<Reservation />} />
                                                             <Route path="/auth" element={<UserAuth />} />
+                                                                      <Route path="/reset-password" element={<ResetPassword />} />
                                                             <Route path="/mentions-legales" element={<MentionsLegales />} />
                                                             <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
                                                             <Route path="/admin/auth" element={<AdminAuth />} />
