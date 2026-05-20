@@ -72,8 +72,6 @@ const Contact = () => {
   return (
     <section id="contact" style={{ padding: "80px 0", background: "hsl(var(--background))" }}>
       <div className="container mx-auto px-8">
-
-        {/* Header */}
         <div className="text-center animate-fade-in" style={{ marginBottom: "56px" }}>
           <h2 className="arise-serif" style={{ fontSize: "clamp(28px, 3vw, 40px)", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "16px" }}>
             Prendre contact
@@ -84,11 +82,7 @@ const Contact = () => {
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
-
-          {/* Info Cards */}
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-
-            {/* Adresse */}
             <div className="arise-card">
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
                 <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -96,12 +90,9 @@ const Contact = () => {
                 </div>
                 <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Adresse</h3>
               </div>
-              <p style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7 }}>
-                19 rue de Choiseul<br />75002 Paris
-              </p>
+              <p style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7 }}>19 rue de Choiseul<br />75002 Paris</p>
             </div>
 
-            {/* Horaires */}
             <div className="arise-card">
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
                 <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -110,13 +101,10 @@ const Contact = () => {
                 <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))" }}>Horaires</h3>
               </div>
               <div style={{ fontSize: "14px", lineHeight: "1.8", color: "hsl(var(--foreground))", opacity: 0.7 }}>
-                <p>Mardi: 8h - 21h</p>
-                <p>Vendredi: 8h - 21h</p>
-                <p>Samedi: 8h - 13h</p>
+                <p>Mardi: 8h - 21h</p><p>Vendredi: 8h - 21h</p><p>Samedi: 8h - 13h</p>
               </div>
             </div>
 
-            {/* Contact direct */}
             <div className="arise-card">
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "16px" }}>
                 <div style={{ width: "36px", height: "36px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -132,8 +120,7 @@ const Contact = () => {
                 ].map(({ href, icon: Icon, label }) => (
                   <a key={label} href={href} target={label === "LinkedIn" ? "_blank" : undefined} rel="noopener noreferrer">
                     <button className="arise-btn-outline" style={{ width: "100%", justifyContent: "flex-start", height: "48px", padding: "0 16px", fontSize: "14px" }}>
-                      <Icon style={{ width: "16px", height: "16px" }} />
-                      {label}
+                      <Icon style={{ width: "16px", height: "16px" }} />{label}
                     </button>
                   </a>
                 ))}
@@ -141,13 +128,11 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Form */}
           <div className="lg:col-span-2">
             <div className="arise-card" style={{ padding: "40px" }}>
               <h3 className="arise-serif" style={{ fontSize: "24px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "32px" }}>
                 Envoyez-moi un message
               </h3>
-
               <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
@@ -159,54 +144,41 @@ const Contact = () => {
                     <input id="lastName" style={inputStyle} placeholder="Votre nom" value={formData.lastName} onChange={e => handleInputChange("lastName", e.target.value)} required />
                   </div>
                 </div>
-
                 <div>
                   <label htmlFor="email" style={labelStyle}>Email *</label>
                   <input id="email" type="email" style={inputStyle} placeholder="votre.email@example.com" value={formData.email} onChange={e => handleInputChange("email", e.target.value)} required />
                 </div>
-
                 <div>
                   <label htmlFor="phone" style={labelStyle}>Téléphone</label>
                   <input id="phone" type="tel" style={inputStyle} placeholder="Votre numéro de téléphone" value={formData.phone} onChange={e => handleInputChange("phone", e.target.value)} />
                 </div>
-
                 <div>
                   <label htmlFor="subject" style={labelStyle}>Sujet *</label>
-                  <input id="subject" style={inputStyle} placeholder="Objet de votre demande" value={formData.subject} onChange={e => handleInputChange("subject", e.target.value)} required />
+                  <select
+                    id="subject"
+                    value={formData.subject}
+                    onChange={e => handleInputChange("subject", e.target.value)}
+                    required
+                    style={{ ...inputStyle, cursor: "pointer" }}
+                  >
+                    <option value="">Choisissez un sujet</option>
+                    <option value="psychanalyse">Psychanalyse</option>
+                    <option value="hypnotherapie">Hypnothérapie</option>
+                    <option value="entreprise">Formation en entreprise</option>
+                    <option value="autre">Autre</option>
+                  </select>
                 </div>
-
                 <div>
                   <label htmlFor="message" style={labelStyle}>Message *</label>
-                  <textarea
-                    id="message"
-                    placeholder="Décrivez votre demande ou vos questions..."
-                    rows={6}
-                    value={formData.message}
-                    onChange={e => handleInputChange("message", e.target.value)}
-                    required
-                    style={{
-                      ...inputStyle,
-                      height: "auto",
-                      borderRadius: "25px",
-                      padding: "16px 24px",
-                      resize: "vertical",
-                    }}
-                  />
+                  <textarea id="message" placeholder="Décrivez votre demande ou vos questions..." rows={6} value={formData.message} onChange={e => handleInputChange("message", e.target.value)} required style={{ ...inputStyle, height: "auto", borderRadius: "25px", padding: "16px 24px", resize: "vertical" }} />
                 </div>
-
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }} className="sm:flex-row">
-                  <button
-                    type="submit"
-                    className="arise-btn-primary"
-                    disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message}
-                    style={{ opacity: isSubmitting ? 0.7 : 1 }}
-                  >
+                  <button type="submit" className="arise-btn-primary" disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message} style={{ opacity: isSubmitting ? 0.7 : 1 }}>
                     {isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
                   </button>
                   <Link to="/reservation">
                     <button type="button" className="arise-btn-outline">
-                      <Calendar style={{ width: "18px", height: "18px" }} />
-                      Prendre rendez-vous
+                      <Calendar style={{ width: "18px", height: "18px" }} />Prendre rendez-vous
                     </button>
                   </Link>
                 </div>
