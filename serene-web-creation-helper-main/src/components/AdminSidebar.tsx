@@ -43,7 +43,7 @@ export function AdminSidebar() {
   const isActive = (path: string) => currentPath === path;
   const isExpanded = adminItems.some((i) => isActive(i.url));
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "bg-primary text-primary-foreground font-medium" : "hover:bg-muted/50 text-foreground";
+    isActive ? "bg-muted font-medium text-foreground" : "text-foreground";
 
   const isCollapsed = state === "collapsed";
 
@@ -61,7 +61,7 @@ export function AdminSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild className="text-foreground hover:text-foreground">
                     <NavLink to="/" className="hover:bg-muted/50 text-foreground">
                       <Home className="mr-2 h-4 w-4" />
                       {!isCollapsed && <span>Retour au site</span>}
