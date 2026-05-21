@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Users, Clock, Calendar, MapPin, Star, CheckCircle, ArrowRight } from "lucide-react";
@@ -39,6 +40,7 @@ const GroupClasses = () => {
   };
 
   const sectionStyle = { padding: "80px 0" };
+  usePageTitle("Cours Collectifs de Sophrologie - Natalia Kourycheva");
   const h2Style = { fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(26px, 3vw, 36px)", fontWeight: "400" as const, color: "hsl(var(--foreground))", textAlign: "center" as const, marginBottom: "48px" };
 
   return (
