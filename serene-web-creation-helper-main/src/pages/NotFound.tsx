@@ -1,3 +1,6 @@
+import usePageTitle from "@/hooks/usePageTitle";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -5,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Home } from "lucide-react";
 
 const NotFound = () => {
+    usePageTitle("Page introuvable - Natalia Kourycheva");
   const location = useLocation();
 
   useEffect(() => {
@@ -15,9 +19,12 @@ const NotFound = () => {
   }, [location]);
 
   return (
+    <>
+      <Header />
     <div className="min-h-screen flex items-center justify-center bg-cream-bg">
       <div className="text-center space-y-6">
         <h1 className="text-8xl font-bold text-primary">404</h1>
+            
         <h2 className="text-2xl font-semibold text-foreground">Page introuvable</h2>
         <p className="text-soft-gray max-w-md mx-auto">
           Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
@@ -30,6 +37,8 @@ const NotFound = () => {
         </Link>
       </div>
     </div>
+      <Footer />
+    </>
   );
 };
 
