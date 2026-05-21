@@ -1,7 +1,9 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BookingForm from "@/components/BookingForm";
 
+  usePageTitle("Prendre Rendez-vous - Natalia Kourycheva");
 const Reservation = () => {
   return (
     <div className="min-h-screen">
