@@ -52,4 +52,3 @@ import { useAuth } from "@/hooks/useAuth";
 
 export default Reservation;
 
-export default Reservation;
