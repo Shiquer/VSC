@@ -1,11 +1,33 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import usePageTitle from "@/hooks/usePageTitle";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BookingForm from "@/components/BookingForm";
+import { useAuth } from "@/hooks/useAuth";
 
   const Reservation = () => {
       usePageTitle("Prendre Rendez-vous - Natalia Kourycheva");
-  return (
+      const { user, loading } = useAuth();
+      const navigate = useNavigate();
+
+      useEffect(() => {
+            if (!loading && !user) {
+                    navigate("/auth");
+            }
+      }, [user, loading, navigate]);
+
+      if (loading) {
+            return (
+                    <div className="min-h-screen flex items-center justify-center">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                    </div>
+                  );
+      }
+    
+      if (!user) return null;
+    
+    return (
     <div className="min-h-screen">
       <Header />
       <main style={{ paddingTop: "80px", paddingBottom: "80px", background: "hsl(var(--background))" }}>
@@ -27,5 +49,7 @@ import BookingForm from "@/components/BookingForm";
     </div>
   );
 };
+
+export default Reservation;
 
 export default Reservation;
