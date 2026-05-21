@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -36,6 +37,7 @@ const ContactPage = () => {
       .catch(() => setFormStatus("error"));
   };
 
+  usePageTitle("Contact & Prise de Rendez-vous - Natalia Kourycheva");
   return (
     <div className="min-h-screen bg-background">
       <Header />
