@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import { Heart, CheckCircle, Clock, Users, Phone, ArrowLeft, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
@@ -21,6 +22,7 @@ const Hypnose = () => {
 
   const sectionStyle = { padding: "80px 0" };
   const h2Style = { fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(26px, 3vw, 36px)", fontWeight: "400" as const, color: "hsl(var(--foreground))", textAlign: "center" as const, marginBottom: "48px" };
+  usePageTitle("Hypnose Thérapeutique à Paris - Natalia Kourycheva");
 
   return (
     <div className="min-h-screen" style={{ background: "hsl(var(--background))" }}>
