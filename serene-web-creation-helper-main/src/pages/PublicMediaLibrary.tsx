@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -84,6 +85,7 @@ const PublicMediaLibrary = () => {
   const [mediaContents, setMediaContents] = useState<MediaContent[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
+  usePageTitle("Médiathèque - Natalia Kourycheva");
 
   useEffect(() => { fetchMediaContents(); fetchArticles(); }, []);
 
