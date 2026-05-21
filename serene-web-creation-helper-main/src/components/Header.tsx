@@ -1,4 +1,3 @@
-himport { Button } from "@/components/ui/button";
 import { Phone, Calendar, LogOut, User, ChevronDown, Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -196,6 +195,14 @@ const Header = () => {
                     Déconnexion
                   </button>
                 )}
+                {!isAdmin && (
+                  <Link to="/reservation">
+                    <button style={ctaButtonStyle}>
+                      <User className="w-4 h-4" />
+                      Mon espace
+                    </button>
+                  </Link>
+                )}
                 <Link to="/reservation">
                   <button style={ctaPrimaryButtonStyle}>
                     <Calendar className="w-4 h-4" />
@@ -204,20 +211,12 @@ const Header = () => {
                 </Link>
               </>
             ) : (
-              <>
-                <Link to="/auth">
-                  <button style={ctaPrimaryButtonStyle}>
-                    <User className="w-4 h-4" />
-                    Connexion
-                  </button>
-                </Link>
-                <Link to="/reservation">
-                  <button style={ctaPrimaryButtonStyle}>
-                    <Calendar className="w-4 h-4" />
-                    Rendez-vous
-                  </button>
-                </Link>
-              </>
+              <Link to="/reservation">
+                <button style={ctaPrimaryButtonStyle}>
+                  <Calendar className="w-4 h-4" />
+                  Rendez-vous
+                </button>
+              </Link>
             )}
           </div>
 
@@ -284,6 +283,14 @@ const Header = () => {
                       </button>
                     </Link>
                   )}
+                  {!isAdmin && (
+                    <Link to="/reservation" onClick={closeMobileMenu}>
+                      <button style={{ ...ctaButtonStyle, width: "100%", justifyContent: "center" }}>
+                        <User className="w-4 h-4" />
+                        Mon espace
+                      </button>
+                    </Link>
+                  )}
                   <Link to="/reservation" onClick={closeMobileMenu}>
                     <button style={{ ...ctaPrimaryButtonStyle, width: "100%", justifyContent: "center" }}>
                       <Calendar className="w-4 h-4" />
@@ -292,20 +299,12 @@ const Header = () => {
                   </Link>
                 </>
               ) : (
-                <>
-                  <Link to="/auth" onClick={closeMobileMenu}>
-                    <button style={{ ...ctaButtonStyle, width: "100%", justifyContent: "center" }}>
-                      <User className="w-4 h-4" />
-                      Connexion
-                    </button>
-                  </Link>
-                  <Link to="/reservation" onClick={closeMobileMenu}>
-                    <button style={{ ...ctaPrimaryButtonStyle, width: "100%", justifyContent: "center" }}>
-                      <Calendar className="w-4 h-4" />
-                      Rendez-vous
-                    </button>
-                  </Link>
-                </>
+                <Link to="/reservation" onClick={closeMobileMenu}>
+                  <button style={{ ...ctaPrimaryButtonStyle, width: "100%", justifyContent: "center" }}>
+                    <Calendar className="w-4 h-4" />
+                    Rendez-vous
+                  </button>
+                </Link>
               )}
             </div>
 
