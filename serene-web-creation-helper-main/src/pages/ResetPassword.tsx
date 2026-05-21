@@ -50,7 +50,7 @@ const ResetPassword = () => {
           if (password.length < 6) {
                   toast({
                             title: "Erreur",
-                            description: "Le mot de passe doit contenir au moins 6 caracteres.",
+                            description: "Le mot de passe doit contenir au moins 6 caractères.",
                             variant: "destructive",
                           });
                   return;
@@ -69,8 +69,8 @@ const ResetPassword = () => {
                                       });
                           } else {
                             toast({
-                                        title: "Mot de passe mis a jour",
-                                        description: "Votre mot de passe a ete reinitialise avec succes.",
+                                        title: "Mot de passe mis à jour",
+                                        description: "Votre mot de passe a été réinitialisé avec succès.",
                                       });
                             await supabase.auth.signOut();
                             navigate("/auth");
@@ -126,16 +126,16 @@ const ResetPassword = () => {
                                             </div>
                                             <Button type="submit" className="w-full" disabled={isLoading}>
                                               {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                                              Mettre a jour le mot de passe
+                                              Mettre à jour le mot de passe
                                             </Button>
                                           </form>
                                         ) : (
                                           <div className="text-center space-y-4">
                                             <p className="text-muted-foreground">
-                                              Lien de reinitialisation invalide ou expire. Veuillez recommencer.
+                                              Lien de réinitialisation invalide ou expiré. Veuillez recommencer.
                                             </p>
                                             <Button onClick={() => navigate("/auth")} variant="outline">
-                                              Retour a la connexion
+                                              Retour à la connexion
                                             </Button>
                                           </div>
                                         )}
