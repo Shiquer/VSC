@@ -119,7 +119,7 @@ const BookingForm = () => {
                           <CheckCircle style={{ width: "20px", height: "20px", color: "hsl(142 76% 36%)", flexShrink: 0 }} />
                           <div>
                                       <p style={{ fontWeight: "700", color: "hsl(142 76% 36%)", marginBottom: "2px" }}>Réservation envoyée avec succès !</p>
-                                      <p style={{ fontSize: "14px", color: "hsl(142 76% 36%)", opacity: 0.8 }}>Vous recevrez un email de confirmation sous peu. Nous vous contacterons pour confirmer votre créneau.</p>p>
+                                      <p style={{ fontSize: "14px", color: "hsl(142 76% 36%)", opacity: 0.8 }}>Vous recevrez un email de confirmation sous peu. Nous vous contacterons pour confirmer votre créneau.</p>
                           </div>
                 </div>
           )}
