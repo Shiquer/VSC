@@ -3,8 +3,8 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BookingForm from "@/components/BookingForm";
 
-  usePageTitle("Prendre Rendez-vous - Natalia Kourycheva");
-const Reservation = () => {
+  const Reservation = () => {
+      usePageTitle("Prendre Rendez-vous - Natalia Kourycheva");
   return (
     <div className="min-h-screen">
       <Header />
