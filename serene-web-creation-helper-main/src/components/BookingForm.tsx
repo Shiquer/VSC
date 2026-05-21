@@ -6,7 +6,7 @@ import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Calendar, Clock, User, Mail, Phone, MessageCircle, CalendarIcon } from "lucide-react";
+import { Calendar, Clock, User, Mail, Phone, MessageCircle, CalendarIcon, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const services = [
@@ -54,6 +54,7 @@ const labelStyle = {
 
 const BookingForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
   const { toast } = useToast();
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [formData, setFormData] = useState({
@@ -85,6 +86,7 @@ const BookingForm = () => {
         });
       } catch (emailError) { console.error('Email error:', emailError); }
       toast({ title: "Réservation envoyée !", description: "Vous recevrez un email de confirmation." });
+            setIsSubmitted(true);
       setSelectedDate(undefined);
       setFormData({ name: "", email: "", phone: "", service: "", time: "", message: "" });
     } catch (error) {
@@ -112,7 +114,16 @@ const BookingForm = () => {
         </h2>
       </div>
 
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+      {isSubmitted && (
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", background: "hsl(142 76% 36% / 0.1)", border: "1px solid hsl(142 76% 36% / 0.3)", borderRadius: "12px", padding: "16px 20px", marginBottom: "20px" }}>
+                          <CheckCircle style={{ width: "20px", height: "20px", color: "hsl(142 76% 36%)", flexShrink: 0 }} />
+                          <div>
+                                      <p style={{ fontWeight: "700", color: "hsl(142 76% 36%)", marginBottom: "2px" }}>Réservation envoyée avec succès !</p>
+                                      <p style={{ fontSize: "14px", color: "hsl(142 76% 36%)", opacity: 0.8 }}>Vous recevrez un email de confirmation sous peu. Nous vous contacterons pour confirmer votre créneau.</p>p>
+                          </div>
+                </div>
+          )}
+<form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
