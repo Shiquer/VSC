@@ -82,6 +82,7 @@ const ArticleExcerpt = ({ excerpt, content }: { excerpt: string | null; content:
 
 const PublicMediaLibrary = () => {
   const [currentPlaying, setCurrentPlaying] = useState<string | null>(null);
+  const [currentVideo, setCurrentVideo] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [mediaContents, setMediaContents] = useState<MediaContent[]>([]);
@@ -280,11 +281,32 @@ const PublicMediaLibrary = () => {
                           <h3 className="arise-serif" style={{ fontSize: "18px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "8px" }}>{video.title}</h3>
                           <p style={{ fontSize: "13px", lineHeight: "1.6", color: "hsl(var(--foreground))", opacity: 0.7, marginBottom: "16px" }}>{video.description || "Aucune description disponible"}</p>
                           {video.views !== null && <p style={{ fontSize: "12px", color: "hsl(var(--foreground))", opacity: 0.4, marginBottom: "16px" }}>{video.views} vues</p>}
-                          <a href={video.file_url} target="_blank" rel="noopener noreferrer">
-                            <button className="arise-btn-primary" style={{ width: "100%", justifyContent: "center" }}>
+                          {currentVideo === video.id ? (
+                            <div style={{ marginTop: "12px" }}>
+                              <video
+                                src={video.file_url}
+                                controls
+                                autoPlay
+                                style={{ width: "100%", borderRadius: "12px", background: "#000", display: "block" }}
+                                onEnded={() => setCurrentVideo(null)}
+                              />
+                              <button
+                                onClick={() => setCurrentVideo(null)}
+                                className="arise-btn-outline"
+                                style={{ width: "100%", justifyContent: "center", marginTop: "10px" }}
+                              >
+                                Fermer
+                              </button>
+                            </div>
+                          ) : (
+                            <button
+                              onClick={() => setCurrentVideo(video.id)}
+                              className="arise-btn-primary"
+                              style={{ width: "100%", justifyContent: "center" }}
+                            >
                               <Play style={{ width: "16px", height: "16px" }} />Regarder
                             </button>
-                          </a>
+                          )}
                         </div>
                       </div>
                     ))}
