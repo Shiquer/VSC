@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Play, Pause, Download, Clock, Headphones, Video, Music, Book, BookOpen } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 
@@ -82,6 +82,8 @@ const ArticleExcerpt = ({ excerpt, content }: { excerpt: string | null; content:
 
 const PublicMediaLibrary = () => {
   const [currentPlaying, setCurrentPlaying] = useState<string | null>(null);
+  const [progress, setProgress] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const [mediaContents, setMediaContents] = useState<MediaContent[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
@@ -108,7 +110,56 @@ const PublicMediaLibrary = () => {
   const audioContent = mediaContents.filter(m => m.content_type === "audio");
   const videoContent = mediaContents.filter(m => m.content_type === "video");
 
-  const handlePlayPause = (id: string) => setCurrentPlaying(currentPlaying === id ? null : id);
+  const handlePlayPause = useCallback((id: string, fileUrl: string) => {
+    if (currentPlaying === id) {
+      if (audioRef.current) {
+        audioRef.current.pause();
+      }
+      setCurrentPlaying(null);
+      setProgress(0);
+    } else {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
+      const audio = new Audio(fileUrl);
+      audioRef.current = audio;
+
+      audio.addEventListener("timeupdate", () => {
+        if (audio.duration > 0) {
+          setProgress((audio.currentTime / audio.duration) * 100);
+        }
+      });
+
+      audio.addEventListener("ended", () => {
+        setCurrentPlaying(null);
+        setProgress(0);
+      });
+
+      audio.addEventListener("error", (e) => {
+        console.error("Audio playback error:", e);
+        setCurrentPlaying(null);
+        setProgress(0);
+      });
+
+      audio.play().catch((err) => {
+        console.error("Audio play failed:", err);
+        setCurrentPlaying(null);
+      });
+
+      setCurrentPlaying(id);
+      setProgress(0);
+    }
+  }, [currentPlaying]);
+
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = "";
+      }
+    };
+  }, []);
 
   return (
     <div className="min-h-screen" style={{ background: "hsl(var(--background))" }}>
@@ -164,7 +215,7 @@ const PublicMediaLibrary = () => {
                                 <span style={{ ...badgeStyle("hsl(var(--secondary))") }}>{audio.category}</span>
                               </div>
                             </div>
-                            <button onClick={() => handlePlayPause(audio.id)} style={{ width: "44px", height: "44px", borderRadius: "50%", background: "hsl(var(--foreground))", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, marginLeft: "12px" }}>
+                            <button onClick={() => handlePlayPause(audio.id, audio.file_url)} style={{ width: "44px", height: "44px", borderRadius: "50%", background: "hsl(var(--foreground))", border: "none", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", flexShrink: 0, marginLeft: "12px" }}>
                               {currentPlaying === audio.id ? <Pause style={{ width: "18px", height: "18px", color: "hsl(var(--primary-foreground))" }} /> : <Play style={{ width: "18px", height: "18px", color: "hsl(var(--primary-foreground))" }} />}
                             </button>
                           </div>
@@ -172,7 +223,7 @@ const PublicMediaLibrary = () => {
                           {currentPlaying === audio.id && (
                             <div style={{ marginBottom: "16px" }}>
                               <div style={{ height: "4px", background: "hsl(var(--secondary))", borderRadius: "99px" }}>
-                                <div style={{ height: "4px", width: "33%", background: "hsl(var(--foreground))", borderRadius: "99px" }} />
+                                <div style={{ height: "4px", width: `${progress}%`, transition: "width 0.3s linear", background: "hsl(var(--foreground))", borderRadius: "99px" }} />
                               </div>
                             </div>
                           )}
@@ -182,7 +233,7 @@ const PublicMediaLibrary = () => {
                               {audio.downloads !== null && <span style={{ display: "flex", alignItems: "center", gap: "4px" }}><Download style={{ width: "12px", height: "12px" }} />{audio.downloads}</span>}
                             </div>
                             <div style={{ display: "flex", gap: "8px" }}>
-                              <button onClick={() => handlePlayPause(audio.id)} className="arise-btn-outline" style={{ height: "40px", padding: "0 16px", fontSize: "13px" }}>
+                              <button onClick={() => handlePlayPause(audio.id, audio.file_url)} className="arise-btn-outline" style={{ height: "40px", padding: "0 16px", fontSize: "13px" }}>
                                 {currentPlaying === audio.id ? <><Pause style={{ width: "14px", height: "14px" }} />Pause</> : <><Play style={{ width: "14px", height: "14px" }} />Ecouter</>}
                               </button>
                               <a href={audio.file_url} download>
