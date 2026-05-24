@@ -196,7 +196,7 @@ const Header = () => {
                   </button>
                 )}
                 {!isAdmin && (
-                  <Link to="/reservation">
+                  <Link to="/mon-espace">
                     <button style={ctaButtonStyle}>
                       <User className="w-4 h-4" />
                       Mon espace
@@ -284,7 +284,7 @@ const Header = () => {
                     </Link>
                   )}
                   {!isAdmin && (
-                    <Link to="/reservation" onClick={closeMobileMenu}>
+                    <Link to="/mon-espace" onClick={closeMobileMenu}>
                       <button style={{ ...ctaButtonStyle, width: "100%", justifyContent: "center" }}>
                         <User className="w-4 h-4" />
                         Mon espace
