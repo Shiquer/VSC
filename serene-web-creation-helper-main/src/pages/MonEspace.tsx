@@ -29,7 +29,7 @@ const MonEspace = () => {
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      navigate("/");
+      navigate("/mon-espace/tableau-de-bord");
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : "Une erreur est survenue.";
       if (msg.includes("Invalid login credentials")) setLoginError("Email ou mot de passe incorrect.");
