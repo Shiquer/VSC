@@ -1,72 +1,69 @@
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 interface SiteContent {
-  id: string;
-  key: string;
-  title: string;
-  content: string;
-  content_type: string;
-  section: string;
-  image_url?: string;
+    id: string;
+    key: string;
+    title: string;
+    content: string;
+    content_type: string;
+    section: string;
+    image_url?: string;
 }
 
+// Fetch ALL site_content in one single request — shared across all components
+const fetchAllSiteContent = async (): Promise<SiteContent[]> => {
+    const { data, error } = await supabase
+      .from("site_content" as any)
+      .select("*")
+      .order("section", { ascending: true });
+
+    if (error) throw new Error(error.message);
+    return (data as unknown as SiteContent[]) ?? [];
+};
+
 export const useSiteContent = (section?: string) => {
-  const [content, setContent] = useState<Record<string, SiteContent>>({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+    // React Query caches by key "site_content" — only 1 network call total,
+    // shared by all components. staleTime prevents re-fetches on re-mount.
+    const {
+          data: allContent = [],
+          isLoading: loading,
+          error: queryError,
+    } = useQuery({
+          queryKey: ["site_content"],
+          queryFn: fetchAllSiteContent,
+          staleTime: 5 * 60 * 1000, // cache valid for 5 minutes
+          gcTime: 10 * 60 * 1000,   // keep in memory for 10 minutes
+    });
 
-  useEffect(() => {
-    const fetchContent = async () => {
-      try {
-        setLoading(true);
-        
-        let query = supabase
-          .from("site_content" as any)
-          .select("*");
-        
-        if (section) {
-          query = query.eq("section", section);
-        }
-        
-        const { data, error } = await query;
+    const error = queryError ? (queryError as Error).message : null;
 
-        if (error) throw error;
+    // Filter by section if requested
+    const filtered = section
+      ? allContent.filter((item) => item.section === section)
+          : allContent;
 
-        // Convertir en object avec key comme clé pour un accès facile
-        const contentMap = (data as unknown as SiteContent[]).reduce((acc, item) => {
+    // Build key->item map for quick lookup
+    const content = filtered.reduce((acc, item) => {
           acc[item.key] = item;
           return acc;
-        }, {} as Record<string, SiteContent>);
+    }, {} as Record<string, SiteContent>);
 
-        setContent(contentMap);
-        setError(null);
-      } catch (err) {
-        console.error("Erreur lors du chargement du contenu:", err);
-        setError(err instanceof Error ? err.message : "Erreur inconnue");
-      } finally {
-        setLoading(false);
-      }
+    // Utility: get content value by key
+    const getContent = (key: string, defaultValue: string = "") => {
+          return content[key]?.content || defaultValue;
     };
 
-    fetchContent();
-  }, [section]);
+    // Utility: get image URL by key
+    const getImage = (key: string) => {
+          return content[key]?.image_url;
+    };
 
-  // Fonction utilitaire pour récupérer le contenu par clé
-  const getContent = (key: string, defaultValue: string = "") => {
-    return content[key]?.content || defaultValue;
-  };
-
-  // Fonction utilitaire pour récupérer l'image par clé
-  const getImage = (key: string) => {
-    return content[key]?.image_url;
-  };
-
-  return {
-    content,
-    loading,
-    error,
-    getContent,
-    getImage,
-  };
+    return {
+          content,
+          loading,
+          error,
+          getContent,
+          getImage,
+    };
 };
