@@ -6,6 +6,22 @@ const Skeleton = ({ width = "100%", height = "14px", style = {} }: { width?: str
   <div style={{ width, height, background: "hsl(var(--primary-foreground) / 0.15)", borderRadius: "4px", animation: "pulse 1.5s ease-in-out infinite", ...style }} />
 );
 
+// Obfuscated email: assembled from char codes at runtime to prevent bot scraping
+const ObfuscatedEmail = ({ style }: { style?: React.CSSProperties }) => {
+  const decode = (codes: number[]) => codes.map(c => String.fromCharCode(c)).join("");
+  const emailCodes = [110,97,116,97,108,105,97,46,107,111,117,114,121,99,104,101,118,97,64,103,109,97,105,108,46,99,111,109];
+  const email = decode(emailCodes);
+  return (
+    <a
+      href={"mai" + "lto:" + email}
+      onClick={(e) => { e.currentTarget.href = "mai" + "lto:" + decode(emailCodes); }}
+      style={{ color: "inherit", textDecoration: "none", fontSize: "14px", ...style }}
+    >
+      {email}
+    </a>
+  );
+};
+
 const Footer = () => {
   const { getContent, loading: loadingFooter } = useSiteContent("footer");
   const { getContent: getHeaderContent, loading: loadingHeader } = useSiteContent("header");
@@ -60,7 +76,7 @@ const Footer = () => {
               <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
                 <Mail style={{ width: "16px", height: "16px" }} />
                 {loading ? <Skeleton width="160px" height="14px" /> : (
-                  <a href={`mailto:${getHeaderContent("header_email", "natalia.kourycheva@gmail.com")}`} style={{ color: "inherit", textDecoration: "none", fontSize: "14px" }}>{getHeaderContent("header_email", "natalia.kourycheva@gmail.com")}</a>
+                  <ObfuscatedEmail />
                 )}
               </div>
             </div>
