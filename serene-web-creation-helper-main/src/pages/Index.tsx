@@ -7,18 +7,20 @@ import Footer from "@/components/Footer";
 import usePageTitle from "@/hooks/usePageTitle";
 
 const Index = () => {
-  usePageTitle("Natalia Kourycheva - Psychanalyste & Hypnothérapeute à Paris");
+    usePageTitle("Natalia Kourycheva - Psychanalyste & Hypnothérapeute à Paris");
 
-  return (
-    <div className="min-h-screen">
-      <Header />
-      <Hero />
-      <Services />
-      <About />
-      <Contact />
-      <Footer />
-    </div>
-  );
+    return (
+          <div className="min-h-screen">
+                <Header />
+                <main id="main-content" aria-label="Contenu principal">
+                        <Hero />
+                        <Services />
+                        <About />
+                        <Contact />
+                </main>main>
+                <Footer />
+          </div>
+        );
 };
 
 export default Index;
