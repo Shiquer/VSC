@@ -118,7 +118,7 @@ const Hero = () => {
             <img
               src={portraitImage}
               alt="Portrait"
-              className="rounded-2xl max-h-[500px] object-cover"
+              className="rounded-2xl max-h-[500px] object-cover" loading="eager" fetchPriority="high" decoding="async"
             />
           </div>
 
