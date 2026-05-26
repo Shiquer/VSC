@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://serene-web-creation-helper.vercel.app/sitemap.xml
+Sitemap: https://natalia-kourycheva.fr/sitemap.xml
