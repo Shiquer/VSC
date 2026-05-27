@@ -178,6 +178,7 @@ h
                     <label style={labelStyle}>Message *</label>
                     <textarea name="message" required rows={5} style={{ ...inputStyle, resize: "vertical" }} placeholder="Décrivez votre demande..." />
                   </div>
+                  <p style={{ fontSize: "12px", color: "hsl(var(--muted-foreground))", marginTop: "-8px" }}>En soumettant ce formulaire, vos données sont traitées conformément à notre <Link to="/politique-confidentialite" style={{ color: "hsl(var(--primary))" }}>politique de confidentialité</Link>.</p>
                   <p style={{ fontSize: "12px", color: "hsl(var(--muted-foreground))", marginTop: "-8px" }}>* Champs obligatoires</p>
                   <button
                     type="submit"
