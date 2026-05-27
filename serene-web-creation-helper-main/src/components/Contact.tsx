@@ -57,7 +57,7 @@ const Contact = () => {
       const res = await fetch("https://formspree.io/f/mykobvjq", {
         method: "POST",
         body: fd,
-        headers: { Accept: "application/json" },
+        headers: { Accept: "application/json", "X-Requested-With": "XMLHttpRequest" },
       });
       if (!res.ok) throw new Error("err");
       toast({ title: "Message envoyé !", description: "Vous recevrez une réponse rapidement." });
@@ -133,29 +133,29 @@ const Contact = () => {
               <h3 className="arise-serif" style={{ fontSize: "24px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "32px" }}>
                 Envoyez-moi un message
               </h3>
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              <form method="POST" onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label htmlFor="firstName" style={labelStyle}>Prénom *</label>
-                    <input id="firstName" style={inputStyle} placeholder="Votre prénom" value={formData.firstName} onChange={e => handleInputChange("firstName", e.target.value)} required />
+                    <input id="firstName" name="firstName" style={inputStyle} placeholder="Votre prénom" value={formData.firstName} onChange={e => handleInputChange("firstName", e.target.value)} required />
                   </div>
                   <div>
                     <label htmlFor="lastName" style={labelStyle}>Nom *</label>
-                    <input id="lastName" style={inputStyle} placeholder="Votre nom" value={formData.lastName} onChange={e => handleInputChange("lastName", e.target.value)} required />
+                    <input id="lastName" name="lastName" style={inputStyle} placeholder="Votre nom" value={formData.lastName} onChange={e => handleInputChange("lastName", e.target.value)} required />
                   </div>
                 </div>
                 <div>
                   <label htmlFor="email" style={labelStyle}>Email *</label>
-                  <input id="email" type="email" style={inputStyle} placeholder="votre.email@example.com" value={formData.email} onChange={e => handleInputChange("email", e.target.value)} required />
+                  <input id="email" name="email" type="email" style={inputStyle} placeholder="votre.email@example.com" value={formData.email} onChange={e => handleInputChange("email", e.target.value)} required />
                 </div>
                 <div>
                   <label htmlFor="phone" style={labelStyle}>Téléphone</label>
-                  <input id="phone" type="tel" style={inputStyle} placeholder="Votre numéro de téléphone" value={formData.phone} onChange={e => handleInputChange("phone", e.target.value)} />
+                  <input id="phone" name="phone" type="tel" style={inputStyle} placeholder="Votre numéro de téléphone" value={formData.phone} onChange={e => handleInputChange("phone", e.target.value)} />
                 </div>
                 <div>
                   <label htmlFor="subject" style={labelStyle}>Sujet *</label>
                   <select
-                    id="subject"
+                    id="subject" name="subject"
                     value={formData.subject}
                     onChange={e => handleInputChange("subject", e.target.value)}
                     required
@@ -170,7 +170,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <label htmlFor="message" style={labelStyle}>Message *</label>
-                  <textarea id="message" placeholder="Décrivez votre demande ou vos questions..." rows={6} value={formData.message} onChange={e => handleInputChange("message", e.target.value)} required style={{ ...inputStyle, height: "auto", borderRadius: "25px", padding: "16px 24px", resize: "vertical" }} />
+                  <textarea id="message" name="message" placeholder="Décrivez votre demande ou vos questions..." rows={6} value={formData.message} onChange={e => handleInputChange("message", e.target.value)} required style={{ ...inputStyle, height: "auto", borderRadius: "25px", padding: "16px 24px", resize: "vertical" }} />
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }} className="sm:flex-row">
                   <button type="submit" className="arise-btn-primary" disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message} style={{ opacity: isSubmitting ? 0.7 : 1 }}>
