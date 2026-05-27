@@ -1,4 +1,4 @@
-import usePageTitle from "@/hooks/usePageTitle";
+himport usePageTitle from "@/hooks/usePageTitle";
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -16,7 +16,7 @@ const ContactPage = () => {
     { icon: Clock, title: "Troubles du sommeil", description: "Amélioration de la qualité du sommeil" },
     { icon: Award, title: "Développement personnel", description: "Confiance en soi et estime de soi" },
   ];
-h
+
   const sectionStyle = { padding: "80px 0" };
   const inputStyle = { width: "100%", padding: "12px 16px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", background: "hsl(var(--background))", color: "hsl(var(--foreground))", boxSizing: "border-box" as const };
   const labelStyle = { display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "14px", color: "hsl(var(--foreground))" };
