@@ -1,4 +1,4 @@
-himport usePageTitle from "@/hooks/usePageTitle";
+import usePageTitle from "@/hooks/usePageTitle";
 import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
