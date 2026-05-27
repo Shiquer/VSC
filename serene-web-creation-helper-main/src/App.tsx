@@ -29,6 +29,7 @@ import ArticleDetail from "./pages/ArticleDetail";
 import MentionsLegales from "./pages/MentionsLegales";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import ResetPassword from "./pages/ResetPassword";
+import CookieBanner from "./components/CookieBanner";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +40,7 @@ const App = () => (
         <TooltipProvider>
           <Toaster />
           <Sonner />
+          <CookieBanner />
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
