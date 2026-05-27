@@ -172,6 +172,7 @@ const Contact = () => {
                   <label htmlFor="message" style={labelStyle}>Message *</label>
                   <textarea id="message" name="message" placeholder="Décrivez votre demande ou vos questions..." rows={6} value={formData.message} onChange={e => handleInputChange("message", e.target.value)} required style={{ ...inputStyle, height: "auto", borderRadius: "25px", padding: "16px 24px", resize: "vertical" }} />
                 </div>
+                <p style={{ fontSize: "12px", color: "hsl(var(--muted-foreground))", lineHeight: "1.5" }}>En soumettant ce formulaire, vos données sont traitées conformément à notre{" "}<Link to="/politique-confidentialite" style={{ color: "hsl(var(--primary))", textDecoration: "underline" }}>politique de confidentialité</Link>.</p>
                 <div style={{ display: "flex", flexDirection: "column", gap: "12px" }} className="sm:flex-row">
                   <button type="submit" className="arise-btn-primary" disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.subject || !formData.message} style={{ opacity: isSubmitting ? 0.7 : 1 }}>
                     {isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
