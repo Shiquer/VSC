@@ -198,7 +198,7 @@ const PublicMediaLibrary = () => {
               <TabsContent value="audio">
                 <div style={{ textAlign: "center", marginBottom: "40px" }}>
                   <h2 className="arise-serif" style={{ fontSize: "32px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "12px" }}>Séances Audio Guidées</h2>
-                  <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Des seances de sophrologie pour une pratique flexible et autonome</p>
+                  <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Des séances de sophrologie pour une pratique flexible et autonome</p>
                 </div>
                 {loading ? <LoadingSkeleton count={4} cols={2} /> : audioContent.length === 0 ? <EmptyState text="Aucun contenu audio disponible pour le moment." /> : (
                   <div className="grid md:grid-cols-2 gap-6">
@@ -254,7 +254,7 @@ const PublicMediaLibrary = () => {
               <TabsContent value="video">
                 <div style={{ textAlign: "center", marginBottom: "40px" }}>
                   <h2 className="arise-serif" style={{ fontSize: "32px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "12px" }}>Contenus Video</h2>
-                  <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Apprenez les techniques visuellement avec nos tutoriels et seances video</p>
+                  <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Apprenez les techniques visuellement avec nos tutoriels et séances vidéo</p>
                 </div>
                 {loading ? <LoadingSkeleton count={3} cols={3} /> : videoContent.length === 0 ? <EmptyState text="Aucun contenu video disponible pour le moment." /> : (
                   <div className="grid lg:grid-cols-3 gap-6">
@@ -363,7 +363,7 @@ const PublicMediaLibrary = () => {
               {[
                 { icon: Music, title: "Qualite Audio HD", desc: "Enregistrements haute definition pour une experience d'ecoute optimale." },
                 { icon: Download, title: "Telechargement", desc: "Telechargez vos contenus favoris pour une ecoute hors ligne." },
-                { icon: Book, title: "Contenu Exclusif", desc: "Acces a des seances exclusives creees specialement pour nos clients." },
+                { icon: Book, title: "Contenu Exclusif", desc: "Accès à des séances exclusives créées spécialement pour nos clients." },
               ].map(({ icon: Icon, title, desc }) => (
                 <div key={title} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
                   <div style={{ width: "64px", height: "64px", background: "hsl(var(--foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
