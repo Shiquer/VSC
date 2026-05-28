@@ -8,7 +8,7 @@ const Hero = () => {
   const portraitImage = getImage("hero_portrait") || defaultPortrait;
 
   return (
-    <section id="accueil" style={{ background: "hsl(var(--background))", padding: "80px 0" }}>
+    <section id="accueil" style={{ background: "hsl(var(--background))", padding: "80px 0", overflow: "hidden" }}>
       <div className="container mx-auto px-8">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
 
@@ -116,7 +116,7 @@ const Hero = () => {
           </div>
 
           {/* Portrait */}
-          <div className="flex justify-center lg:justify-end">
+          <div className="flex justify-center lg:justify-end overflow-hidden">
             <img
               src={portraitImage}
               alt="Portrait"
