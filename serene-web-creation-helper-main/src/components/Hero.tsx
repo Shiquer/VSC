@@ -62,7 +62,7 @@ const Hero = () => {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
-              <Link to="/reservation">
+              <Link to="/reservation" className="w-full sm:w-auto">
                 <button
                   style={{
                     background: "hsl(var(--foreground))",
@@ -70,7 +70,7 @@ const Hero = () => {
                     border: "3px solid hsl(var(--foreground))",
                     borderRadius: "30px",
                     height: "52px",
-                    padding: "0 28px",
+                    padding: "0 20px",
                     fontSize: "15px",
                     fontWeight: "700",
                     fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
@@ -80,13 +80,14 @@ const Hero = () => {
                     cursor: "pointer",
                     width: "100%",
                     justifyContent: "center",
+                    whiteSpace: "nowrap",
                   }}
                 >
-                  <Calendar className="w-5 h-5" />
+                  <Calendar className="w-5 h-5" style={{ flexShrink: 0 }} />
                   Prendre rendez-vous
                 </button>
               </Link>
-              <a href="#specialites">
+              <a href="#specialites" className="w-full sm:w-auto">
                 <button
                   style={{
                     background: "transparent",
@@ -94,7 +95,7 @@ const Hero = () => {
                     border: "3px solid hsl(var(--foreground))",
                     borderRadius: "30px",
                     height: "52px",
-                    padding: "0 28px",
+                    padding: "0 20px",
                     fontSize: "15px",
                     fontWeight: "700",
                     fontFamily: "'Helvetica Neue', Helvetica, sans-serif",
@@ -104,6 +105,7 @@ const Hero = () => {
                     cursor: "pointer",
                     width: "100%",
                     justifyContent: "center",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   Découvrir mes services
@@ -114,11 +116,14 @@ const Hero = () => {
           </div>
 
           {/* Portrait */}
-          <div className="flex justify-center">
+          <div className="flex justify-center lg:justify-end">
             <img
               src={portraitImage}
               alt="Portrait"
-              className="rounded-2xl max-h-[500px] object-cover" loading="eager" fetchPriority="high" decoding="async"
+              className="rounded-2xl w-full max-w-md max-h-[500px] object-cover"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
             />
           </div>
 
