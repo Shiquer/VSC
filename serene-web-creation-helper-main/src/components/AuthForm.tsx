@@ -53,7 +53,7 @@ const AuthForm = ({ onAuthSuccess }: AuthFormProps) => {
       if (error) {
         toast({ title: "Erreur de connexion", description: error.message, variant: "destructive" });
       } else {
-        toast({ title: "Connexion r\u00e9ussie", description: "Vous \u00eates maintenant connect\u00e9." });
+        toast({ title: "Connexion réussie", description: "Vous êtes maintenant connecté." });
         onAuthSuccess?.();
       }
     } catch (error: any) {
@@ -73,7 +73,7 @@ const AuthForm = ({ onAuthSuccess }: AuthFormProps) => {
       if (error) {
         toast({ title: "Erreur", description: error.message, variant: "destructive" });
       } else {
-        toast({ title: "Email envoy\u00e9", description: "V\u00e9rifiez votre bo\u00eete mail pour r\u00e9initialiser votre mot de passe." });
+        toast({ title: "Email envoyé", description: "Vérifiez votre boîte mail pour réinitialiser votre mot de passe." });
         setShowForgotPassword(false);
       }
     } catch (error: any) {
@@ -87,8 +87,8 @@ const AuthForm = ({ onAuthSuccess }: AuthFormProps) => {
     return (
       <Card className="w-full max-w-md mx-auto">
         <CardHeader>
-          <CardTitle>Mot de passe oubli\u00e9</CardTitle>
-          <CardDescription>Entrez votre email pour recevoir un lien de r\u00e9initialisation</CardDescription>
+          <CardTitle>Mot de passe oublié</CardTitle>
+          <CardDescription>Entrez votre email pour recevoir un lien de réinitialisation</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleForgotPassword} className="space-y-4">
@@ -101,7 +101,7 @@ const AuthForm = ({ onAuthSuccess }: AuthFormProps) => {
               Envoyer le lien
             </Button>
             <Button type="button" variant="ghost" className="w-full" onClick={() => setShowForgotPassword(false)}>
-              Retour \u00e0 la connexion
+              Retour à la connexion
             </Button>
           </form>
         </CardContent>
@@ -116,9 +116,9 @@ const AuthForm = ({ onAuthSuccess }: AuthFormProps) => {
           <div className="flex justify-center mb-4">
             <CheckCircle className="h-16 w-16 text-green-500" />
           </div>
-          <CardTitle className="text-center">Email de confirmation envoy\u00e9 !</CardTitle>
+          <CardTitle className="text-center">Email de confirmation envoyé !</CardTitle>
           <CardDescription className="text-center">
-            Un email de confirmation a \u00e9t\u00e9 envoy\u00e9 \u00e0 <strong>{email}</strong>.
+            Un email de confirmation a été envoyé à <strong>{email}</strong>.
             Cliquez sur le lien dans cet email pour activer votre compte, puis revenez vous connecter.
           </CardDescription>
         </CardHeader>
@@ -135,7 +135,7 @@ const AuthForm = ({ onAuthSuccess }: AuthFormProps) => {
             }}
           >
             <Mail className="mr-2 h-4 w-4" />
-            Retour \u00e0 la connexion
+            Retour à la connexion
           </Button>
         </CardContent>
       </Card>
@@ -146,7 +146,7 @@ const AuthForm = ({ onAuthSuccess }: AuthFormProps) => {
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
         <CardTitle>Connexion</CardTitle>
-        <CardDescription>Connectez-vous ou cr\u00e9ez un compte pour prendre rendez-vous</CardDescription>
+        <CardDescription>Connectez-vous ou créez un compte pour prendre rendez-vous</CardDescription>
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="signin" className="space-y-4">
@@ -169,7 +169,7 @@ const AuthForm = ({ onAuthSuccess }: AuthFormProps) => {
                 Se connecter
               </Button>
               <Button type="button" variant="ghost" className="w-full text-sm text-muted-foreground" onClick={() => setShowForgotPassword(true)}>
-                Mot de passe oubli\u00e9 ?
+                Mot de passe oublié ?
               </Button>
             </form>
           </TabsContent>
