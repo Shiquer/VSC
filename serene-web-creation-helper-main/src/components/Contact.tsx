@@ -81,7 +81,7 @@ const Contact = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             <div className="arise-card">
               <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
@@ -128,7 +128,7 @@ const Contact = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-2">
+          <div className="col-span-1 lg:col-span-2">
             <div className="arise-card" style={{ padding: "40px" }}>
               <h3 className="arise-serif" style={{ fontSize: "24px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "32px" }}>
                 Envoyez-moi un message
