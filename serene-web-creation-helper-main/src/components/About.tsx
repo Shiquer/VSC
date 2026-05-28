@@ -34,10 +34,10 @@ const About = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
           {/* Left - Calendar + info */}
-          <div className="lg:col-span-8" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          <div className="col-span-1 lg:col-span-8" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
 
             {/* Calendrier */}
             <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" as any, borderRadius: "25px" }}>
@@ -135,7 +135,7 @@ const About = () => {
           </div>
 
           {/* Right - Bio */}
-          <div className="lg:col-span-4" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
+          <div className="col-span-1 lg:col-span-4" style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
 
             {/* Quote */}
             <div style={{ borderRadius: "20px", background: "hsl(var(--primary)/0.05)", border: "1px solid hsl(var(--primary)/0.15)", padding: "24px" }}>
