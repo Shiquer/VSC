@@ -169,9 +169,9 @@ const PublicMediaLibrary = () => {
         <section style={{ padding: "80px 0", background: "hsl(var(--secondary))" }}>
           <div className="container mx-auto px-8" style={{ textAlign: "center" }}>
             <span className="arise-badge" style={{ marginBottom: "24px", display: "inline-block" }}>Ressources gratuites</span>
-            <h1 className="arise-serif" style={{ fontSize: "clamp(36px, 5vw, 56px)", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "20px", marginTop: "16px" }}>Mediatheque</h1>
+            <h1 className="arise-serif" style={{ fontSize: "clamp(36px, 5vw, 56px)", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "20px", marginTop: "16px" }}>Médiathèque</h1>
             <p style={{ fontSize: "18px", lineHeight: "1.7", color: "hsl(var(--foreground))", opacity: 0.7, maxWidth: "560px", margin: "0 auto 36px" }}>
-              Accedez a notre collection de contenus audio, video et articles pour pratiquer la sophrologie a votre rythme.
+              Accédez à notre collection de contenus audio, vidéo et articles pour pratiquer la sophrologie à votre rythme.
             </p>
           </div>
         </section>
@@ -197,7 +197,7 @@ const PublicMediaLibrary = () => {
 
               <TabsContent value="audio">
                 <div style={{ textAlign: "center", marginBottom: "40px" }}>
-                  <h2 className="arise-serif" style={{ fontSize: "32px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "12px" }}>Seances Audio Guidees</h2>
+                  <h2 className="arise-serif" style={{ fontSize: "32px", fontWeight: "400", color: "hsl(var(--foreground))", marginBottom: "12px" }}>Séances Audio Guidées</h2>
                   <p style={{ fontSize: "16px", color: "hsl(var(--foreground))", opacity: 0.7 }}>Des seances de sophrologie pour une pratique flexible et autonome</p>
                 </div>
                 {loading ? <LoadingSkeleton count={4} cols={2} /> : audioContent.length === 0 ? <EmptyState text="Aucun contenu audio disponible pour le moment." /> : (
@@ -235,7 +235,7 @@ const PublicMediaLibrary = () => {
                             </div>
                             <div style={{ display: "flex", gap: "8px" }}>
                               <button onClick={() => handlePlayPause(audio.id, audio.file_url)} className="arise-btn-outline" style={{ height: "40px", padding: "0 16px", fontSize: "13px" }}>
-                                {currentPlaying === audio.id ? <><Pause style={{ width: "14px", height: "14px" }} />Pause</> : <><Play style={{ width: "14px", height: "14px" }} />Ecouter</>}
+                                {currentPlaying === audio.id ? <><Pause style={{ width: "14px", height: "14px" }} />Pause</> : <><Play style={{ width: "14px", height: "14px" }} />Écouter</>}
                               </button>
                               <a href={audio.file_url} download>
                                 <button style={{ width: "40px", height: "40px", borderRadius: "99px", background: "transparent", border: "3px solid hsl(var(--foreground))", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
