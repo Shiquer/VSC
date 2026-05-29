@@ -18,6 +18,9 @@ import {
   Undo,
   Redo,
   Strikethrough,
+  Image,
+  Highlighter,
+  Palette,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -63,6 +66,8 @@ export default function RichTextEditor({
 }: RichTextEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const isUpdatingRef = useRef(false);
+  const colorInputRef = useRef<HTMLInputElement>(null);
+  const highlightInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (!editorRef.current || isUpdatingRef.current) return;
@@ -90,11 +95,49 @@ export default function RichTextEditor({
 
   const insertLink = () => {
     const url = window.prompt("Entrez l'URL du lien :", "https://");
-    if (url) exec("createLink", url);
+    if (url) {
+      const newTab = window.confirm("Ouvrir dans un nouvel onglet ?");
+      if (newTab) {
+        const selection = window.getSelection();
+        if (selection && selection.rangeCount > 0) {
+          const range = selection.getRangeAt(0);
+          const selectedText = range.toString() || url;
+          const anchor = document.createElement("a");
+          anchor.href = url;
+          anchor.target = "_blank";
+          anchor.rel = "noopener noreferrer";
+          anchor.textContent = selectedText;
+          range.deleteContents();
+          range.insertNode(anchor);
+          handleInput();
+        }
+      } else {
+        exec("createLink", url);
+      }
+    }
+  };
+
+  const insertImage = () => {
+    const url = window.prompt("Entrez l'URL de l'image :", "https://");
+    if (url) {
+      exec("insertHTML", `<img src="${url}" alt="image" style="max-width:100%;height:auto;display:block;margin:8px 0;" />`);
+    }
   };
 
   const insertHR = () => {
     exec("insertHTML", "<hr/>");
+  };
+
+  const applyTextColor = (color: string) => {
+    editorRef.current?.focus();
+    document.execCommand("foreColor", false, color);
+    handleInput();
+  };
+
+  const applyHighlight = (color: string) => {
+    editorRef.current?.focus();
+    document.execCommand("hiliteColor", false, color);
+    handleInput();
   };
 
   return (
@@ -107,7 +150,9 @@ export default function RichTextEditor({
         <ToolbarButton onClick={() => exec("redo")} title="Rétablir">
           <Redo className="w-4 h-4" />
         </ToolbarButton>
+
         <div className="w-px h-5 bg-gray-300 mx-1" />
+
         <ToolbarButton
           onClick={() => exec("formatBlock", "h1")}
           active={isActive("formatBlock")}
@@ -127,7 +172,9 @@ export default function RichTextEditor({
         >
           <Heading3 className="w-4 h-4" />
         </ToolbarButton>
+
         <div className="w-px h-5 bg-gray-300 mx-1" />
+
         <ToolbarButton
           onClick={() => exec("bold")}
           active={isActive("bold")}
@@ -156,7 +203,55 @@ export default function RichTextEditor({
         >
           <Strikethrough className="w-4 h-4" />
         </ToolbarButton>
+
         <div className="w-px h-5 bg-gray-300 mx-1" />
+
+        {/* Couleur de texte */}
+        <div className="relative">
+          <button
+            type="button"
+            onMouseDown={(e) => {
+              e.preventDefault();
+              colorInputRef.current?.click();
+            }}
+            className="p-1.5 rounded hover:bg-gray-200 transition-colors flex flex-col items-center"
+            title="Couleur du texte"
+          >
+            <Palette className="w-4 h-4" />
+          </button>
+          <input
+            ref={colorInputRef}
+            type="color"
+            defaultValue="#000000"
+            className="absolute opacity-0 w-0 h-0"
+            onChange={(e) => applyTextColor(e.target.value)}
+          />
+        </div>
+
+        {/* Surlignage */}
+        <div className="relative">
+          <button
+            type="button"
+            onMouseDown={(e) => {
+              e.preventDefault();
+              highlightInputRef.current?.click();
+            }}
+            className="p-1.5 rounded hover:bg-gray-200 transition-colors"
+            title="Surligner le texte"
+          >
+            <Highlighter className="w-4 h-4" />
+          </button>
+          <input
+            ref={highlightInputRef}
+            type="color"
+            defaultValue="#FFFF00"
+            className="absolute opacity-0 w-0 h-0"
+            onChange={(e) => applyHighlight(e.target.value)}
+          />
+        </div>
+
+        <div className="w-px h-5 bg-gray-300 mx-1" />
+
         <ToolbarButton
           onClick={() => exec("insertUnorderedList")}
           active={isActive("insertUnorderedList")}
@@ -177,7 +272,9 @@ export default function RichTextEditor({
         >
           <Quote className="w-4 h-4" />
         </ToolbarButton>
+
         <div className="w-px h-5 bg-gray-300 mx-1" />
+
         <ToolbarButton
           onClick={() => exec("justifyLeft")}
           active={isActive("justifyLeft")}
@@ -199,14 +296,20 @@ export default function RichTextEditor({
         >
           <AlignRight className="w-4 h-4" />
         </ToolbarButton>
+
         <div className="w-px h-5 bg-gray-300 mx-1" />
+
         <ToolbarButton onClick={insertLink} title="Insérer un lien">
           <Link className="w-4 h-4" />
+        </ToolbarButton>
+        <ToolbarButton onClick={insertImage} title="Insérer une image">
+          <Image className="w-4 h-4" />
         </ToolbarButton>
         <ToolbarButton onClick={insertHR} title="Séparateur horizontal">
           <Minus className="w-4 h-4" />
         </ToolbarButton>
       </div>
+
       {/* Editor area */}
       <div
         ref={editorRef}
@@ -226,6 +329,7 @@ export default function RichTextEditor({
           "[&_li]:mb-1",
           "[&_blockquote]:border-l-4 [&_blockquote]:border-primary [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-gray-600 [&_blockquote]:mb-3",
           "[&_a]:text-primary [&_a]:underline",
+          "[&_img]:max-w-full [&_img]:h-auto [&_img]:rounded [&_img]:my-2",
           "[&_hr]:my-4 [&_hr]:border-gray-200",
           "empty:before:content-[attr(data-placeholder)] empty:before:text-gray-400 empty:before:pointer-events-none"
         )}
