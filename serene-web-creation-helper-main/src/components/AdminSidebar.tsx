@@ -25,7 +25,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
-import { useAuth } from '@/hooks/useAuth';
+import { useAdminAuth } from '@/hooks/useAdminAuth';
 import { Button } from '@/components/ui/button';
 
 const adminItems = [
@@ -42,7 +42,7 @@ const adminItems = [
 export function AdminSidebar() {
   const { state } = useSidebar();
   const location = useLocation();
-  const { signOut } = useAuth();
+  const { signOut } = useAdminAuth();
   const currentPath = location.pathname;
 
   const isActive = (path: string) => currentPath === path;
