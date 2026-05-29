@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import {
   Settings,
   FileText,
@@ -10,7 +10,9 @@ import {
   LogOut,
   Home,
   BookOpen,
-} from "lucide-react";
+  MessageSquare,
+  Star,
+} from 'lucide-react';
 import {
   Sidebar,
   SidebarContent,
@@ -22,16 +24,19 @@ import {
   SidebarMenuItem,
   SidebarTrigger,
   useSidebar,
-} from "@/components/ui/sidebar";
-import { useAuth } from "@/hooks/useAuth";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/sidebar';
+import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
 
 const adminItems = [
-  { title: "Contenu du site", url: "/admin/content", icon: FileText },
-  { title: "Réservations", url: "/admin/bookings", icon: Calendar },
-  { title: "Médiathèque", url: "/admin/media", icon: Image },
-  { title: "Articles", url: "/admin/articles", icon: BookOpen },
-  { title: "Statistiques", url: "/admin/statistics", icon: BarChart3 },
+  { title: 'Contenu du site', url: '/admin/content', icon: FileText },
+  { title: 'Reservations', url: '/admin/bookings', icon: Calendar },
+  { title: 'Mediatheque', url: '/admin/media', icon: Image },
+  { title: 'Articles', url: '/admin/articles', icon: BookOpen },
+  { title: 'Statistiques', url: '/admin/statistics', icon: BarChart3 },
+  { title: 'Messages', url: '/admin/messages', icon: MessageSquare },
+  { title: 'Temoignages', url: '/admin/testimonials', icon: Star },
+  { title: 'Parametres', url: '/admin/settings', icon: Settings },
 ];
 
 export function AdminSidebar() {
@@ -43,46 +48,46 @@ export function AdminSidebar() {
   const isActive = (path: string) => currentPath === path;
   const isExpanded = adminItems.some((i) => isActive(i.url));
   const getNavCls = ({ isActive }: { isActive: boolean }) =>
-    isActive ? "bg-muted font-medium text-foreground" : "text-foreground";
+    isActive ? 'bg-muted font-medium text-foreground' : 'text-foreground';
 
-  const isCollapsed = state === "collapsed";
+  const isCollapsed = state === 'collapsed';
 
   return (
-    <Sidebar
-      className={isCollapsed ? "w-14" : "w-60"}
-      collapsible="icon"
-    >
-      <SidebarTrigger className="m-2 self-end" />
-
+    <Sidebar>
       <SidebarContent>
-        {/* Navigation principale */}
+        <div className="flex items-center justify-between p-4">
+          {!isCollapsed && (
+            <span className="text-sm font-semibold text-foreground">Administration du site</span>
+          )}
+          <SidebarTrigger className="ml-auto" />
+        </div>
+
         <SidebarGroup>
-          <SidebarGroupLabel className="text-foreground font-semibold">Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild className="text-foreground hover:text-foreground">
-                    <NavLink to="/" className="hover:bg-muted/50 text-foreground">
-                      <Home className="mr-2 h-4 w-4" />
-                      {!isCollapsed && <span>Retour au site</span>}
-                    </NavLink>
+                <SidebarMenuButton asChild>
+                  <NavLink to="/" className={getNavCls}>
+                    <Home className="w-4 h-4" />
+                    <span>Retour au site</span>
+                  </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Administration */}
         <SidebarGroup>
-          <SidebarGroupLabel className="text-foreground font-semibold">Administration</SidebarGroupLabel>
+          <SidebarGroupLabel>Administration</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {adminItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink to={item.url} end className={getNavCls}>
-                      <item.icon className="mr-2 h-4 w-4" />
-                      {!isCollapsed && <span>{item.title}</span>}
+                    <NavLink to={item.url} className={getNavCls}>
+                      <item.icon className="w-4 h-4" />
+                      <span>{item.title}</span>
                     </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -91,27 +96,17 @@ export function AdminSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
 
-        {/* Actions */}
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Button
-                    variant="ghost"
-                    onClick={signOut}
-                    className="w-full justify-start hover:bg-muted/50"
-                  >
-                    <LogOut className="mr-2 h-4 w-4" />
-                    {!isCollapsed && <span>Déconnexion</span>}
-                  </Button>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <div className="mt-auto p-4">
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-foreground hover:bg-muted"
+            onClick={() => signOut()}
+          >
+            <LogOut className="w-4 h-4 mr-2" />
+            {!isCollapsed && <span>Deconnexion</span>}
+          </Button>
+        </div>
       </SidebarContent>
     </Sidebar>
-      );
+  );
 }
- 
