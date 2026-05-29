@@ -1,192 +1,192 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Calendar, FileText, BookOpen, Image, BarChart3, TrendingUp } from "lucide-react";
+import { Calendar, FileText, BookOpen, Image, BarChart3, TrendingUp, MessageSquare, Star, Eye } from "lucide-react";
 
 interface Statistics {
-    totalBookings: number;
-    pendingBookings: number;
-    confirmedBookings: number;
-    cancelledBookings: number;
-    totalArticles: number;
-    publishedArticles: number;
-    totalMedia: number;
-    totalContent: number;
+  totalBookings: number;
+  pendingBookings: number;
+  confirmedBookings: number;
+  cancelledBookings: number;
+  totalArticles: number;
+  publishedArticles: number;
+  totalMedia: number;
+  totalContent: number;
+  totalMessages: number;
+  unreadMessages: number;
+  totalTestimonials: number;
+  publishedTestimonials: number;
 }
 
+interface TopArticle {
+  id: string;
+  title: string;
+  views: number;
+  status: string;
+}
+
+const StatCard = ({ title, value, sub, icon: Icon, color }: {
+  title: string; value: number; sub?: string; icon: React.ElementType; color: string;
+}) => (
+  <Card>
+    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+      <CardTitle className="text-sm font-medium">{title}</CardTitle>
+      <Icon className={`h-4 w-4 ${color}`} />
+    </CardHeader>
+    <CardContent>
+      <div className="text-2xl font-bold">{value}</div>
+      {sub && <p className="text-xs text-muted-foreground mt-1">{sub}</p>}
+    </CardContent>
+  </Card>
+);
+
 const AdminStatistics = () => {
-    const [stats, setStats] = useState<Statistics>({
-          totalBookings: 0,
-          pendingBookings: 0,
-          confirmedBookings: 0,
-          cancelledBookings: 0,
-          totalArticles: 0,
-          publishedArticles: 0,
-          totalMedia: 0,
-          totalContent: 0,
-    });
-    const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState<Statistics>({
+    totalBookings: 0, pendingBookings: 0, confirmedBookings: 0, cancelledBookings: 0,
+    totalArticles: 0, publishedArticles: 0, totalMedia: 0, totalContent: 0,
+    totalMessages: 0, unreadMessages: 0, totalTestimonials: 0, publishedTestimonials: 0,
+  });
+  const [topArticles, setTopArticles] = useState<TopArticle[]>([]);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-          fetchStatistics();
-    }, []);
+  useEffect(() => { fetchStatistics(); }, []);
 
-    const fetchStatistics = async () => {
-          try {
-                  const [bookingsRes, articlesRes, mediaRes, contentRes] = await Promise.all([
-                            supabase.from("bookings").select("status"),
-                            supabase.from("articles").select("status"),
-                            supabase.from("media_content").select("id"),
-                            supabase.from("site_content" as any).select("id"),
-                          ]);
+  const fetchStatistics = async () => {
+    try {
+      const [bookingsRes, articlesRes, mediaRes, contentRes, messagesRes, testimonialsRes] = await Promise.all([
+        supabase.from("bookings").select("status"),
+        supabase.from("articles").select("id, title, status, views").order("views", { ascending: false }),
+        supabase.from("media_content").select("id"),
+        supabase.from("site_content" as any).select("id"),
+        supabase.from("contact_messages" as any).select("is_read").catch(() => ({ data: [], error: null })),
+        supabase.from("testimonials" as any).select("status").catch(() => ({ data: [], error: null })),
+      ]);
 
-            const bookings = bookingsRes.data || [];
-                  const articles = articlesRes.data || [];
-                  const media = mediaRes.data || [];
-                  const content = contentRes.data || [];
+      const bookings = bookingsRes.data || [];
+      const articles = articlesRes.data || [];
+      const media = mediaRes.data || [];
+      const content = contentRes.data || [];
+      const messages = messagesRes.data || [];
+      const testimonials = testimonialsRes.data || [];
 
-            setStats({
-                      totalBookings: bookings.length,
-                      pendingBookings: bookings.filter((b) => b.status === "pending").length,
-                      confirmedBookings: bookings.filter((b) => b.status === "confirmed").length,
-                      cancelledBookings: bookings.filter((b) => b.status === "cancelled").length,
-                      totalArticles: articles.length,
-                      publishedArticles: articles.filter((a) => a.status === "published").length,
-                      totalMedia: media.length,
-                      totalContent: content.length,
-            });
-          } catch (error) {
-                  console.error("Erreur lors du chargement des statistiques:", error);
-          } finally {
-                  setLoading(false);
-          }
-    };
+      setStats({
+        totalBookings: bookings.length,
+        pendingBookings: bookings.filter((b: any) => b.status === "pending").length,
+        confirmedBookings: bookings.filter((b: any) => b.status === "confirmed").length,
+        cancelledBookings: bookings.filter((b: any) => b.status === "cancelled").length,
+        totalArticles: articles.length,
+        publishedArticles: articles.filter((a: any) => a.status === "published").length,
+        totalMedia: media.length,
+        totalContent: content.length,
+        totalMessages: messages.length,
+        unreadMessages: messages.filter((m: any) => !m.is_read).length,
+        totalTestimonials: testimonials.length,
+        publishedTestimonials: testimonials.filter((t: any) => t.status === "published").length,
+      });
 
-    if (loading) {
-          return (
-                  <div className="space-y-6">
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                            {["a", "b", "c", "d"].map((k) => (
-                                <Card key={k}>
-                                              <CardContent className="p-6">
-                                                              <div className="animate-pulse space-y-3">
-                                                                                <div className="h-4 bg-muted rounded w-2/3"></div>
-                                                                                <div className="h-8 bg-muted rounded w-1/3"></div>
-                                                              </div>
-                                              </CardContent>
-                                </Card>
-                              ))}
-                          </div>
-                  </div>
-                );
+      const top = articles
+        .filter((a: any) => a.status === "published" && (a.views || 0) >= 0)
+        .slice(0, 5)
+        .map((a: any) => ({ id: a.id, title: a.title, views: a.views || 0, status: a.status }));
+      setTopArticles(top);
+    } catch (error) {
+      console.error("Erreur stats:", error);
+    } finally {
+      setLoading(false);
     }
-  
-    return (
-          <div className="space-y-6">
-                <div>
-                        <h2 className="text-2xl font-bold mb-2">Statistiques</h2>
-                        <p className="text-muted-foreground">
-                                  Vue d'ensemble des données de votre site.
-                        </p>
-                </div>
-          
-            {/* Réservations */}
-                <div>
-                        <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                                  <Calendar className="h-5 w-5" /> Réservations
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                                  <Card>
-                                              <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Total</CardTitle>
-                                              </CardHeader>
-                                              <CardContent>
-                                                            <div className="text-3xl font-bold">{stats.totalBookings}</div>
-                                              </CardContent>
-                                  </Card>
-                                  <Card>
-                                              <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-yellow-600">En attente</CardTitle>
-                                              </CardHeader>
-                                              <CardContent>
-                                                            <div className="text-3xl font-bold text-yellow-600">{stats.pendingBookings}</div>
-                                              </CardContent>
-                                  </Card>
-                                  <Card>
-                                              <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-green-600">Confirmées</CardTitle>
-                                              </CardHeader>
-                                              <CardContent>
-                                                            <div className="text-3xl font-bold text-green-600">{stats.confirmedBookings}</div>
-                                              </CardContent>
-                                  </Card>
-                                  <Card>
-                                              <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-red-600">Annulées</CardTitle>
-                                              </CardHeader>
-                                              <CardContent>
-                                                            <div className="text-3xl font-bold text-red-600">{stats.cancelledBookings}</div>
-                                              </CardContent>
-                                  </Card>
-                        </div>
-                </div>
-          
-            {/* Articles */}
-                <div>
-                        <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                                  <BookOpen className="h-5 w-5" /> Articles
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                  <Card>
-                                              <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Total articles</CardTitle>
-                                              </CardHeader>
-                                              <CardContent>
-                                                            <div className="text-3xl font-bold">{stats.totalArticles}</div>
-                                              </CardContent>
-                                  </Card>
-                                  <Card>
-                                              <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-green-600">Publiés</CardTitle>
-                                              </CardHeader>
-                                              <CardContent>
-                                                            <div className="text-3xl font-bold text-green-600">{stats.publishedArticles}</div>
-                                                {stats.totalArticles > 0 && (
-                            <p className="text-xs text-muted-foreground mt-1">
-                              {Math.round((stats.publishedArticles / stats.totalArticles) * 100)}% du total
-                            </p>
-                                                            )}
-                                              </CardContent>
-                                  </Card>
-                        </div>
-                </div>
-          
-            {/* Contenus & Médias */}
-                <div>
-                        <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                                  <BarChart3 className="h-5 w-5" /> Contenu & Médias
-                        </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                  <Card>
-                                              <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Éléments de contenu</CardTitle>
-                                              </CardHeader>
-                                              <CardContent>
-                                                            <div className="text-3xl font-bold">{stats.totalContent}</div>
-                                              </CardContent>
-                                  </Card>
-                                  <Card>
-                                              <CardHeader className="pb-2">
-                                                            <CardTitle className="text-sm font-medium text-muted-foreground">Médias</CardTitle>
-                                              </CardHeader>
-                                              <CardContent>
-                                                            <div className="text-3xl font-bold">{stats.totalMedia}</div>
-                                              </CardContent>
-                                  </Card>
-                        </div>
-                </div>
-          </div>
-        );
+  };
+
+  if (loading) return (
+    <div className="flex items-center justify-center h-64">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    </div>
+  );
+
+  const publishedPct = stats.totalArticles > 0
+    ? Math.round((stats.publishedArticles / stats.totalArticles) * 100) : 0;
+
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight">Statistiques</h1>
+        <p className="text-muted-foreground">Vue d'ensemble des données de votre site.</p>
+      </div>
+
+      {/* Réservations */}
+      <div>
+        <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+          <Calendar className="h-5 w-5 text-primary" /> Réservations
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <StatCard title="Total" value={stats.totalBookings} icon={Calendar} color="text-primary" />
+          <StatCard title="En attente" value={stats.pendingBookings} icon={Calendar} color="text-orange-500"
+            sub={stats.totalBookings > 0 ? `${Math.round(stats.pendingBookings/stats.totalBookings*100)}% du total` : undefined} />
+          <StatCard title="Confirmées" value={stats.confirmedBookings} icon={Calendar} color="text-green-500" />
+          <StatCard title="Annulées" value={stats.cancelledBookings} icon={Calendar} color="text-red-500" />
+        </div>
+      </div>
+
+      {/* Articles */}
+      <div>
+        <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+          <BookOpen className="h-5 w-5 text-primary" /> Articles
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <StatCard title="Total articles" value={stats.totalArticles} icon={FileText} color="text-primary" />
+          <StatCard title="Publiés" value={stats.publishedArticles} icon={TrendingUp} color="text-green-500"
+            sub={`${publishedPct}% du total`} />
+          <StatCard title="Brouillons" value={stats.totalArticles - stats.publishedArticles} icon={FileText} color="text-gray-400" />
+        </div>
+
+        {topArticles.length > 0 && (
+          <Card className="mt-4">
+            <CardHeader>
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Eye className="h-4 w-4" /> Top articles (par vues)
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                {topArticles.map((article, i) => (
+                  <div key={article.id} className="flex items-center justify-between py-1 border-b last:border-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-bold text-muted-foreground w-4">{i + 1}</span>
+                      <span className="text-sm truncate max-w-[300px]">{article.title}</span>
+                    </div>
+                    <span className="text-xs font-semibold text-primary">{article.views} vue{article.views !== 1 ? "s" : ""}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      {/* Messages & Témoignages */}
+      <div>
+        <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+          <MessageSquare className="h-5 w-5 text-primary" /> Messages & Témoignages
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <StatCard title="Messages reçus" value={stats.totalMessages} icon={MessageSquare} color="text-blue-500" />
+          <StatCard title="Non lus" value={stats.unreadMessages} icon={MessageSquare} color="text-orange-500" />
+          <StatCard title="Témoignages" value={stats.totalTestimonials} icon={Star} color="text-yellow-500" />
+          <StatCard title="Publiés" value={stats.publishedTestimonials} icon={Star} color="text-green-500" />
+        </div>
+      </div>
+
+      {/* Contenu & Médias */}
+      <div>
+        <h2 className="text-lg font-semibold mb-3 flex items-center gap-2">
+          <Image className="h-5 w-5 text-primary" /> Contenu & Médias
+        </h2>
+        <div className="grid grid-cols-2 gap-4">
+          <StatCard title="Éléments de contenu" value={stats.totalContent} icon={BarChart3} color="text-primary" />
+          <StatCard title="Médias" value={stats.totalMedia} icon={Image} color="text-purple-500" />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default AdminStatistics;
