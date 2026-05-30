@@ -1,3 +1,4 @@
+import usePageTitle from "@/hooks/usePageTitle";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import { Play, Pause, Download, Clock, Star, Headphones, Video, Music, Book } fr
 import { useState } from "react";
 
 const MediaLibrary = () => {
+  usePageTitle("Médiathèque - Natalia Kourycheva");
   const [currentPlaying, setCurrentPlaying] = useState<string | null>(null);
 
   const audioContent = [
