@@ -51,7 +51,6 @@ const Contact = () => {
         .insert({
           name: formData.firstName + " " + formData.lastName,
           email: formData.email,
-          phone: formData.phone || null,
           subject: formData.subject,
           message: formData.message,
         });
