@@ -42,7 +42,6 @@ const ContactPage = () => {
         .insert({
           name: firstName + " " + lastName,
           email,
-          phone: phone || null,
           subject,
           message,
         });
