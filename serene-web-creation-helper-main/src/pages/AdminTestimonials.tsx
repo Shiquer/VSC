@@ -1,94 +1,173 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
-import { Star, Plus, Pencil, Trash2, Check, X } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Star } from "lucide-react";
 
 interface Testimonial {
-  id: string; author: string; role?: string; content: string; rating: number; status: string; created_at: string;
+  id: string;
+  author_name: string;
+  author_title?: string;
+  content: string;
+  rating: number;
+  is_published: boolean;
+  created_at: string;
 }
-const StarRating = ({ value, onChange }: { value: number; onChange?: (v: number) => void }) => (
-  <div className="flex gap-1">
-    {[1,2,3,4,5].map(s => <Star key={s} className={`h-5 w-5 cursor-pointer ${s <= value ? "fill-yellow-400 text-yellow-400" : "text-gray-300"}`} onClick={() => onChange?.(s)} />)}
-  </div>
-);
+
 const AdminTestimonials = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [editing, setEditing] = useState<Testimonial | null>(null);
-  const [form, setForm] = useState({ author: "", role: "", content: "", rating: 5, status: "published" });
-  const { toast } = useToast();
-  useEffect(() => { fetchTestimonials(); }, []);
+  const [editing, setEditing] = useState<string | null>(null);
+  const [form, setForm] = useState({ author_name: "", author_title: "", content: "", rating: 5, is_published: true });
+  const [toast, setToast] = useState<string | null>(null);
+
+  const showToast = (msg: string) => { setToast(msg); setTimeout(() => setToast(null), 3000); };
+
+  const resetForm = () => setForm({ author_name: "", author_title: "", content: "", rating: 5, is_published: true });
+
   const fetchTestimonials = async () => {
     setLoading(true);
-    const { data } = await (supabase.from("testimonials" as any).select("*").order("created_at", { ascending: false }) as any);
-    setTestimonials(data || []); setLoading(false);
+    const { data } = await (supabase as any)
+      .from("testimonials")
+      .select("*")
+      .order("created_at", { ascending: false }) as { data: Testimonial[] };
+    setTestimonials(data || []);
+    setLoading(false);
   };
-  const resetForm = () => { setForm({ author: "", role: "", content: "", rating: 5, status: "published" }); setEditing(null); setShowForm(false); };
-  const openEdit = (t: Testimonial) => { setForm({ author: t.author, role: t.role || "", content: t.content, rating: t.rating, status: t.status }); setEditing(t); setShowForm(true); };
-  const save = async () => {
-    if (!form.author.trim() || !form.content.trim()) { toast({ title: "Champs requis", variant: "destructive" }); return; }
-    if (editing) { await (supabase.from("testimonials" as any).update(form as any).eq("id", editing.id) as any); toast({ title: "Modifié ✓" }); }
-    else { await (supabase.from("testimonials" as any).insert(form as any) as any); toast({ title: "Ajouté ✓" }); }
-    resetForm(); fetchTestimonials();
+
+  useEffect(() => { fetchTestimonials(); }, []);
+
+  const handleSave = async () => {
+    if (!form.author_name.trim() || !form.content.trim()) return;
+    if (editing) {
+      await (supabase as any).from("testimonials").update(form as any).eq("id", editing);
+      showToast("Modifié ✓");
+    } else {
+      await (supabase as any).from("testimonials").insert(form as any);
+      showToast("Ajouté ✓");
+    }
+    resetForm();
+    setShowForm(false);
+    setEditing(null);
+    fetchTestimonials();
   };
-  const toggleStatus = async (t: Testimonial) => {
-    const s = t.status === "published" ? "draft" : "published";
-    await (supabase.from("testimonials" as any).update({ status: s } as any).eq("id", t.id) as any);
-    setTestimonials(prev => prev.map(x => x.id === t.id ? { ...x, status: s } : x));
-    toast({ title: s === "published" ? "Publié ✓" : "Masqué ✓" });
+
+  const handleEdit = (t: Testimonial) => {
+    setForm({ author_name: t.author_name, author_title: t.author_title || "", content: t.content, rating: t.rating, is_published: t.is_published });
+    setEditing(t.id);
+    setShowForm(true);
   };
-  const remove = async (id: string) => {
-    await (supabase.from("testimonials" as any).delete().eq("id", id) as any);
-    setTestimonials(prev => prev.filter(t => t.id !== id)); toast({ title: "Supprimé" });
+
+  const togglePublish = async (id: string, current: boolean) => {
+    await (supabase as any).from("testimonials").update({ is_published: !current } as any).eq("id", id);
+    showToast(!current ? "Publié ✓" : "Dépublié");
+    fetchTestimonials();
   };
-  if (loading) return <div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>;
+
+  const handleDelete = async (id: string) => {
+    await (supabase as any).from("testimonials").delete().eq("id", id) as any;
+    setTestimonials(prev => prev.filter(t => t.id !== id));
+    showToast("Supprimé");
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div><h1 className="text-2xl font-bold tracking-tight">Témoignages</h1><p className="text-muted-foreground">{testimonials.length} témoignage{testimonials.length !== 1 ? "s" : ""}</p></div>
-        <Button onClick={() => { resetForm(); setShowForm(true); }}><Plus className="h-4 w-4 mr-2" /> Ajouter</Button>
+    <div style={{ padding: "24px" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
+        <div>
+          <h1 style={{ fontSize: "24px", fontWeight: "700", marginBottom: "4px" }}>Témoignages</h1>
+          <p style={{ opacity: 0.6, fontSize: "14px" }}>{testimonials.length} témoignage{testimonials.length !== 1 ? "s" : ""}</p>
+        </div>
+        <button onClick={() => { resetForm(); setEditing(null); setShowForm(!showForm); }} style={{ padding: "10px 20px", background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))", border: "none", borderRadius: "99px", cursor: "pointer", fontWeight: "600", display: "flex", alignItems: "center", gap: "8px" }}>
+          + Ajouter
+        </button>
       </div>
+
       {showForm && (
-        <Card><CardContent className="p-6 space-y-4">
-          <h2 className="font-semibold text-lg">{editing ? "Modifier" : "Nouveau"} témoignage</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div><label className="text-sm font-medium mb-1 block">Nom *</label><Input value={form.author} onChange={e => setForm(f => ({ ...f, author: e.target.value }))} /></div>
-            <div><label className="text-sm font-medium mb-1 block">Rôle</label><Input value={form.role} onChange={e => setForm(f => ({ ...f, role: e.target.value }))} /></div>
-          </div>
-          <div><label className="text-sm font-medium mb-1 block">Témoignage *</label><Textarea value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} rows={3} /></div>
-          <div><label className="text-sm font-medium mb-2 block">Note</label><StarRating value={form.rating} onChange={v => setForm(f => ({ ...f, rating: v }))} /></div>
-          <div><label className="text-sm font-medium mb-1 block">Statut</label><select className="border rounded px-3 py-2 text-sm w-full" value={form.status} onChange={e => setForm(f => ({ ...f, status: e.target.value }))}><option value="published">Publié</option><option value="draft">Brouillon</option></select></div>
-          <div className="flex gap-2"><Button onClick={save}><Check className="h-4 w-4 mr-1" /> Enregistrer</Button><Button variant="outline" onClick={resetForm}><X className="h-4 w-4 mr-1" /> Annuler</Button></div>
-        </CardContent></Card>
+        <Card style={{ marginBottom: "24px" }}>
+          <CardContent style={{ padding: "24px", display: "flex", flexDirection: "column", gap: "16px" }}>
+            <h2 style={{ fontWeight: "700", fontSize: "18px" }}>{editing ? "Modifier" : "Nouveau témoignage"}</h2>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+              <div>
+                <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "13px" }}>Nom *</label>
+                <input value={form.author_name} onChange={e => setForm(p => ({ ...p, author_name: e.target.value }))} placeholder="Nom du patient" style={{ width: "100%", padding: "10px 14px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", boxSizing: "border-box" as const }} />
+              </div>
+              <div>
+                <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "13px" }}>Spécialité / Titre</label>
+                <input value={form.author_title} onChange={e => setForm(p => ({ ...p, author_title: e.target.value }))} placeholder="ex: Sophrologie, Hypnose…" style={{ width: "100%", padding: "10px 14px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", boxSizing: "border-box" as const }} />
+              </div>
+            </div>
+            <div>
+              <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "13px" }}>Témoignage *</label>
+              <textarea value={form.content} onChange={e => setForm(p => ({ ...p, content: e.target.value }))} placeholder="Contenu du témoignage..." rows={4} style={{ width: "100%", padding: "10px 14px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", resize: "vertical", boxSizing: "border-box" as const }} />
+            </div>
+            <div>
+              <label style={{ display: "block", fontWeight: "600", marginBottom: "8px", fontSize: "13px" }}>Note</label>
+              <div style={{ display: "flex", gap: "6px" }}>
+                {[1,2,3,4,5].map(n => (
+                  <Star key={n} size={24} onClick={() => setForm(p => ({ ...p, rating: n }))} style={{ cursor: "pointer", fill: n <= form.rating ? "hsl(var(--primary))" : "transparent", color: "hsl(var(--primary))" }} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <label style={{ display: "block", fontWeight: "600", marginBottom: "6px", fontSize: "13px" }}>Statut</label>
+              <select value={form.is_published ? "published" : "draft"} onChange={e => setForm(p => ({ ...p, is_published: e.target.value === "published" }))} style={{ padding: "10px 14px", border: "1.5px solid hsl(var(--border))", borderRadius: "10px", fontSize: "14px", width: "200px" }}>
+                <option value="published">Publié</option>
+                <option value="draft">Brouillon</option>
+              </select>
+            </div>
+            <div style={{ display: "flex", gap: "12px" }}>
+              <button onClick={handleSave} style={{ padding: "10px 20px", background: "hsl(var(--primary))", color: "hsl(var(--primary-foreground))", border: "none", borderRadius: "99px", cursor: "pointer", fontWeight: "600" }}>✓ Enregistrer</button>
+              <button onClick={() => { setShowForm(false); setEditing(null); resetForm(); }} style={{ padding: "10px 20px", background: "transparent", border: "1.5px solid hsl(var(--border))", borderRadius: "99px", cursor: "pointer" }}>✕ Annuler</button>
+            </div>
+          </CardContent>
+        </Card>
       )}
-      {testimonials.length === 0 ? (
-        <Card><CardContent className="flex flex-col items-center justify-center py-16 text-center"><Star className="h-12 w-12 text-muted-foreground mb-4" /><p className="text-muted-foreground">Aucun témoignage. Ajoutez-en un !</p></CardContent></Card>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {testimonials.map(t => (
-            <Card key={t.id} className={`${t.status !== "published" ? "opacity-60" : ""}`}><CardContent className="p-4">
-              <div className="flex items-start justify-between mb-2">
-                <div><p className="font-semibold text-sm">{t.author}</p>{t.role && <p className="text-xs text-muted-foreground">{t.role}</p>}</div>
-                <Badge variant={t.status === "published" ? "default" : "secondary"} className="text-xs">{t.status === "published" ? "Publié" : "Brouillon"}</Badge>
-              </div>
-              <StarRating value={t.rating} />
-              <p className="text-sm text-muted-foreground mt-2 line-clamp-3">"{t.content}"</p>
-              <div className="flex gap-2 mt-3">
-                <Button variant="outline" size="sm" onClick={() => openEdit(t)}><Pencil className="h-3 w-3" /></Button>
-                <Button variant="outline" size="sm" onClick={() => toggleStatus(t)}>{t.status === "published" ? "Masquer" : "Publier"}</Button>
-                <Button variant="destructive" size="sm" onClick={() => remove(t.id)}><Trash2 className="h-3 w-3" /></Button>
-              </div>
-            </CardContent></Card>
-          ))}
+
+      <Card>
+        <CardContent style={{ padding: "0" }}>
+          {loading ? (
+            <div style={{ padding: "40px", textAlign: "center", opacity: 0.5 }}>Chargement...</div>
+          ) : testimonials.length === 0 ? (
+            <div style={{ padding: "60px", textAlign: "center" }}>
+              <Star size={48} style={{ margin: "0 auto 16px", opacity: 0.3 }} />
+              <p style={{ opacity: 0.6 }}>Aucun témoignage. Ajoutez-en un !</p>
+            </div>
+          ) : (
+            <div>
+              {testimonials.map((t, idx) => (
+                <div key={t.id} style={{ padding: "20px 24px", borderBottom: idx < testimonials.length - 1 ? "1px solid hsl(var(--border))" : "none", display: "flex", justifyContent: "space-between", alignItems: "start", gap: "16px" }}>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "6px" }}>
+                      <span style={{ fontWeight: "700", fontSize: "15px" }}>{t.author_name}</span>
+                      {t.author_title && <span style={{ fontSize: "13px", opacity: 0.6, padding: "2px 8px", background: "hsl(var(--secondary))", borderRadius: "99px" }}>{t.author_title}</span>}
+                      <span style={{ fontSize: "12px", padding: "2px 8px", borderRadius: "99px", background: t.is_published ? "hsl(142 76% 36%/0.1)" : "hsl(var(--muted))", color: t.is_published ? "hsl(142 76% 36%)" : "hsl(var(--muted-foreground))" }}>
+                        {t.is_published ? "Publié ✓" : "Brouillon"}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", gap: "3px", marginBottom: "8px" }}>
+                      {[1,2,3,4,5].map(n => <Star key={n} size={13} style={{ fill: n <= t.rating ? "hsl(var(--primary))" : "transparent", color: "hsl(var(--primary))" }} />)}
+                    </div>
+                    <p style={{ fontSize: "14px", opacity: 0.8, lineHeight: "1.6" }}>{t.content}</p>
+                  </div>
+                  <div style={{ display: "flex", gap: "8px", flexShrink: 0 }}>
+                    <button onClick={() => togglePublish(t.id, t.is_published)} style={{ padding: "6px 12px", fontSize: "13px", border: "1.5px solid hsl(var(--border))", borderRadius: "99px", cursor: "pointer", background: "transparent" }}>{t.is_published ? "Dépublier" : "Publier"}</button>
+                    <button onClick={() => handleEdit(t)} style={{ padding: "6px 12px", fontSize: "13px", border: "1.5px solid hsl(var(--border))", borderRadius: "99px", cursor: "pointer", background: "transparent" }}>Modifier</button>
+                    <button onClick={() => handleDelete(t.id)} style={{ padding: "6px 12px", fontSize: "13px", border: "1.5px solid hsl(var(--destructive)/0.3)", borderRadius: "99px", cursor: "pointer", background: "hsl(var(--destructive)/0.05)", color: "hsl(var(--destructive))" }}>Supprimer</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
+      {toast && (
+        <div style={{ position: "fixed", bottom: "24px", right: "24px", background: "hsl(var(--foreground))", color: "hsl(var(--background))", padding: "12px 20px", borderRadius: "99px", fontWeight: "600", fontSize: "14px", boxShadow: "0 4px 20px rgba(0,0,0,0.15)" }}>
+          {toast}
         </div>
       )}
     </div>
   );
 };
+
 export default AdminTestimonials;
