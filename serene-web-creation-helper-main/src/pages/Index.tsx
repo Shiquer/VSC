@@ -11,10 +11,10 @@ import { Star, Quote } from "lucide-react";
 
 interface Testimonial {
   id: string;
-  author: string;
+  author_name: string;
+  author_title?: string;
   content: string;
   rating: number;
-  role?: string;
 }
 
 const TestimonialsSection = () => {
@@ -24,8 +24,8 @@ const TestimonialsSection = () => {
   useEffect(() => {
     (supabase as any)
       .from("testimonials")
-      .select("id, author, content, rating, role")
-      .eq("status", "published")
+      .select("id, author_name, author_title, content, rating")
+      .eq("is_published", true)
       .order("created_at", { ascending: false })
       .limit(6)
       .then(({ data }: { data: Testimonial[] | null }) => {
@@ -58,8 +58,8 @@ const TestimonialsSection = () => {
                     <Star key={i} size={14} style={{ fill: i < t.rating ? "hsl(var(--primary))" : "transparent", color: "hsl(var(--primary))" }} />
                   ))}
                 </div>
-                <p style={{ fontWeight: "700", fontSize: "14px" }}>{t.author}</p>
-                {t.role && <p style={{ fontSize: "12px", opacity: 0.6, marginTop: "2px" }}>{t.role}</p>}
+                <p style={{ fontWeight: "700", fontSize: "14px" }}>{t.author_name}</p>
+                {t.author_title && <p style={{ fontSize: "12px", opacity: 0.6, marginTop: "2px" }}>{t.author_title}</p>}
               </div>
             </div>
           ))}
