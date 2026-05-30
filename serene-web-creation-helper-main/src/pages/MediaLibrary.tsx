@@ -125,16 +125,7 @@ const MediaLibrary = () => {
               Accédez à notre collection de contenus audio et vidéo pour pratiquer 
               la sophrologie à votre rythme, quand vous le souhaitez.
             </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Button size="lg" className="bg-gradient-warm">
-                <Headphones className="w-5 h-5 mr-2" />
-                Explorer les audios
-              </Button>
-              <Button variant="outline" size="lg">
-                <Video className="w-5 h-5 mr-2" />
-                Voir les vidéos
-              </Button>
-            </div>
+            
           </div>
         </section>
 
