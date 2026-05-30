@@ -11,10 +11,10 @@ import { Star, Quote } from "lucide-react";
 
 interface Testimonial {
   id: string;
-  author_name: string;
+  author: string;
   content: string;
   rating: number;
-  service?: string;
+  role?: string;
 }
 
 const TestimonialsSection = () => {
@@ -22,13 +22,13 @@ const TestimonialsSection = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase
+    (supabase as any)
       .from("testimonials")
-      .select("id, author_name, content, rating, service")
-      .eq("published", true)
+      .select("id, author, content, rating, role")
+      .eq("status", "published")
       .order("created_at", { ascending: false })
       .limit(6)
-      .then(({ data }) => {
+      .then(({ data }: { data: Testimonial[] | null }) => {
         if (data && data.length > 0) setTestimonials(data);
         setLoading(false);
       });
@@ -58,8 +58,8 @@ const TestimonialsSection = () => {
                     <Star key={i} size={14} style={{ fill: i < t.rating ? "hsl(var(--primary))" : "transparent", color: "hsl(var(--primary))" }} />
                   ))}
                 </div>
-                <p style={{ fontWeight: "700", fontSize: "14px" }}>{t.author_name}</p>
-                {t.service && <p style={{ fontSize: "12px", opacity: 0.6, marginTop: "2px" }}>{t.service}</p>}
+                <p style={{ fontWeight: "700", fontSize: "14px" }}>{t.author}</p>
+                {t.role && <p style={{ fontSize: "12px", opacity: 0.6, marginTop: "2px" }}>{t.role}</p>}
               </div>
             </div>
           ))}
