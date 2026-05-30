@@ -15,6 +15,7 @@ import ContactPage from "./pages/ContactPage";
 import GroupClasses from "./pages/GroupClasses";
 import PublicMediaLibrary from "./pages/PublicMediaLibrary";
 import MediaLibrary from "./pages/MediaLibrary";
+import Articles from "./pages/Articles";
 import MentionsLegales from "./pages/MentionsLegales";
 import PolitiqueConfidentialite from "./pages/PolitiqueConfidentialite";
 import UserAuth from "./pages/UserAuth";
@@ -57,13 +58,14 @@ const App = () => (
               <Route path="/seances-collectives" element={<GroupClasses />} />
               <Route path="/bibliotheque-publique" element={<PublicMediaLibrary />} />
               <Route path="/mediatheque" element={<MediaLibrary />} />
+              <Route path="/articles" element={<Articles />} />
+              <Route path="/articles/:slug" element={<ArticleDetail />} />
               <Route path="/mentions-legales" element={<MentionsLegales />} />
               <Route path="/politique-confidentialite" element={<PolitiqueConfidentialite />} />
               <Route path="/auth" element={<UserAuth />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/mon-espace" element={<MonEspace />} />
               <Route path="/mon-espace/tableau-de-bord" element={<TableauDeBord />} />
-              <Route path="/articles/:slug" element={<ArticleDetail />} />
               <Route path="/admin/auth" element={<AdminAuth />} />
               <Route path="/admin" element={<Admin />}>
                 <Route index element={<AdminDashboard />} />
