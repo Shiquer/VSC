@@ -163,6 +163,9 @@ const Header = () => {
             <Link to="/mediatheque" className={isActive("/mediatheque") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
               Médiathèque
             </Link>
+                        <Link to="/articles" className={isActive("/articles") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
+              Articles
+            </Link>
             <Link to="/reservation" className={isActive("/reservation") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
               Réservation
             </Link>
@@ -263,6 +266,7 @@ const Header = () => {
 
             <Link to="/entreprise" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Entreprise</Link>
             <Link to="/mediatheque" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Médiathèque</Link>
+                        <Link to="/articles" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Articles</Link>
             <Link to="/reservation" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Réservation</Link>
             <Link to="/contact" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Contact</Link>
 
