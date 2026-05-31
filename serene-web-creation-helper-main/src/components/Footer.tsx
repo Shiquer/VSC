@@ -31,7 +31,7 @@ const Footer = () => {
     <footer style={{ background: "hsl(var(--foreground))", padding: "64px 0 0" }}>
       <style>{`@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }`}</style>
       <div className="container mx-auto px-8">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10" style={{ marginBottom: "48px" }}>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10 items-start" style={{ marginBottom: "48px" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
             <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
               <div style={{ width: "44px", height: "44px", background: "hsl(var(--primary-foreground))", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
