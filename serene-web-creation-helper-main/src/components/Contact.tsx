@@ -104,7 +104,7 @@ const Contact = () => {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 2fr", gap: "48px", alignItems: "start" }} className="contact-main-grid">
+        <div style={{ display: "grid", gridTemplateColumns: "minmax(260px, 1fr) 2fr", gap: "48px", alignItems: "start" }} className="contact-main-grid">
           {/* Left - Contact info */}
           <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
             <div className="arise-card" style={{ alignItems: "center", fontSize: "10px", letterSpacing: "0.12em", fontWeight: "700", color: "hsl(var(--primary))", marginBottom: "12px", textTransform: "uppercase" }}>
