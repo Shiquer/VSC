@@ -80,10 +80,19 @@ const ArticleExcerpt = ({ excerpt, content }: { excerpt: string | null; content:
   );
 };
 
+const formatTime = (secs: number): string => {
+  if (!secs || isNaN(secs)) return "0:00";
+  const m = Math.floor(secs / 60);
+  const s = Math.floor(secs % 60).toString().padStart(2, "0");
+  return `${m}:${s}`;
+};
+
 const PublicMediaLibrary = () => {
   const [currentPlaying, setCurrentPlaying] = useState<string | null>(null);
   const [currentVideo, setCurrentVideo] = useState<string | null>(null);
   const [progress, setProgress] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [mediaContents, setMediaContents] = useState<MediaContent[]>([]);
   const [articles, setArticles] = useState<Article[]>([]);
@@ -129,6 +138,8 @@ const PublicMediaLibrary = () => {
       audio.addEventListener("timeupdate", () => {
         if (audio.duration > 0) {
           setProgress((audio.currentTime / audio.duration) * 100);
+          setCurrentTime(audio.currentTime);
+          setAudioDuration(audio.duration);
         }
       });
 
@@ -221,13 +232,23 @@ const PublicMediaLibrary = () => {
                             </button>
                           </div>
                           <p style={{ fontSize: "14px", lineHeight: "1.6", color: "hsl(var(--foreground))", opacity: 0.7, marginBottom: "16px" }}>{audio.description || "Aucune description disponible"}</p>
-                          {currentPlaying === audio.id && (
-                            <div style={{ marginBottom: "16px" }}>
-                              <div style={{ height: "4px", background: "hsl(var(--secondary))", borderRadius: "99px" }}>
-                                <div style={{ height: "4px", width: `${progress}%`, transition: "width 0.3s linear", background: "hsl(var(--foreground))", borderRadius: "99px" }} />
-                              </div>
+                          <div style={{ marginBottom: "12px" }}>
+                            <div
+                              style={{ height: "6px", background: "hsl(var(--secondary))", borderRadius: "99px", cursor: "pointer", position: "relative" }}
+                              onClick={(e) => {
+                                if (!audioRef.current || currentPlaying !== audio.id) return;
+                                const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                                const ratio = (e.clientX - rect.left) / rect.width;
+                                audioRef.current.currentTime = ratio * audioRef.current.duration;
+                              }}
+                            >
+                              <div style={{ height: "6px", width: `${currentPlaying === audio.id ? progress : 0}%`, transition: "width 0.2s linear", background: "hsl(var(--foreground))", borderRadius: "99px" }} />
                             </div>
-                          )}
+                            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "4px" }}>
+                              <span style={{ fontSize: "11px", color: "hsl(var(--foreground))", opacity: 0.6 }}>{currentPlaying === audio.id ? formatTime(currentTime) : "0:00"}</span>
+                              <span style={{ fontSize: "11px", color: "hsl(var(--foreground))", opacity: 0.6 }}>{currentPlaying === audio.id && audioDuration > 0 ? formatTime(audioDuration) : (audio.duration || "--:--")}</span>
+                            </div>
+                          </div>
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                             <div style={{ display: "flex", gap: "16px", fontSize: "13px", color: "hsl(var(--foreground))", opacity: 0.5 }}>
                               {audio.duration && <span style={{ display: "flex", alignItems: "center", gap: "4px" }}><Clock style={{ width: "12px", height: "12px" }} />{audio.duration}</span>}
