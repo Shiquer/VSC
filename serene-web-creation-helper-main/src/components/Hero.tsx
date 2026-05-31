@@ -19,7 +19,7 @@ const Hero = () => {
             <span className="arise-badge">Psychanalyste &amp; Hypnothérapeute certifiée</span>
 
             {/* Title */}
-            <div style={{ marginTop: "20px" }}>h
+            <div style={{ marginTop: "20px" }}>
               <h1
                 className="arise-serif"
                 style={{
