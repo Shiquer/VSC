@@ -19,7 +19,7 @@ const Hero = () => {
             <span className="arise-badge">Psychanalyste &amp; Hypnothérapeute certifiée</span>
 
             {/* Title */}
-            <div style={{ marginTop: "20px" }}>
+            <div style={{ marginTop: "20px" }}>h
               <h1
                 className="arise-serif"
                 style={{
@@ -116,11 +116,11 @@ const Hero = () => {
           </div>
 
           {/* Portrait */}
-          <div className="flex justify-center lg:justify-end overflow-hidden">
+          <div className="flex justify-center lg:justify-end overflow-hidden items-center">
             <img
               src={portraitImage}
               alt="Portrait"
-              className="rounded-2xl w-full max-w-md max-h-[500px] object-cover"
+              className="rounded-2xl w-full max-w-md max-h-[500px] object-cover shadow-xl"
               loading="eager"
               fetchPriority="high"
               decoding="async"
