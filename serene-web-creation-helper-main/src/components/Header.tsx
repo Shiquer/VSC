@@ -49,6 +49,7 @@ const ctaPrimaryButtonStyle = {
   alignItems: "center",
   gap: "8px",
   cursor: "pointer",
+    whiteSpace: "nowrap",
 };
 
 const Header = () => {
