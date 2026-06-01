@@ -49,7 +49,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Email to Natalia (practice owner)
     await resend.emails.send({
       from: "Réservations <onboarding@resend.dev>",
-      to: ["natalia.kourycheva@gmail.com"],
+            to: [Deno.env.get("NOTIFICATION_EMAIL") || "contact@example.com"],
       subject: `Nouvelle demande de rendez-vous : ${s.service}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
