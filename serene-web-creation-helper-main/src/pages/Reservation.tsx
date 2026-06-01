@@ -1,13 +1,14 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import usePageTitle from "@/hooks/usePageTitle";
+import { clientConfig } from "@/client.config";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BookingForm from "@/components/BookingForm";
 import { useAuth } from "@/hooks/useAuth";
 
   const Reservation = () => {
-      usePageTitle("Prendre Rendez-vous - Natalia Kourycheva");
+      usePageTitle(`Réservation - ${clientConfig.name}`);
       const { user, loading } = useAuth();
       const navigate = useNavigate();
 
