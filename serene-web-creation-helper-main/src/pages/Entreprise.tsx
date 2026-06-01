@@ -1,4 +1,5 @@
 import usePageTitle from "@/hooks/usePageTitle";
+import { clientConfig } from "@/client.config";
 import { Users, CheckCircle, Clock, Phone, ArrowLeft, Building, Target, Award, TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
 import Header from "@/components/Header";
@@ -17,7 +18,7 @@ const Entreprise = () => {
 
   const sectionStyle = { padding: "80px 0" };
   const h2Style = { fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(26px, 3vw, 36px)", fontWeight: "400" as const, color: "hsl(var(--foreground))", textAlign: "center" as const, marginBottom: "48px" };
-  usePageTitle("Formations Bien-être en Entreprise à Paris - Natalia Kourycheva");
+  usePageTitle(`Entreprise - ${clientConfig.name}`);
 
   return (
     <div className="min-h-screen" style={{ background: "hsl(var(--background))" }}>
