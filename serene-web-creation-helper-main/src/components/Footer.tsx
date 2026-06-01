@@ -42,7 +42,7 @@ const Footer = () => {
                   <p style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: "700", fontSize: "16px", color: "hsl(var(--primary-foreground))", lineHeight: "1.2" }}>{getHeaderContent("header_title", "Natalia Kourycheva")}</p>
                 )}
                 {loading ? <Skeleton width="180px" height="12px" /> : (
-                  <p style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.6, lineHeight: "1.2" }}>{getHeaderContent("header_subtitle", "Psychanalyste & Hypnotherapeute")}</p>
+                  <p style={{ fontSize: "14px", color: "hsl(var(--primary-foreground))", opacity: 0.85, lineHeight: "1.2" }}>{getHeaderContent("header_subtitle", "Psychanalyste & Hypnotherapeute")}</p>
                 )}
               </div>
             </div>
@@ -52,28 +52,28 @@ const Footer = () => {
           </div>
 
           <div>
-            <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.5, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>{getContent("footer_services_title", "Services")}</p>
+            <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.75, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>{getContent("footer_services_title", "Services")}</p>
             <ul style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
               {[{ to: "/sophrologie", label: "Sophrologie" }, { to: "/hypnose", label: "Hypnose" }, { to: "/entreprise", label: "Formation entreprise" }, { to: "/cours-collectifs", label: "Cours collectifs" }].map(item => (
-                <li key={item.to}><Link to={item.to} style={{ fontSize: "14px", color: "hsl(var(--primary-foreground))", opacity: 0.8, textDecoration: "none", fontFamily: "'Playfair Display', serif", transition: "opacity 0.2s" }} onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.opacity = "1"} onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.opacity = "0.8"}>{item.label}</Link></li>
+                <li key={item.to}><Link to={item.to} style={{ fontSize: "14px", color: "hsl(var(--primary-foreground))", opacity: 0.9, textDecoration: "none", fontFamily: "'Playfair Display', serif", transition: "opacity 0.2s" }} onMouseEnter={e => (e.currentTarget as HTMLAnchorElement).style.opacity = "1"} onMouseLeave={e => (e.currentTarget as HTMLAnchorElement).style.opacity = "0.9"}>{item.label}</Link></li>
               ))}
             </ul>
           </div>
 
           <div>
-            <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.5, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>{getContent("footer_contact_title", "Contact")}</p>
+            <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.75, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>{getContent("footer_contact_title", "Contact")}</p>
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.9 }}>
                 <MapPin style={{ width: "16px", height: "16px", flexShrink: 0, marginTop: "2px" }} />
                 <a href="https://maps.google.com/?q=19+rue+de+Choiseul,+75002+Paris" target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "none", fontSize: "14px", lineHeight: "1.5" }}>19 rue de Choiseul, 75002 Paris</a>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.9 }}>
                 <Phone style={{ width: "16px", height: "16px" }} />
                 {loading ? <Skeleton width="120px" height="14px" /> : (
                   <a href={`tel:${getHeaderContent("header_phone", "+33675394716")}`} style={{ color: "inherit", textDecoration: "none", fontSize: "14px" }}><span style={{ fontSize: "14px" }}>{getHeaderContent("header_phone", "+33675394716")}</span></a>
                 )}
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.9 }}>
                 <Mail style={{ width: "16px", height: "16px" }} />
                 {loading ? <Skeleton width="160px" height="14px" /> : (
                   <ObfuscatedEmail />
@@ -83,7 +83,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.5, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>{getContent("footer_booking_title", "Rendez-vous")}</p>
+            <p style={{ fontSize: "12px", fontWeight: "700", color: "hsl(var(--primary-foreground))", opacity: 0.75, textTransform: "uppercase", letterSpacing: "1px", marginBottom: "16px", fontFamily: "'Helvetica Neue', sans-serif" }}>{getContent("footer_booking_title", "Rendez-vous")}</p>
             <p style={{ fontSize: "14px", lineHeight: "1.7", color: "hsl(var(--primary-foreground))", opacity: 0.7, marginBottom: "16px" }}>{getContent("footer_booking_text", "Prenez rendez-vous en ligne pour une consultation.")}</p>
             <Link to="/reservation" style={{ display: "inline-flex", alignItems: "center", gap: "8px", background: "#8a6b5c", color: "#fff", padding: "10px 20px", borderRadius: "99px", textDecoration: "none", fontSize: "14px", fontWeight: "600" }}>
               <Calendar style={{ width: "16px", height: "16px" }} />Réserver
