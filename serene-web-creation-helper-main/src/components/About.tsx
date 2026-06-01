@@ -63,7 +63,7 @@ const About = () => {
                     <div key={d} style={{ textAlign: "center", fontSize: "10px", fontWeight: "700", color: "hsl(var(--foreground))", opacity: 0.45, fontFamily: "'Helvetica Neue', sans-serif", padding: "4px 0" }}>{d}</div>
                   ))}
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(44px, 1fr))", gap: "4px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(36px, 1fr))", gap: "4px" }}>
                   {[
                     { day: 1, events: [{ label: "Séances petit groupe", color: "#5a9e6f" }] },
                     { day: 2, events: [] }, { day: 3, events: [] }, { day: 4, events: [] },
@@ -92,7 +92,7 @@ const About = () => {
                     <div key={day} style={{ border: "1px solid hsl(var(--border))", borderRadius: "8px", padding: "6px 5px", minHeight: "60px", background: "hsl(var(--background))" }}>
                       <div style={{ fontSize: "11px", fontWeight: "600", color: "hsl(var(--foreground))", marginBottom: "4px", fontFamily: "'Helvetica Neue', sans-serif" }}>{day}</div>
                       {events.map(ev => (
-                        <div key={ev.label} style={{ background: ev.color, borderRadius: "4px", padding: "2px 4px", fontSize: "9px", color: "#fff", fontWeight: "600", lineHeight: "1.3", fontFamily: "'Helvetica Neue', sans-serif", marginBottom: "2px" }}>
+                        <div key={ev.label} style={{ background: ev.color, borderRadius: "4px", padding: "2px 3px", fontSize: "8px", color: "#fff", fontWeight: "600", lineHeight: "1.3", fontFamily: "'Helvetica Neue', sans-serif", marginBottom: "2px", overflow: "hidden", whiteSpace: "nowrap", textOverflow: "ellipsis" }}>
                           {ev.label}
                         </div>
                       ))}
