@@ -41,7 +41,7 @@ const About = () => {
 
             {/* Calendrier */}
             <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" as any, borderRadius: "25px" }}>
-              <div style={{ borderRadius: "25px", overflow: "hidden", background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", padding: "28px", position: "relative", minWidth: "500px" }}>
+              <div style={{ borderRadius: "25px", background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", padding: "28px", position: "relative", minWidth: "340px" }}>
 
                 {/* Titre du planning */}
                 <div style={{ marginBottom: "20px" }}>
