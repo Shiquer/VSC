@@ -133,7 +133,7 @@ const Contact = () => {
           <div style={{ padding: "40px", background: "hsl(var(--background))", border: "1.5px solid hsl(var(--border))", borderRadius: "20px" }}>
             <h3 style={{ fontFamily: "'arise-serif', serif", fontSize: "22px", fontWeight: "400", marginBottom: "24px" }}>Envoyez-moi un message</h3>
             <form onSubmit={handleSubmit}>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label htmlFor="contact-firstName" style={labelStyle}>Prénom *</label>
                   <input id="contact-firstName" name="firstName" type="text" required placeholder="Votre prénom" value={formData.firstName} onChange={(e) => handleInputChange("firstName", e.target.value)} style={inputStyle} />
