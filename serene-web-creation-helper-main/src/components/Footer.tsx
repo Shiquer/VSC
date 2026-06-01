@@ -7,7 +7,7 @@ const Skeleton = ({ width = "100%", height = "14px", style = {} }: { width?: str
 );
 
 // Obfuscated email: assembled from char codes at runtime to prevent bot scraping
-const ObfuscatedEmail = ({ style }: { style?: React.CSSProperties }) => {h
+const ObfuscatedEmail = ({ style }: { style?: React.CSSProperties }) => {
   const decode = (codes: number[]) => codes.map(c => String.fromCharCode(c)).join("");
   const emailCodes = [110,97,116,97,108,105,97,46,107,111,117,114,121,99,104,101,118,97,64,103,109,97,105,108,46,99,111,109];
   const email = decode(emailCodes);
