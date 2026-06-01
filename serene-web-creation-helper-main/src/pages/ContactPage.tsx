@@ -90,7 +90,7 @@ const ContactPage = () => {
 
         <section style={{ ...sectionStyle, background: "hsl(var(--background))" }}>
           <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 24px" }}>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "48px", alignItems: "start" }} className="contact-grid">
+            <div className="contact-grid grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 items-start">
 
               {/* Left — Profile + info */}
               <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
@@ -168,7 +168,7 @@ const ContactPage = () => {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit}>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "16px" }}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                       <div>
                         <label htmlFor="firstName" style={labelStyle}>Prénom *</label>
                         <input id="firstName" name="firstName" type="text" required placeholder="Votre prénom" style={inputStyle} />
