@@ -41,7 +41,7 @@ const About = () => {
 
             {/* Calendrier */}
             <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch" as any, borderRadius: "25px" }}>
-              <div style={{ borderRadius: "25px", background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", padding: "28px", position: "relative", minWidth: "340px" }}>
+              <div style={{ borderRadius: "25px", background: "hsl(var(--background))", border: "1px solid hsl(var(--border))", padding: "28px", position: "relative", minWidth: "0" }}>
 
                 {/* Titre du planning */}
                 <div style={{ marginBottom: "20px" }}>
@@ -58,7 +58,7 @@ const About = () => {
                   </p>
                 </div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(44px, 1fr))", gap: "4px", marginBottom: "6px" }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(7, minmax(36px, 1fr))", gap: "4px", marginBottom: "6px" }}>
                   {["LUN","MAR","MER","JEU","VEN","SAM","DIM"].map(d => (
                     <div key={d} style={{ textAlign: "center", fontSize: "10px", fontWeight: "700", color: "hsl(var(--foreground))", opacity: 0.45, fontFamily: "'Helvetica Neue', sans-serif", padding: "4px 0" }}>{d}</div>
                   ))}
