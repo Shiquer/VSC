@@ -104,7 +104,7 @@ const Header = () => {
                 style={{
                   fontFamily: "'Playfair Display', Georgia, serif",
                   fontSize: "16px",
-                  lineHeight: "1.2",
+                  lineHeight: "1.2",              whiteSpace: "nowrap",
                 }}
               >
                 {getContent("header_title", "Natalia Kourycheva")}
@@ -159,7 +159,7 @@ const Header = () => {
             </DropdownMenu>
 
             <Link to="/entreprise" className={isActive("/entreprise") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
-              Entrepriseh
+              Entreprise
             </Link>
             <Link to="/mediatheque" className={isActive("/mediatheque") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
               Médiathèque
