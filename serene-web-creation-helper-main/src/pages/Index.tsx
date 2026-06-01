@@ -5,6 +5,7 @@ import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import usePageTitle from "@/hooks/usePageTitle";
+import { clientConfig } from "@/client.config";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Star, Quote } from "lucide-react";
@@ -70,7 +71,7 @@ const TestimonialsSection = () => {
 };
 
 const Index = () => {
-  usePageTitle("Natalia Kourycheva - Psychanalyste & Hypnothérapeute à Paris");
+  usePageTitle(`${clientConfig.name} - ${clientConfig.tagline}`);
   return (
     <div className="min-h-screen">
       <Header />
