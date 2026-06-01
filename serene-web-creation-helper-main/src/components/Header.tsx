@@ -32,7 +32,7 @@ const ctaButtonStyle = {
   alignItems: "center",
   gap: "8px",
   cursor: "pointer",
-  transition: "background 0.2s, opacity 0.2s",
+  transition: "background 0.2s, opacity 0.2s",  whiteSpace: "nowrap",
 };
 
 const ctaPrimaryButtonStyle = {
@@ -159,7 +159,7 @@ const Header = () => {
             </DropdownMenu>
 
             <Link to="/entreprise" className={isActive("/entreprise") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
-              Entreprise
+              Entrepriseh
             </Link>
             <Link to="/mediatheque" className={isActive("/mediatheque") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
               Médiathèque
