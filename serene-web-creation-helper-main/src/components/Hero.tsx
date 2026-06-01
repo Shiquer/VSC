@@ -120,7 +120,7 @@ const Hero = () => {
             <img
               src={portraitImage}
               alt="Portrait"
-              className="rounded-2xl w-full max-w-md max-h-[500px] object-cover shadow-xl"
+              className="rounded-2xl w-full max-w-md max-h-64 sm:max-h-80 lg:max-h-[500px] object-cover object-top shadow-xl"
               loading="eager"
               fetchPriority="high"
               decoding="async"
