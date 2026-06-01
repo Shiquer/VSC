@@ -122,7 +122,7 @@ const Header = () => {
           </Link>
 
           {/* Navigation desktop */}
-          <nav className="hidden md:flex items-center">
+          <nav className="hidden lg:flex items-center">
             <Link
               to="/"
               className={isActive("/") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"}
@@ -176,7 +176,7 @@ const Header = () => {
           </nav>
 
           {/* CTA Buttons desktop */}
-          <div className="hidden md:flex items-center space-x-3">
+          <div className="hidden lg:flex items-center space-x-3">
             <a href={`tel:${getContent("header_phone", "+33123456789")}`}>
               <button style={ctaButtonStyle}>
                 <Phone className="w-4 h-4" />
@@ -226,7 +226,7 @@ const Header = () => {
 
           {/* Bouton hamburger mobile uniquement */}
           <button
-            className="md:hidden p-2 rounded-md text-foreground hover:bg-muted transition-colors"
+            className="lg:hidden p-2 rounded-md text-foreground hover:bg-muted transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label={mobileMenuOpen ? "Fermer le menu" : "Ouvrir le menu"}
             aria-expanded={mobileMenuOpen}
@@ -239,7 +239,7 @@ const Header = () => {
 
       {/* Menu mobile */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-border bg-background">
+        <div className="lg:hidden border-t border-border bg-background">
           <nav className="container mx-auto px-8 py-4 flex flex-col gap-1">
 
             <Link to="/" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>
