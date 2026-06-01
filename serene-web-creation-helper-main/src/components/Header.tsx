@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAdminCheck } from "@/hooks/useAdminCheck";
 import { useSiteContent } from "@/hooks/useSiteContent";
+import { clientConfig } from "@/client.config";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -202,7 +203,7 @@ const Header = () => {
                 {!isAdmin && (
                   <Link to="/mon-espace">
                     <button style={ctaButtonStyle}>
-                      <User className="w-4 h-4" />
+                                <a href={`tel:${clientConfig.phone}`}>
                       Mon espace
                     </button>
                   </Link>
@@ -272,7 +273,7 @@ const Header = () => {
             <Link to="/contact" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Contact</Link>
 
             <div className="flex flex-col gap-3 pt-4 mt-2 border-t border-border">
-              <a href={`tel:${getContent("header_phone", "+33123456789")}`} onClick={closeMobileMenu}>
+                          <a href={`tel:${clientConfig.phone}`} onClick={closeMobileMenu}>
                 <button style={{ ...ctaButtonStyle, width: "100%", justifyContent: "center" }}>
                   <Phone className="w-4 h-4" />
                   Appeler
