@@ -7,7 +7,7 @@ const Skeleton = ({ width = "100%", height = "14px", style = {} }: { width?: str
 );
 
 // Obfuscated email: assembled from char codes at runtime to prevent bot scraping
-const ObfuscatedEmail = ({ style }: { style?: React.CSSProperties }) => {
+const ObfuscatedEmail = ({ style }: { style?: React.CSSProperties }) => {h
   const decode = (codes: number[]) => codes.map(c => String.fromCharCode(c)).join("");
   const emailCodes = [110,97,116,97,108,105,97,46,107,111,117,114,121,99,104,101,118,97,64,103,109,97,105,108,46,99,111,109];
   const email = decode(emailCodes);
@@ -42,7 +42,7 @@ const Footer = () => {
                   <p style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: "700", fontSize: "16px", color: "hsl(var(--primary-foreground))", lineHeight: "1.2" }}>{getHeaderContent("header_title", "Natalia Kourycheva")}</p>
                 )}
                 {loading ? <Skeleton width="180px" height="12px" /> : (
-                  <p style={{ fontSize: "12px", color: "hsl(var(--primary-foreground))", opacity: 0.6, lineHeight: "1.2" }}>{getHeaderContent("header_subtitle", "Psychanalyste & Hypnotherapeute")}</p>
+                  <p style={{ fontSize: "13px", color: "hsl(var(--primary-foreground))", opacity: 0.6, lineHeight: "1.2" }}>{getHeaderContent("header_subtitle", "Psychanalyste & Hypnotherapeute")}</p>
                 )}
               </div>
             </div>
@@ -70,7 +70,7 @@ const Footer = () => {
               <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
                 <Phone style={{ width: "16px", height: "16px" }} />
                 {loading ? <Skeleton width="120px" height="14px" /> : (
-                  <a href={`tel:${getHeaderContent("header_phone", "+33675394716")}`} style={{ color: "inherit", textDecoration: "none" }}><span style={{ fontSize: "14px" }}>{getHeaderContent("header_phone", "+33675394716")}</span></a>
+                  <a href={`tel:${getHeaderContent("header_phone", "+33675394716")}`} style={{ color: "inherit", textDecoration: "none", fontSize: "14px" }}><span style={{ fontSize: "14px" }}>{getHeaderContent("header_phone", "+33675394716")}</span></a>
                 )}
               </div>
               <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "hsl(var(--primary-foreground))", opacity: 0.8 }}>
