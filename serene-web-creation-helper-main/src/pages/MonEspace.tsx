@@ -4,10 +4,11 @@ import { useNavigate, Link } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import usePageTitle from "@/hooks/usePageTitle";
+import { clientConfig } from "@/client.config";
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Phone, Send, CheckCircle } from "lucide-react";
 
 const MonEspace = () => {
-  usePageTitle("Mon Espace - Natalia Kourycheva");
+  usePageTitle(`Mon Espace - ${clientConfig.name}`);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<"connexion" | "inscription">("connexion");
 
