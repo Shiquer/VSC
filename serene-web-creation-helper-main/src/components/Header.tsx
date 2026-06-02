@@ -216,7 +216,7 @@ const Header = () => {
                                                                                 Rendez-vous
                                                             </button>button>
                                           </Link>Link>
-                          </>>
+                          </>
                         ) : (
                           <Link to="/reservation">
                                           <button style={ctaPrimaryButtonStyle}>
@@ -305,7 +305,7 @@ const Header = () => {
                                                                                                   Rendez-vous
                                                                             </button>button>
                                                         </Link>Link>
-                                      </>>
+                                      </>
                                     ) : (
                                       <Link to="/reservation" onClick={closeMobileMenu}>
                                                         <button style={{ ...ctaPrimaryButtonStyle, width: "100%", justifyContent: "center" }}>
