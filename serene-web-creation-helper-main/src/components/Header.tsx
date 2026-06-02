@@ -98,8 +98,8 @@ const Header = () => {
                                                                               }}
                                                                             >
                                                                             NK
-                                                            </span>span>
-                                              </div>div>
+                                                            </span>
+                                              </div>
                                               <div>
                                                             <p
                                                                               className="font-bold text-foreground"
@@ -111,7 +111,7 @@ const Header = () => {
                                                                               }}
                                                                             >
                                                               {getContent("header_title", "Natalia Kourycheva")}
-                                                            </p>p>
+                                                            </p>
                                                             <p
                                                                               style={{
                                                                                                   fontSize: "12px",
@@ -120,9 +120,9 @@ const Header = () => {
                                                                               }}
                                                                             >
                                                               {getContent("header_subtitle", "Psychanalyste & Hypnotherapeute")}
-                                                            </p>p>
-                                              </div>div>
-                                  </Link>Link>
+                                                            </p>
+                                              </div>
+                                  </Link>
                         
                           {/* Navigation desktop */}
                                   <nav className="hidden lg:flex items-center">
@@ -132,7 +132,7 @@ const Header = () => {
                                                               style={navLinkStyle}
                                                             >
                                                             Accueil
-                                              </Link>Link>
+                                              </Link>
                                   
                                               <DropdownMenu>
                                                             <DropdownMenuTrigger
@@ -141,42 +141,42 @@ const Header = () => {
                                                                             >
                                                                             Services
                                                                             <ChevronDown className="w-4 h-4 ml-1" />
-                                                            </DropdownMenuTrigger>DropdownMenuTrigger>
+                                                            </DropdownMenuTrigger>
                                                             <DropdownMenuContent className="rounded-2xl border border-border shadow-soft">
                                                                             <DropdownMenuItem asChild>
                                                                                               <Link to="/sophrologie" className="w-full" style={{ fontFamily: "'Playfair Display', serif" }}>
                                                                                                                   Sophrologie
-                                                                                                </Link>Link>
-                                                                            </DropdownMenuItem>DropdownMenuItem>
+                                                                                                </Link>
+                                                                            </DropdownMenuItem>
                                                                             <DropdownMenuItem asChild>
                                                                                               <Link to="/hypnose" className="w-full" style={{ fontFamily: "'Playfair Display', serif" }}>
                                                                                                                   Hypnose
-                                                                                                </Link>Link>
-                                                                            </DropdownMenuItem>DropdownMenuItem>
+                                                                                                </Link>
+                                                                            </DropdownMenuItem>
                                                                             <DropdownMenuItem asChild>
                                                                                               <Link to="/cours-collectifs" className="w-full" style={{ fontFamily: "'Playfair Display', serif" }}>
                                                                                                                   Cours collectifs
-                                                                                                </Link>Link>
-                                                                            </DropdownMenuItem>DropdownMenuItem>
-                                                            </DropdownMenuContent>DropdownMenuContent>
-                                              </DropdownMenu>DropdownMenu>
+                                                                                                </Link>
+                                                                            </DropdownMenuItem>
+                                                            </DropdownMenuContent>
+                                              </DropdownMenu>
                                   
                                               <Link to="/entreprise" className={isActive("/entreprise") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
                                                             Entreprise
-                                              </Link>Link>
+                                              </Link>
                                               <Link to="/mediatheque" className={isActive("/mediatheque") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
                                                             Mediatheque
-                                              </Link>Link>
+                                              </Link>
                                               <Link to="/articles" className={isActive("/articles") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
                                                             Articles
-                                              </Link>Link>
+                                              </Link>
                                               <Link to="/reservation" className={isActive("/reservation") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
                                                             Reservation
-                                              </Link>Link>
+                                              </Link>
                                               <Link to="/contact" className={isActive("/contact") ? "text-foreground font-semibold underline underline-offset-4" : "text-foreground hover:text-muted-foreground transition-colors"} style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "16px", padding: "0 15px" }}>
                                                             Contact
-                                              </Link>Link>
-                                  </nav>nav>
+                                              </Link>
+                                  </nav>
                         
                           {/* CTA Buttons desktop */}
                                   <div className="hidden lg:flex items-center space-x-3">
@@ -184,8 +184,8 @@ const Header = () => {
                                                             <button style={ctaButtonStyle}>
                                                                             <Phone className="w-4 h-4" />
                                                                             Appeler
-                                                            </button>button>
-                                              </a>a>
+                                                            </button>
+                                              </a>
                                     {user ? (
                           <>
                             {isAdmin && (
@@ -193,39 +193,39 @@ const Header = () => {
                                                                   <button style={ctaButtonStyle}>
                                                                                         <User className="w-4 h-4" />
                                                                                         Admin
-                                                                  </button>button>
-                                              </Link>Link>
+                                                                  </button>
+                                              </Link>
                                           )}
                             {isAdmin && (
                                               <button onClick={() => signOut()} style={ctaButtonStyle}>
                                                                   <LogOut className="w-4 h-4" />
                                                                   Deconnexion
-                                              </button>button>
+                                              </button>
                                           )}
                             {!isAdmin && (
                                               <Link to="/mon-espace">
                                                                   <button style={ctaButtonStyle}>
                                                                                         <User className="w-4 h-4" />
                                                                                         Mon espace
-                                                                  </button>button>
-                                              </Link>Link>
+                                                                  </button>
+                                              </Link>
                                           )}
                                           <Link to="/reservation">
                                                             <button style={ctaPrimaryButtonStyle}>
                                                                                 <Calendar className="w-4 h-4" />
                                                                                 Rendez-vous
-                                                            </button>button>
-                                          </Link>Link>
+                                                            </button>
+                                          </Link>
                           </>
                         ) : (
                           <Link to="/reservation">
                                           <button style={ctaPrimaryButtonStyle}>
                                                             <Calendar className="w-4 h-4" />
                                                             Rendez-vous
-                                          </button>button>
-                          </Link>Link>
+                                          </button>
+                          </Link>
                                               )}
-                                  </div>div>
+                                  </div>
                         
                           {/* Bouton hamburger mobile uniquement */}
                                   <button
@@ -235,10 +235,10 @@ const Header = () => {
                                                 aria-expanded={mobileMenuOpen}
                                               >
                                     {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-                                  </button>button>
+                                  </button>
                         
-                        </div>div>
-                </div>div>
+                        </div>
+                </div>
           
             {/* Menu mobile */}
             {mobileMenuOpen && (
@@ -247,7 +247,7 @@ const Header = () => {
                               
                                           <Link to="/" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>
                                                         Accueil
-                                          </Link>Link>
+                                          </Link>
                               
                                           <div>
                                                         <button
@@ -258,29 +258,29 @@ const Header = () => {
                                                                         >
                                                                         Services
                                                                         <ChevronDown className="h-4 w-4 transition-transform" style={{ transform: mobileServicesOpen ? "rotate(180deg)" : "rotate(0deg)" }} />
-                                                        </button>button>
+                                                        </button>
                                             {mobileServicesOpen && (
                                       <div className="pl-4 flex flex-col gap-1 mt-1">
-                                                        <Link to="/sophrologie" className="py-2 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Sophrologie</Link>Link>
-                                                        <Link to="/hypnose" className="py-2 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Hypnose</Link>Link>
-                                                        <Link to="/cours-collectifs" className="py-2 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Cours collectifs</Link>Link>
-                                      </div>div>
+                                                        <Link to="/sophrologie" className="py-2 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Sophrologie</Link>
+                                                        <Link to="/hypnose" className="py-2 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Hypnose</Link>
+                                                        <Link to="/cours-collectifs" className="py-2 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Cours collectifs</Link>
+                                      </div>
                                                         )}
-                                          </div>div>
+                                          </div>
                               
-                                          <Link to="/entreprise" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Entreprise</Link>Link>
-                                          <Link to="/mediatheque" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Mediatheque</Link>Link>
-                                          <Link to="/articles" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Articles</Link>Link>
-                                          <Link to="/reservation" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Reservation</Link>Link>
-                                          <Link to="/contact" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Contact</Link>Link>
+                                          <Link to="/entreprise" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Entreprise</Link>
+                                          <Link to="/mediatheque" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Mediatheque</Link>
+                                          <Link to="/articles" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Articles</Link>
+                                          <Link to="/reservation" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Reservation</Link>
+                                          <Link to="/contact" className="py-3 px-2 text-foreground hover:text-muted-foreground hover:bg-muted rounded-md transition-colors" style={mobileLinkStyle} onClick={closeMobileMenu}>Contact</Link>
                               
                                           <div className="flex flex-col gap-3 pt-4 mt-2 border-t border-border">
                                                         <a href={`tel:${clientConfig.phone}`} onClick={closeMobileMenu}>
                                                                         <button style={{ ...ctaButtonStyle, width: "100%", justifyContent: "center" }}>
                                                                                           <Phone className="w-4 h-4" />
                                                                                           Appeler
-                                                                        </button>button>
-                                                        </a>a>
+                                                                        </button>
+                                                        </a>
                                             {user ? (
                                       <>
                                         {isAdmin && (
@@ -288,38 +288,38 @@ const Header = () => {
                                                                                   <button style={{ ...ctaButtonStyle, width: "100%", justifyContent: "center" }}>
                                                                                                           <User className="w-4 h-4" />
                                                                                                           Admin
-                                                                                    </button>button>
-                                                            </Link>Link>
+                                                                                    </button>
+                                                            </Link>
                                                         )}
                                         {!isAdmin && (
                                                             <Link to="/mon-espace" onClick={closeMobileMenu}>
                                                                                   <button style={{ ...ctaButtonStyle, width: "100%", justifyContent: "center" }}>
                                                                                                           <User className="w-4 h-4" />
                                                                                                           Mon espace
-                                                                                    </button>button>
-                                                            </Link>Link>
+                                                                                    </button>
+                                                            </Link>
                                                         )}
                                                         <Link to="/reservation" onClick={closeMobileMenu}>
                                                                             <button style={{ ...ctaPrimaryButtonStyle, width: "100%", justifyContent: "center" }}>
                                                                                                   <Calendar className="w-4 h-4" />
                                                                                                   Rendez-vous
-                                                                            </button>button>
-                                                        </Link>Link>
+                                                                            </button>
+                                                        </Link>
                                       </>
                                     ) : (
                                       <Link to="/reservation" onClick={closeMobileMenu}>
                                                         <button style={{ ...ctaPrimaryButtonStyle, width: "100%", justifyContent: "center" }}>
                                                                             <Calendar className="w-4 h-4" />
                                                                             Rendez-vous
-                                                        </button>button>
-                                      </Link>Link>
+                                                        </button>
+                                      </Link>
                                                         )}
-                                          </div>div>
+                                          </div>
                               
-                              </nav>nav>
-                    </div>div>
+                              </nav>
+                    </div>
                 )}
-          </header>header>
+          </header>
         );
 };
 
